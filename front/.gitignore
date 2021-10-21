@@ -1,0 +1,67 @@
+#---------------------------------------#
+# Project Ignores                       #
+#---------------------------------------#
+
+# Dependencies
+node_modules
+
+# Environment variables
+.env
+
+# Sqitch
+sqitch.conf
+
+# Rest-Client
+api.http
+api_heroku.http
+
+# TU
+test.js
+
+# Build directories
+dist/
+front/package.json
+
+# Ignore Logs
+logs
+*.log
+yarn-error.log
+
+# Ignore IDE specific files
+.vscode/
+
+# docs
+docs/
+
+#---------------------------------------#
+# OSX Ignores                           #
+#---------------------------------------#
+
+# General
+.DS_Store
+Desktop.ini
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+Thumbs.db
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

@@ -1,0 +1,62 @@
+@use 'src/styles/vars';
+
+.footer {
+  grid-area: footer;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: vars.$color-gray-light;
+
+  .footer-infos {
+    ul li {
+      margin: 0 0 0.5rem;
+
+      &:last-child {
+        margin: 0 0 1.5rem;
+      }
+    }
+  }
+
+  .footer-socialnetworks {
+    vertical-align: bottom;
+    a:nth-child(2) {
+      padding: 0 1rem 0;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+// Breakpoint mobile
+@media screen and (min-width: vars.$breakpoint-mobile-min) {
+  .footer {
+    padding: 0 3rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: initial;
+
+    .footer-infos{
+      ul li {
+        margin: 0 0 0.8rem;
+  
+        &:last-child {
+          margin: 0 0 0;
+        }
+      }
+    }
+  }
+}
+
+
+// Breakpoint ultra
+@media screen and (min-width: vars.$breakpoint-ultra-min) {
+  .footer {
+    padding: 0 8rem;
+  }
+}

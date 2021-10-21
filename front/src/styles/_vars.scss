@@ -1,0 +1,75 @@
+// Marging header and footer
+$padding-header-footer-tall: 4rem;
+$padding-header-footer-medium: 2rem;
+$padding-header-footer-small: 1rem;
+
+// Generic
+$color-primary: #95e6c4;
+$color-primary-light: #F2FCF8;
+$color-purple: #8C1DF0;
+$color-yellow: #f0ec1d;
+$color-orange: #FF8300;
+$color-tomato: #FF6347;
+$color-white: white;
+$color-black:#383838;
+$color-gray-dark:#515151;
+$color-gray: #9B9B9B;
+$color-gray-light: #CDCDCD;
+$color-gray-ultra-light: #E6E6E6;
+
+// Link
+$link-hover: #8C1DF0;
+$link-current: #8C1DF0;
+$link-visited: #788796;
+
+// Gutter
+$gutter-giant: 6rem;
+$gutter-tall: 4rem;
+$gutter-medium: 2rem;
+$gutter-small: 1rem;
+
+// Global 
+$font-global: 'Kumbh Sans',
+  sans-serif;
+$font-thin: 100;
+$font-light: 300;
+$font-regular: 400;
+$font-bold: 700;
+$font-black: 900;
+
+// Size
+$font-ultra: 3rem;
+$font-giant: 2rem;
+$font-tall: 1.2rem;
+$font-medium: 1rem;
+$font-small: 0.8rem;
+
+// h1, h2, h3
+$font-h1: clamp(1.8rem, 1.7429rem + 0.2857vw, 2rem);
+$font-h2: clamp(1.6rem, 1.5429rem + 0.2857vw, 1.8rem);
+$font-h3: clamp(1.4rem, 1.3429rem + 0.2857vw, 1.6rem);
+$font-h4: clamp(1.2rem, 1.1429rem + 0.2857vw, 1.4rem);
+$font-h5: clamp(1rem, 0.9429rem + 0.2857vw, 1.2rem);
+
+// p
+$font-p: clamp(1rem, 0.9143rem + 0.4286vw, 1.3rem);
+
+
+// Breakpoint mobile
+$breakpoint-mobile-min: 480px;
+// Breakpoint mobile plus
+$breakpoint-mobile-plus-min: 640px;
+// Breakpoint tablet
+$breakpoint-tablet-min: 768px;
+// Breakpoint laptop
+$breakpoint-laptop-min: 1024px;
+// Breakpoint desktop
+$breakpoint-desktop-min: 1440px;
+// Breakpoint ultra
+$breakpoint-ultra-min: 1920px;
+
+// Animation
+$animation-duration-giant: 2s;
+$animation-duration-tall: 1s;
+$animation-duration-medium: 0.5s;
+$animation-duration-small: 0.3s;

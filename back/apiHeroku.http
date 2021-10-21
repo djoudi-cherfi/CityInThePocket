@@ -1,0 +1,148 @@
+##############################################
+#########   Test Route Market Place 
+##############################################
+
+
+### Renvoi un market place par son id
+GET https://api-cityinthepocket.herokuapp.com/v1/marketplace/1
+
+### Retourne tous les marketplaces
+GET https://api-cityinthepocket.herokuapp.com/v1/marketplace
+
+### Renvoi tous les shops d’un marketplace
+GET https://api-cityinthepocket.herokuapp.com/v1/marketplace/1/shops
+###
+DELETE https://api-cityinthepocket.herokuapp.com/v1/marketplace/1
+
+
+##############################################################################################
+
+##############################################
+######### Test Route User
+##############################################
+
+
+### Renvoi tous les users 
+GET https://api-cityinthepocket.herokuapp.com/v1/users
+
+
+### Renvoi un utilisateur par son id 
+GET https://api-cityinthepocket.herokuapp.com/v1/user/1
+
+### Créer un user
+POST https://api-cityinthepocket.herokuapp.com/v1/user/ 
+Content-Type: application/json
+
+{
+    "firstName": "bldzsdzdzdzabla",
+    "lastName": "TestLname",
+    "email": "test@test.com",
+    "password": "Test123!",
+    "confirmPassword": "Test123!",
+    "phone_number":"0606060606",
+    "address":"testaddress",
+    "city":"Paris",
+    "postal_code":"75000"
+}
+
+### Test Login User
+POST https://api-cityinthepocket.herokuapp.com/v1/user/login 
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "Test123!"
+    
+}
+
+### Supprime un utilisateur par son id 
+DELETE https://api-cityinthepocket.herokuapp.com/v1/user/2
+
+
+##############################################################################################
+
+##############################################
+######### Test Route Product
+##############################################
+
+### Renvoi un product par son id 
+GET https://api-cityinthepocket.herokuapp.com/v1/product/1
+
+###  Renvoi les 5 derniers products
+GET https://api-cityinthepocket.herokuapp.com/v1/product/last
+
+### Ajoute un produit
+POST https://api-cityinthepocket.herokuapp.com/v1/product/ 
+Content-Type: application/json
+
+{
+    "name": "test",
+    "description": "super truc bleu",
+    "price": 240,
+    "shop_id": 8
+}
+
+### Supprime un produit
+DELETE https://api-cityinthepocket.herokuapp.com/v1/product/3
+
+
+##############################################################################################
+
+##############################################
+######### Test Route Shop
+##############################################
+
+
+### Renvoi les shops par categorie (2 = categoryId)
+GET https://api-cityinthepocket.herokuapp.com/v1/category/2/shops
+
+###Renvoi un shop par son id 
+GET https://api-cityinthepocket.herokuapp.com/v1/shop/30/
+
+
+### Renvoi un shop par le userId
+GET https://api-cityinthepocket.herokuapp.com/v1/shop/user/3
+
+###Renvoi les produits d’un shop
+GET https://api-cityinthepocket.herokuapp.com/v1/shop/8/products
+
+### Supprime un shop
+DELETE https://api-cityinthepocket.herokuapp.com/v1/shop/2
+
+### Créer un shop 
+POST  https://api-cityinthepocket.herokuapp.com/v1/shop/
+Content-Type: application/json
+
+{
+                    "company_name": "Toulouse Shop",
+                    "siret":"89070935500014", 
+                    "description":"Supeeeeeeeeer boutique jdcbyezbcyebcyezbcuzec",
+                    "address":"Rue des Champs Elysees",
+                    "city":"Toulouse",
+                    "postal_code":"31500",  
+                    "phone_number":"0467899568",
+                    "email":"boutique@aol.com",
+                    "user_id":3,
+                    "marketplace_id":1,
+                    "category_id":2
+}
+
+
+### Renvoi les 5 derniers shops
+GET https://api-cityinthepocket.herokuapp.com/v1/shop/last
+
+
+##############################################################################################
+
+##############################################
+######### Test Route Category
+##############################################
+
+###Renvoi toutes les category
+GET https://api-cityinthepocket.herokuapp.com/v1/category
+
+###Renvoi une categorie par son id
+GET https://api-cityinthepocket.herokuapp.com/v1/category/1
+
+###
+DELETE https://api-cityinthepocket.herokuapp.com/v1/category/5

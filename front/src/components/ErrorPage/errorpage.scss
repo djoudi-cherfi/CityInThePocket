@@ -1,0 +1,9 @@
+@use 'src/styles/vars';
+
+.errorpage {
+  grid-area: main;
+
+  background-image: url('src/assets/images/bg-404/photo-error-404-desktop-1920.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}

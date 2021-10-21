@@ -1,0 +1,12 @@
+@use 'src/styles/vars';
+
+.navidentity-button {
+  cursor: pointer;
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .navidentity-button {
+    font-weight: vars.$font-bold;
+  }
+}

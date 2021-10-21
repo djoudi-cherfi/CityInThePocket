@@ -1,0 +1,96 @@
+@use 'src/styles/vars';
+
+.sidebar-wrap {
+  width: 100%;
+  height: 100%;
+  padding: 30px 40px 150px;
+  overflow-y: auto;
+  position: fixed;
+  top: 100%;
+  left: 0;
+  background-color: vars.$color-white;
+  transition: vars.$animation-duration-medium ease-in-out;
+
+  &.open {
+    top: 80px;
+    left: 0;
+  }
+
+  .sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    line-height: 1rem;
+
+    .sidebar-item {
+      padding: 1rem 0;
+      border-bottom: 0.1rem solid vars.$color-gray;
+
+      // on annule la bordure
+      &.sidebar-item:last-child {
+        border: none;
+      }
+
+      .sidebar-item-link {
+        padding: 0.5rem 0;
+        position: relative;
+        display: block;
+
+        &.sidebar-item-link::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 0;
+          height: 3px;
+          background-color: vars.$color-purple;
+          opacity: 0;
+          transition: vars.$animation-duration-small ease-out;
+        }
+
+        &.sidebar-item-link:hover::before {
+          width: 100%;
+          opacity: 1;
+        }
+
+        &.sidebar-item-link::before {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+      }
+      
+    }
+
+    // les deux 1er li span (Mentions Légales, Définitions)
+    & li:nth-child(1) span:first-child,
+    li:nth-child(2) span:first-child {
+      font-weight: vars.$font-bold;
+    }
+    
+    // tous les numeros 1.2. li 1er span
+    &:first-child span:first-child {
+      font-weight: vars.$font-bold;
+    }
+
+    // tous les textes li 2e span
+    &:first-child span:last-child {
+      display: inline-block;
+      margin-top: 0.3rem;
+      line-height: 1.4rem;
+    }
+  }
+}
+
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .sidebar-wrap {
+    padding: 30px 40px 240px;
+    &.open {
+      top: 150px;
+      left: 0;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+%syntax-version=1.0.0
+%project=cityinthepocket
+
+firstdeploy 2021-05-05T07:24:38Z Etudiant O'clock <student@teleporter> # Mise en place de la bdd
+passwordUser 2021-05-07T11:56:15Z Etudiant O'clock <student@teleporter> # Modification de la table user pour ajouter le champs password
+phonenumberformat 2021-05-07T12:14:27Z Etudiant O'clock <student@teleporter> # Changement du format de la colonne phone_number de user pour eviter une erreur JSON
+avatardefault 2021-05-10T07:31:12Z Etudiant O'clock <student@teleporter> # ajout de l'avatar par defaut
+deletemodif 2021-05-11T12:59:18Z Etudiant O'clock <student@teleporter> # ajout de la contrainte on cascade
+deleteshophascategory 2021-05-11T13:19:24Z Etudiant O'clock <student@teleporter> # ajout de la contrainte on cascade
+deletefkeyshop 2021-05-11T13:44:18Z Etudiant O'clock <student@teleporter> # modif fkey shop/user on cascade
+modifShop 2021-05-12T09:18:24Z Etudiant O'clock <student@teleporter> # ajout table liaison shop/image et ajout/modif de champ dans shop
+dropdefaultshop 2021-05-12T12:36:04Z Etudiant O'clock <student@teleporter> # suppression des valeurs par defaut
+refreshToken 2021-05-17T07:55:28Z Etudiant O'clock <student@teleporter> # ajout table pour refreshToken JWT
+modifImgShop 2021-05-19T09:01:46Z Etudiant O'clock <student@teleporter> # Mise en place null for img shop
+modifShopHasCategory 2021-05-25T07:34:38Z Etudiant O'clock <student@teleporter> # ajout route delete category
+modifShopForCoordinates 2021-08-18T13:34:54Z Etudiant O'clock <student@teleporter> # ajout de la colonne coordonnées (gps)
+modifCoordinates 2021-08-18T14:14:19Z Etudiant O'clock <student@teleporter> # modif du default pour longitud/latitude
+addCoordinateV2 2021-08-18T15:00:33Z Etudiant O'clock <student@teleporter> # ajout des coordonnes dans un autre format
+removeCoordinateV1 2021-08-18T15:08:04Z Etudiant O'clock <student@teleporter> # drop de latitude et longitude
+verifiedAccount 2021-09-15T05:29:37Z Etudiant O'clock <student@teleporter> # ajout d'une colonne verified, afin de valider le compte par mail

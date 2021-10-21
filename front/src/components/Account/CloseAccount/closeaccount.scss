@@ -1,0 +1,30 @@
+@use 'src/styles/vars';
+
+.closeaccount {
+  width: 100%;
+  height: 100%;
+
+  .closeaccount-head {
+    background-color: vars.$color-purple;
+
+    .closeaccount-head-title {
+      padding: 0.8rem 1rem;
+      font-weight: vars.$font-regular;
+      color: vars.$color-white;
+    }
+  }
+
+  .closeaccount-body {
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+
+  .closeaccount {
+
+    .closeaccount-head {
+      background-color: vars.$color-primary;
+    }
+  }
+}

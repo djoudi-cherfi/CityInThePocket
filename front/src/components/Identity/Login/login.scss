@@ -1,0 +1,55 @@
+@use 'src/styles/vars';
+
+.login {
+
+  .login-form {
+
+    .loginfield-input-label {
+      .loginfield-input {
+        width: 100%;
+        height: 2rem;
+        margin: 1rem 0 0;
+        padding: 1rem;
+        border-radius: 1rem;
+        border: none;
+      }
+    }
+
+    .login-form-input-alert {
+      width: 100%;
+      padding: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: vars.$font-small;
+      color: vars.$color-white;
+      border-radius: 2rem;
+      background-color: vars.$color-purple;
+    }
+
+    .login-form-input-validation {
+      width: 100%;
+      margin: 0.5rem 0 0;
+      display: inline-block;
+      font-size: vars.$font-small;
+      color: vars.$color-purple;
+    }
+
+    .login-form-submit {
+      width: 100%;
+      height: 2rem;
+      margin: 1rem 0 0;
+      font-size: vars.$font-medium;
+      color: vars.$color-white;
+      border-radius: 1rem;
+      border: none;
+      background-color: vars.$color-purple;
+    }
+  }
+
+  .login-forgot-password {
+    margin: 1rem 0 0;
+    display: block;
+    text-align: center;
+  }
+}

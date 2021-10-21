@@ -1,0 +1,94 @@
+@use 'src/styles/vars';
+
+.form-container {
+
+  label {
+    font-weight: vars.$font-bold;
+    display: block;
+    margin: 0.3rem;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    line-height: 1.4rem;
+    color: vars.$color-black;
+    background-color: vars.$color-white;
+    background-image: none;
+    border: 1px solid vars.$color-gray-light;
+  }
+  
+  .form-control,
+  .form-control-input,
+  .form-control-textarea,
+  .form-control-select,
+  .form-control-radiobutton,
+  .form-control-datepicker,
+  .form-control-checkbox,
+  .form-control-datepicker {
+    margin-bottom: 1rem;
+  }
+  
+  .form-control-radiobutton-labels,
+  .form-control-checkbox-labels {
+    display: inline;
+  }
+  
+  .form-control-datepicker {
+  
+    // Datepicker
+    .react-datepicker {
+  
+      // Datepicker triangle top
+      .react-datepicker__triangle:after,
+      .react-datepicker__triangle:before {
+        left: -2rem;
+        border-bottom-color: vars.$color-gray-light;
+      }
+  
+      // Datepicker arrow
+      .react-datepicker__month-read-view--down-arrow,
+      .react-datepicker__month-year-read-view--down-arrow,
+      .react-datepicker__navigation-icon:before,
+      .react-datepicker__year-read-view--down-arrow {
+        border-color: vars.$color-white;
+      }
+    
+      // Datepicker header
+      .react-datepicker__header {
+        background-color: vars.$color-primary;
+    
+        // Datepicker title month and year
+        .react-datepicker__header__dropdown {
+          margin-top: 0.5rem;
+        }
+      }
+    
+      // Datepicker selected day
+      .react-datepicker__day--selected,
+      .react-datepicker__day--keyboard-selected {
+        background-color: vars.$color-purple;
+      }
+    
+      // Datepicker week row
+      .react-datepicker__week {
+        &:nth-child(2n+1) {
+          background-color: vars.$color-primary-light;
+        }
+      }
+    }
+  
+    // Input button isClearable
+    .react-datepicker__close-icon:after {
+      background-color: vars.$color-gray-dark;
+    }
+  }
+  
+  .error {
+    color: vars.$color-purple;
+  }
+}

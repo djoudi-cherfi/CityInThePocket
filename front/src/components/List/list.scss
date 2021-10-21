@@ -1,0 +1,8 @@
+@use 'src/styles/vars';
+
+.listtop {
+  grid-area: main;
+  padding: vars.$padding-header-footer-medium 0;
+
+  background-color: lightpink;
+}

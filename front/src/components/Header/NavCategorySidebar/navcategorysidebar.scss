@@ -1,0 +1,162 @@
+@use 'src/styles/vars';
+
+// sidebar
+.navcategory-sidebar {
+  width: 100vw;
+  height: 100vh;
+  padding-bottom: 80px;
+  overflow-y: auto;
+  position: fixed;
+  top: 80px;
+  left: -100vw;
+  background-color: vars.$color-white;
+  transition: vars.$animation-duration-medium ease-in-out;
+
+  &.open {
+    top: 80px;
+    left: 0;
+  }
+    
+  .navcategory-sidebar-list {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-weight: vars.$font-bold;
+
+    .navcategory-sidebar-list-item {
+      padding: 2rem 0;
+      border-bottom: 0.1rem solid vars.$color-gray;
+
+      // on annule la bordure
+      &.navcategory-sidebar-list-item:last-child {
+        border: none;
+      }
+
+      .navcategory-sidebar-list-item-link {
+        position: relative;
+        padding-bottom: 0.5rem;
+
+        &.navcategory-sidebar-list-item-link::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 0;
+          height: 3px;
+          background-color: vars.$color-purple;
+          opacity: 0;
+          transition: vars.$animation-duration-small ease-out;
+        }
+
+        &.navcategory-sidebar-list-item-link:hover::before {
+          width: 100%;
+          opacity: 1;
+        }
+
+        &.navcategory-sidebar-list-item-link::before {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  // sidebar
+  .navcategory-sidebar {
+    width: initial;
+    height: initial;
+    padding-bottom: initial;
+    overflow-y: initial;
+    position: initial;
+    top: initial;
+    left: initial;
+    background-color: initial;
+    transition: initial;
+
+    &.open {
+      top: initial;
+      left: initial;
+    }
+    
+    .navcategory-sidebar-list {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: initial;
+
+      .navcategory-sidebar-list-item {
+        padding: 0 2rem 0 0;
+        border-bottom: initial;
+        white-space: nowrap;
+        text-align: center;
+
+        &:last-child {
+          padding: initial;
+        }
+
+        // on annule la bordure
+        &.navcategory-sidebar-list-item:last-child {
+          border: initial;
+        }
+
+        .navcategory-sidebar-list-item-link {
+          position: relative;
+          padding-bottom: 0.5rem;
+
+          &.navcategory-sidebar-list-item-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 3px;
+            background-color: vars.$color-purple;
+            opacity: 0;
+            transition: vars.$animation-duration-small ease-out;
+          }
+
+          &.navcategory-sidebar-list-item-link:hover::before {
+            width: 100%;
+            opacity: 1;
+          }
+
+          &.navcategory-sidebar-list-item-link::before {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint desktop
+@media screen and (min-width: vars.$breakpoint-desktop-min) {
+  // sidebar
+  .navcategory-sidebar {
+    
+    .navcategory-sidebar-list {
+
+      .navcategory-sidebar-list-item {
+        padding: 0 3rem 0 0;
+      }
+    }
+  }
+}
+
+// Breakpoint ultra
+@media screen and (min-width: vars.$breakpoint-ultra-min) {
+  // sidebar
+  .navcategory-sidebar {
+    
+    .navcategory-sidebar-list {
+
+      .navcategory-sidebar-list-item {
+        padding: 0 4rem 0 0;
+      }
+    }
+  }
+}

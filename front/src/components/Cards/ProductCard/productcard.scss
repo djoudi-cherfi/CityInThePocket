@@ -1,0 +1,28 @@
+@use 'src/styles/vars';
+
+.productcard {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0.5rem 1rem;
+  border: 0.1rem solid vars.$color-gray-light;
+  text-align: center;
+
+  .productcard-image {
+    width: 100%;
+    vertical-align: middle;
+  }
+
+  .productcard-title {
+    margin: 0.8rem 0;
+    font-size: vars.$font-tall;
+    font-weight: vars.$font-bold;
+    line-height: 1.5rem;
+    overflow-wrap: anywhere;
+  }
+
+  .productcard-price {
+    font-size: vars.$font-h2;
+    font-weight: vars.$font-bold;
+    color: vars.$color-primary;
+  }
+}

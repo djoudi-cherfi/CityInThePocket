@@ -1,0 +1,30 @@
+@use 'src/styles/vars';
+
+.myshop {
+  width: 100%;
+  height: 100%;
+
+  .myshop-head {
+    background-color: vars.$color-purple;
+
+    .myshop-head-title {
+      padding: 0.8rem 1rem;
+      font-weight: vars.$font-regular;
+      color: vars.$color-white;
+    }
+  }
+
+  .myshop-body {
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+
+  .myshop {
+  
+    .myshop-head {
+      background-color: vars.$color-primary;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+@use 'src/styles/vars';
+
+.email {
+  width: 100%;
+  height: 100%;
+
+  .email-head {
+    background-color: vars.$color-purple;
+
+    .email-head-title {
+      padding: 0.8rem 1rem;
+      font-weight: vars.$font-regular;
+      color: vars.$color-white;
+    }
+  }
+
+  .email-body {
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+
+  .email {
+  
+    .email-head {
+      background-color: vars.$color-primary;
+    }
+  }
+}

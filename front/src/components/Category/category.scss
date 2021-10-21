@@ -1,0 +1,80 @@
+@use 'src/styles/vars';
+
+.category {
+  grid-area: main;
+  padding: vars.$padding-header-footer-medium 0;
+
+  .category-container {
+    display: grid;
+    grid-template-areas: 'container';
+    grid-template-columns: minmax(100px, 80%);
+    grid-template-rows: auto;
+    // gap: vars.$gutter-medium;
+    justify-content: center;
+
+    .category-shop {
+      grid-area: container;
+      display: grid;
+      gap: vars.$gutter-medium vars.$gutter-medium;
+      grid-template-columns: repeat(auto-fit, 100%);
+      justify-content: center;
+    }
+  }
+}
+
+// Breakpoint mobile plus
+@media screen and (min-width: vars.$breakpoint-mobile-plus-min) {
+  .category {
+
+    .category-container {
+      grid-template-columns: minmax(100px, 450px);
+    }
+  }
+}
+
+// Breakpoint tablet
+@media screen and (min-width: vars.$breakpoint-tablet-min) {
+  .category {
+
+    .category-container {
+      grid-template-columns: minmax(100px, 80%);
+
+      .category-shop {
+        grid-template-columns: repeat(auto-fit, 280px);
+      }
+    }
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .category {
+
+    .category-container {
+
+      .category-shop {
+        grid-template-columns: repeat(auto-fit, 250px);
+      }
+    }
+  }
+}
+
+// Breakpoint desktop
+@media screen and (min-width: vars.$breakpoint-desktop-min) {
+  .category {
+
+    .category-container {
+      grid-template-columns: minmax(100px, 1200px);
+    }
+  }
+}
+
+// Breakpoint ultra
+@media screen and (min-width: vars.$breakpoint-ultra-min) {
+  .category {
+
+    .category-container {
+      grid-template-columns: minmax(100px, 1500px);
+    }
+  }
+}

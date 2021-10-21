@@ -1,0 +1,34 @@
+@use 'src/styles/vars';
+
+.shopcard {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0.5rem 1rem;
+  border: 0.1rem solid vars.$color-gray-light;
+  text-align: center;
+
+  .shopcard-image {
+    width: 100%;
+    vertical-align: middle;
+  }
+
+  .shopcard-title {
+    margin: 0.8rem 0;
+
+    font-size: vars.$font-tall;
+    font-weight: vars.$font-bold;
+    line-height: 1.5rem;
+    overflow-wrap: anywhere;
+    color: vars.$color-primary;
+  }
+
+  .shopcard-label {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 1rem;
+    font-size: vars.$font-small;
+    font-weight: vars.$font-bold;
+    color: vars.$color-white;
+    background-color: vars.$color-gray;
+  }
+}

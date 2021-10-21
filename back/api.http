@@ -1,0 +1,179 @@
+##############################################
+#########   Test Route Market Place
+##############################################
+
+
+### Renvoi un market place par son id
+GET http://localhost:5000/v1/marketplace/1
+
+### Retourne tous les marketplaces
+GET http://localhost:5000/v1/marketplace
+
+### Renvoi tous les shops d’un marketplace
+GET http://localhost:5000/v1/marketplace/1/shops
+
+###
+DELETE http://localhost:5000/v1/marketplace/1
+
+
+##############################################################################################
+
+##############################################
+######### Test Route User
+##############################################
+
+
+### Renvoi tous les users 
+GET http://localhost:5000/v1/users
+
+
+### Renvoi un utilisateur par son id 
+GET http://localhost:5000/v1/user/110
+
+### Créer un user
+POST http://localhost:5000/v1/user/ 
+Content-Type: application/json
+
+{
+    "firstName": "djoudi",
+    "lastName": "quill",
+    "email": "djoudi.cherfi@outlook.com",
+    "password": "Paris75004@",
+    "confirmPassword": "Paris75004@",
+    "phone_number":"0606060606",
+    "address":"5 rue de rivoli",
+    "city":"Paris",
+    "postal_code":"75004"
+}
+
+###
+GET http://www.localhost:5000/v1/email-validation/49/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQ5LCJlbWFpbCI6ImF1ZHJpYzEyM0Bob3RtYWlsLmZyIiwiaWF0IjoxNjMxNzE3NjM1LCJleHAiOjE2MzE3MTkxMzV9.PXor6_Vmxf0H50tXiUm9t4OF8KYYPWquy4zvcr9jjC0
+
+### Test Login User
+POST http://localhost:5000/v1/user/login 
+Content-Type: application/json
+
+{
+    "email": "@trhtl.com",
+    "password": ""
+    
+}
+
+### Supprime un utilisateur par son id 
+DELETE http://localhost:5000/v1/user/113
+
+
+##############################################################################################
+
+##############################################
+######### Test Route Product
+##############################################
+
+### Renvoi un product par son id 
+GET http://localhost:5000/v1/product/3
+
+###  Renvoi les 5 derniers products
+GET http://localhost:5000/v1/product/last
+
+### Ajoute un produit
+POST http://localhost:5000/v1/product/ 
+Content-Type: application/json
+
+{
+    "name": "test",
+    "description": "superjg,hj,jghn,hg,hg truc bleu",
+    "price": 240,
+    "shop_id": 8
+}
+
+### Supprime un produit
+DELETE http://localhost:5000/v1/product/3
+
+
+##############################################################################################
+
+##############################################
+######### Test Route Shop
+##############################################
+
+
+### Renvoi les shops par categorie (2 = categoryId)
+GET http://localhost:5000/v1/category/2/shops
+
+###Renvoi un shop par son id 
+GET http://localhost:5000/v1/shop/22
+
+###Renvoi les products d'un shop
+GET http://localhost:5000/v1/shop/22/products
+
+### Renvoi un shop par le userId
+GET http://localhost:5000/v1/shop/user/3
+### Supprime un shop
+DELETE http://localhost:5000/v1/shop/2
+
+### Créer un shop 
+POST   http://localhost:5000/v1/shop/
+Content-Type: application/json
+
+{
+                    "company_name": "Toulouse Shop",
+                    "siret":"89070935500014", 
+                    "description":"Supeeeeeeeeer boutique jdcbyezbcyebcyezbcuzec",
+                    "phone_number":"0467899568",
+                    "email":"boutique@aol.com",
+                    "user_id":3,
+                    "marketplace_id":1,
+                    "category_id":2
+}
+
+
+### Renvoi les 5 derniers shops
+GET http://localhost:5000/v1/shop/last
+
+
+##############################################################################################
+
+##############################################
+######### Test Route Category
+##############################################
+
+###Renvoi toutes les category
+GET http://localhost:5000/v1/category
+
+###Renvoi une categorie par son id
+GET http://localhost:5000/v1/category/1
+
+###Supprime une categorie
+DELETE http://localhost:5000/v1/category/1
+
+
+
+##############################################
+######### Test Mail
+##############################################
+
+
+###Test Mail
+POST  http://localhost:5000/v1/email
+
+### demande du mail pour reinitialiser le password
+POST http://localhost:5000/v1/forget-password
+Content-Type: application/json
+
+{
+    "email": "@hotmail.fr"
+}
+
+####
+GET http://localhost:5000/v1/forget-password/:id/:token
+
+
+### Envoi formulaire avec new password
+POST http://localhost:5000/v1/reset-password/4/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTYzMTY1MDg1MywiZXhwIjoxNjMxNjUyMzUzfQ.6hn4DPwXS_RnTpK2MUeullYzVaMsugTjS2l7gDLxfA4
+Content-Type: application/json
+
+{
+    "password": "TestDuMDP2",
+    "passwordConfirm": "TestDuMDP2"
+}
+

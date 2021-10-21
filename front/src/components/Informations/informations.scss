@@ -1,0 +1,69 @@
+@use 'src/styles/vars';
+
+.informations {
+  grid-area: main;
+  background-color: vars.$color-gray-ultra-light;
+  
+  
+  // Global textual content
+  .informations-content {
+    padding: vars.$padding-header-footer-medium 0;
+    display: grid;
+    grid-template-columns: minmax(100px, 80%);
+    justify-content: center;
+    font-size: vars.$font-small;
+    text-align: left;
+    line-height: 1.5em;
+    word-spacing: 0.2rem;
+    color: vars.$color-black;
+
+    p {
+      margin: 0 0 1rem;
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+      font-size: vars.$font-giant;
+      font-weight: vars.$font-bold;
+      text-align: center;
+      line-height: 1.2em;
+    }
+
+    h2 {
+      margin: 2rem 0 0.5rem;
+      font-size: vars.$font-tall;
+      font-weight: vars.$font-bold;
+    }
+
+    h3 {
+      margin: 2rem 0 0.5rem;
+      font-size: vars.$font-medium;
+      font-weight: vars.$font-bold;
+    }
+
+    .informations-societe{
+      margin: 2rem 0 0.5rem;
+      text-align: center;
+    }
+
+    .informations-preambule{
+    }
+
+    .informations-article-terms-and-conditions {
+      div:nth-last-of-type(1) ul,
+      div:nth-last-of-type(3) ul {
+        padding: 0.5rem 0;
+        list-style: disc;
+      }
+    }
+
+    .informations-article-legal-notice {
+      div:nth-last-of-type(17) ul,
+      div:nth-last-of-type(9) ul,
+      div:nth-last-of-type(8) ul {
+        padding: 0.5rem 0;
+        list-style: disc;
+      }
+    }
+  }
+}

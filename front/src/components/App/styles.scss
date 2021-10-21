@@ -1,0 +1,20 @@
+@use 'src/styles/vars';
+
+.app {
+  font-family: vars.$font-global;
+  color: vars.$color-black;
+
+  // global links
+  a:visited {
+    color: vars.$color-black;
+  }
+
+  a:hover {
+    color: vars.$color-purple;
+  }
+
+  a.current {
+    font-weight: vars.$font-bold;
+    color: vars.$color-purple;
+  }
+}

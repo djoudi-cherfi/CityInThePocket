@@ -1,0 +1,111 @@
+@use 'src/styles/vars';
+
+/* --------------------------- */
+// ----- Loader Circle
+/* --------------------------- */
+
+.loader-circle {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  background-color: vars.$color-black;
+
+  .loader-circle-container {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .loader-circle-container-circle {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      border-radius: 2rem;
+      border: 0.15rem solid transparent;
+      border-top-color: #fff;
+      vertical-align: middle;
+      animation: spin-three 1s linear infinite;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        border-radius: 2rem;
+        border: 0.15rem solid transparent;
+        border-top-color: #fff;
+        opacity: 0.5;
+        animation: spin-three 4s linear infinite;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border-radius: 2rem;
+        border: 0.15rem solid transparent;
+        border-top-color: #fff;
+        opacity: 0.5;
+        animation: spin-three 8s linear infinite;
+      }
+    }
+  }
+
+  .loader-circle-container-title {
+    margin-left: 1rem;
+    font-size: vars.$font-tall;
+    color: vars.$color-white;
+  }
+
+  @keyframes spin-three {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+
+// Breakpoint mobile
+@media screen and (min-width: vars.$breakpoint-mobile-min) {
+  .loader-circle {
+
+    .loader-circle-container {
+      display: initial;
+      flex-direction: initial;
+      align-items: initial;
+
+      .loader-circle-container-circle {
+        margin-bottom: 0;
+
+        &::before {}
+
+        &::after {}
+      }
+    }
+
+    .loader-circle-container-title {}
+
+    @keyframes spin-three {
+      0% {}
+
+      100% {}
+    }
+  }
+}

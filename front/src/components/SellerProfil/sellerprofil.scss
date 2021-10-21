@@ -1,0 +1,203 @@
+@use 'src/styles/vars';
+
+.sellerprofil {
+  grid-area: main;
+  padding: vars.$padding-header-footer-medium 0;
+
+  .sellerprofil-container {
+
+    display: grid;
+    grid-template-areas:
+      'head'
+      'list-product';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: vars.$gutter-medium;
+    justify-content: center;
+  
+    .sellerprofil-head {
+      grid-area: head;
+
+      display: grid;
+      grid-template-areas:
+        'contact'
+        'description'
+        'map';
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto 320px;
+      gap: vars.$gutter-medium;
+      justify-content: center;
+  
+      .contact {
+        grid-area: contact;
+        justify-self: center;
+        text-align: center;
+        
+        .contact-image {
+          width: 140px;
+          border-radius: 20rem;
+          vertical-align: middle;
+          background-color: vars.$color-primary;
+        }
+        
+        .contact-infos {
+          margin: 1rem 0 0;
+          line-height: 3rem;
+
+          .contact-infos-email {
+            .contact-infos-email-icon {
+              font-size: 2rem;
+              vertical-align: middle;
+              margin-right: 0.5rem;
+              color: vars.$color-primary;
+            }
+          }
+          
+          .contact-infos-phone {
+            .contact-infos-phone-icon {
+              font-size: 2rem;
+              vertical-align: middle;
+              margin-right: 0.5rem;
+              color: vars.$color-primary;
+            }
+          }
+        }
+        
+      }
+      
+      .sellerprofil-description {
+        grid-area: description;
+        justify-self: center;
+        text-align: center;
+  
+        .description-title {
+          font-size: vars.$font-tall;
+          font-weight: vars.$font-bold;
+          color: vars.$color-primary;
+          margin: 0 0 0.5rem;
+        }
+  
+        .description-summary {
+          overflow-wrap: anywhere;
+        }
+      }
+    
+      .sellerprofil-map {
+        grid-area: map;
+      }
+    }
+  
+    .sellerprofil-content {
+      grid-area: list-product;
+  
+      display: grid;
+      gap: vars.$gutter-medium vars.$gutter-medium;
+      grid-template-columns: 80%;
+      justify-content: center;
+    }
+  }
+}
+
+// Breakpoint mobile
+@media screen and (min-width: vars.$breakpoint-mobile-min) {}
+
+// Breakpoint mobile plus
+@media screen and (min-width: vars.$breakpoint-mobile-plus-min) {
+  .sellerprofil {
+  
+    .sellerprofil-container {
+    
+      .sellerprofil-head {
+
+        .contact {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          
+          .contact-image {
+            margin: 0 2rem 0 0;
+          }
+
+          .contact-infos {
+            margin: initial;
+          }
+        }
+      }
+    
+      .sellerprofil-content {
+        grid-template-columns: 70%;
+      }
+    }
+  }
+}
+
+// Breakpoint tablet
+@media screen and (min-width: vars.$breakpoint-tablet-min) {
+  .sellerprofil {
+  
+    .sellerprofil-container {
+    
+      .sellerprofil-content {
+        grid-template-columns: repeat(auto-fit, 280px);
+      }
+    }
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .sellerprofil {
+  
+    .sellerprofil-container {
+    
+      .sellerprofil-head {
+        grid-template-areas:
+          'contact description'
+          'map map';
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 320px;
+        gap: vars.$gutter-medium vars.$gutter-tall;
+
+        .contact {
+          justify-self: end;
+        }
+        
+        .sellerprofil-description {
+          justify-self: start;
+          align-self: center;
+          text-align: left;
+        }
+      }
+
+      .sellerprofil-content {
+        grid-template-columns: repeat(auto-fit, 250px);
+      }
+    }
+  }
+}
+// Breakpoint desktop
+@media screen and (min-width: vars.$breakpoint-desktop-min) {
+  .sellerprofil {
+  
+    .sellerprofil-container {
+      grid-template-columns: minmax(100px, 1200px);
+    
+      .sellerprofil-head {
+        grid-template-areas:
+          'contact description map';
+        grid-template-columns: auto auto minmax(300px, 600px);
+        grid-template-rows: 250px;
+      }
+    }
+  }
+}
+
+// Breakpoint ultra
+@media screen and (min-width: vars.$breakpoint-ultra-min) {
+  .sellerprofil {
+  
+    .sellerprofil-container {
+      grid-template-columns: minmax(100px, 1500px);
+    }
+  }
+}

@@ -1,0 +1,185 @@
+@use 'src/styles/vars';
+
+.product {
+  grid-area: main;
+  padding: vars.$padding-header-footer-medium 0;
+
+  display: grid;
+  grid-template-areas:
+  'preview'
+  'info'
+  'description';
+  grid-template-columns: minmax(100px, 80%);
+  gap: vars.$gutter-small;
+  justify-content: center;
+  align-items: start;
+
+  .thumbnail {
+    grid-area: preview;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: vars.$gutter-small;
+    
+    img {
+      width: 100%;
+      vertical-align: middle;
+    }
+    
+    .thumbnail-giant {
+      display: none;
+      opacity: 0;
+      transition: vars.$animation-duration-small ease-in-out;
+      
+      &.active {
+        display: block;
+        opacity: 1;
+      }
+    }
+  }
+
+  .product-info {
+    grid-area: info;
+    padding: 1rem 0;
+    position: sticky;
+    bottom: 0;
+    background-color: vars.$color-white;
+
+    .product-title-produit {
+      margin-bottom: 0.5rem;
+      font-size: vars.$font-medium;
+      font-weight: vars.$font-bold;
+    }
+
+    .product-title-vendeur {
+      margin-bottom: 0.8rem;
+      font-size: vars.$font-small;
+      font-weight: vars.$font-bold;
+      color: vars.$color-primary;
+    }
+
+    .product-price {
+      font-size: vars.$font-tall;
+      font-weight: vars.$font-bold;
+      color: vars.$color-purple;
+    }
+  }
+
+  .product-description {
+    grid-area: description;
+    font-size: vars.$font-small;
+  }
+}
+
+// Breakpoint mobile
+@media screen and (min-width: vars.$breakpoint-mobile-min) {
+  .product {
+  
+    .product-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .product-info-wrap{
+
+        .product-title-produit {
+          margin-bottom: 0.8rem;
+          font-size: vars.$font-tall;
+        }
+    
+        .product-title-vendeur {
+          margin-bottom: 0.8rem;
+          font-size: vars.$font-medium;
+        }
+      }
+  
+      .product-price {
+        font-size: vars.$font-giant;
+      }
+    }
+  }
+}
+
+// Breakpoint mobile plus
+@media screen and (min-width: vars.$breakpoint-mobile-plus-min) {
+  .product {
+
+    .thumbnail {
+      gap: vars.$gutter-medium;
+    }
+  
+    .product-description {
+      font-size: vars.$font-medium;
+    }
+  }
+}
+
+// Breakpoint tablet
+@media screen and (min-width: vars.$breakpoint-tablet-min) {
+  .product {
+    gap: vars.$gutter-medium;
+  
+    .thumbnail {
+      grid-template-columns: repeat(4, 1fr);
+      gap: vars.$gutter-small;
+  
+      .thumbnail-giant {
+        grid-column: 1/5;
+        display: none;
+        opacity: 0;
+        transition: vars.$animation-duration-small ease-in-out;
+        
+        &.active {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .product {
+    grid-template-areas:
+    'preview info'
+    'preview description';
+    grid-template-columns: minmax(100px, 40%) auto;
+    grid-template-rows: auto 1fr;
+    gap: vars.$gutter-medium vars.$gutter-tall;
+
+    .product-info {
+      display: initial;
+      flex-direction: initial;
+      justify-content: initial;
+    }
+  }
+}
+
+// Breakpoint desktop
+@media screen and (min-width: vars.$breakpoint-desktop-min) {
+  .product {
+
+    .thumbnail {
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: vars.$gutter-small;
+
+      .thumbnail-giant {
+        grid-column: 1/5;
+        grid-row: 1/5;
+        display: none;
+        opacity: 0;
+        transition: vars.$animation-duration-small ease-in-out;
+        
+        &.active {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint ultra
+@media screen and (min-width: vars.$breakpoint-ultra-min) {}
