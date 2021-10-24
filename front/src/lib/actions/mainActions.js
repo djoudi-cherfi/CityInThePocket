@@ -10,6 +10,7 @@ export const TOGGLE_SIDEBAR_TG_OPEN = 'TOGGLE_SIDEBAR_TG_OPEN';
 
 // City name
 export const CITY_NAME = 'CITY_NAME';
+export const CITY_NAME_RESET = 'CITY_NAME_RESET';
 
 // Menu Category
 export const TOGGLE_NAVCATEGORIES_OPEN = 'TOGGLE_NAVCATEGORIES_OPEN';
@@ -25,7 +26,7 @@ export const TOGGLE_SLIDE_OPEN = 'TOGGLE_SLIDE_OPEN';
 
 // Form
 // Input
-export const FORM_FIELD = 'FORM_FIELD';
+export const FORM_INPUT_FIELD = 'FORM_INPUT_FIELD';
 
 // Select
 export const FORM_SELECT_OPTION_UPDATE = 'FORM_SELECT_OPTION_UPDATE';
@@ -36,9 +37,9 @@ export const FORM_RADIO_OPTION_UPDATE = 'FORM_RADIO_OPTION_UPDATE';
 export const FORM_RADIO_OPTION_ADD = 'FORM_RADIO_OPTION_ADD';
 
 // Checkbox
-export const FORM_CHECKBOX_OPTION_UPDATE = 'FORM_CHECKBOX_OPTION_UPDATE';
-export const FORM_CHECKBOX_OPTION_ADD = 'FORM_CHECKBOX_OPTION_ADD';
-export const FORM_CHECKBOX_OPTION_REMOVE = 'FORM_CHECKBOX_OPTION_REMOVE';
+export const FORM_CHECKBOX_MULTI_OPTION_UPDATE = 'FORM_CHECKBOX_MULTI_OPTION_UPDATE';
+export const FORM_CHECKBOX_MULTI_OPTION_ADD = 'FORM_CHECKBOX_MULTI_OPTION_ADD';
+export const FORM_CHECKBOX_MULTI_OPTION_REMOVE = 'FORM_CHECKBOX_MULTI_OPTION_REMOVE';
 
 // === action creators
 // Header
@@ -74,6 +75,10 @@ export const cityNameSave = (cityName) => ({
   cityName,
 });
 
+export const cityNameReset = () => ({
+  type: CITY_NAME_RESET,
+});
+
 // Menu nave category et identity
 export const toggleNavCategoryOpen = () => ({
   type: TOGGLE_NAVCATEGORIES_OPEN,
@@ -104,8 +109,8 @@ export const toggleSlideOpen = (currentSlide) => ({
 
 // Form
 // Input
-export const formField = (value, name) => ({
-  type: FORM_FIELD,
+export const formInputField = (value, name) => ({
+  type: FORM_INPUT_FIELD,
   value,
   name,
 });
@@ -137,20 +142,20 @@ export const formRadioOptionAdd = (value, name) => ({
 });
 
 // Checkbox
-export const formCheckboxOptionUpdate = (value, name) => ({
-  type: FORM_CHECKBOX_OPTION_UPDATE,
+export const formCheckboxMultiOptionUpdate = (value, name) => ({
+  type: FORM_CHECKBOX_MULTI_OPTION_UPDATE,
   value,
   name,
 });
 
-export const formCheckboxOptionAdd = (value, name) => ({
-  type: FORM_CHECKBOX_OPTION_ADD,
+export const formCheckboxMultiOptionAdd = (value, name) => ({
+  type: FORM_CHECKBOX_MULTI_OPTION_ADD,
   value,
   name,
 });
 
-export const formCheckboxOptionRemove = (value, name) => ({
-  type: FORM_CHECKBOX_OPTION_REMOVE,
+export const formCheckboxMultiOptionRemove = (value, name) => ({
+  type: FORM_CHECKBOX_MULTI_OPTION_REMOVE,
   value,
   name,
 });

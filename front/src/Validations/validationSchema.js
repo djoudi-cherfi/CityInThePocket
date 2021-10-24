@@ -83,6 +83,55 @@ export const validationSchema = Yup.object({
       'Le mot de passe doit contenir au moins 8 caractères et 10 caractères maximum, un nombre et une majuscule')
     .required('Veuillez entrer votre mot de passe'),
 
+  updatePassword: Yup
+    .string()
+    .matches(passwordRegExp,
+      'Le mot de passe doit contenir au moins 8 caractères et 10 caractères maximum, un nombre et une majuscule')
+    .required('Veuillez entrer votre mot de passe'),
+
+  confirmUpdatePassword: Yup
+    .string()
+    .required('Veuillez confirmer votre mot de passe')
+    .oneOf([Yup
+      .ref('updatePassword'), null], 'Les mots de passe ne correspondent pas')
+    .required('Veuillez confirmer votre mot de passe'),
+
+  updateEmail: Yup
+    .string()
+    .email()
+    .matches(emailRegExp,
+      'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .required('Veuillez entrer votre email'),
+
+  confirmUpdateEmail: Yup
+    .string()
+    .email()
+    .matches(emailRegExp,
+      'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .oneOf([Yup
+      .ref('updateEmail'), null], "L'email ne correspondent pas")
+    .required('Veuillez confirmer votre email'),
+
+  forgotPassword: Yup
+    .string()
+    .email()
+    .matches(emailRegExp,
+      'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .required('Veuillez entrer votre email'),
+
+  resetPassword: Yup
+    .string()
+    .matches(passwordRegExp,
+      'Le mot de passe doit contenir au moins 8 caractères et 10 caractères maximum, un nombre et une majuscule')
+    .required('Veuillez entrer votre mot de passe'),
+
+  confirmResetPassword: Yup
+    .string()
+    .required('Veuillez confirmer votre mot de passe')
+    .oneOf([Yup
+      .ref('updatePassword'), null], 'Les mots de passe ne correspondent pas')
+    .required('Veuillez confirmer votre mot de passe'),
+
   // Template
   description: Yup
     .string()
@@ -96,7 +145,7 @@ export const validationSchema = Yup.object({
     .array()
     .min(1, 'Veuillez choisir une option'),
 
-  checkboxOptions: Yup
+  checkboxMultiOptions: Yup
     .array()
     .min(1, 'Veuillez choisir au moins une option'),
 

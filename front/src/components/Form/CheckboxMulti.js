@@ -9,15 +9,15 @@ import { Field, ErrorMessage } from 'formik';
 import TextError from 'src/components/Form/TextError';
 
 // == Composant
-const CheckBox = ({
+const CheckboxMulti = ({
   type,
   label,
   name,
   submitName,
   values,
-  formCheckboxOptionUpdate,
-  formCheckboxOptionAdd,
-  formCheckboxOptionRemove,
+  formCheckboxMultiOptionUpdate,
+  formCheckboxMultiOptionAdd,
+  formCheckboxMultiOptionRemove,
 }) => {
   const handleChange = (evt) => {
     const array = {
@@ -26,13 +26,13 @@ const CheckBox = ({
       checked: evt.target.checked,
     };
 
-    formCheckboxOptionUpdate(array, name);
+    formCheckboxMultiOptionUpdate(array, name);
 
     if (evt.target.checked === true) {
-      formCheckboxOptionAdd(array, submitName);
+      formCheckboxMultiOptionAdd(array, submitName);
     }
     else {
-      formCheckboxOptionRemove(array, submitName);
+      formCheckboxMultiOptionRemove(array, submitName);
     }
   };
 
@@ -58,15 +58,15 @@ const CheckBox = ({
   );
 };
 
-CheckBox.propTypes = {
+CheckboxMulti.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   submitName: PropTypes.string.isRequired,
   values: PropTypes.array.isRequired,
-  formCheckboxOptionUpdate: PropTypes.func.isRequired,
-  formCheckboxOptionAdd: PropTypes.func.isRequired,
-  formCheckboxOptionRemove: PropTypes.func.isRequired,
+  formCheckboxMultiOptionUpdate: PropTypes.func.isRequired,
+  formCheckboxMultiOptionAdd: PropTypes.func.isRequired,
+  formCheckboxMultiOptionRemove: PropTypes.func.isRequired,
 };
 
-export default CheckBox;
+export default CheckboxMulti;

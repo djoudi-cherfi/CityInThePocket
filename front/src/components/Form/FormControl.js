@@ -8,7 +8,7 @@ import Input from 'src/components/Form/Input';
 import TextArea from 'src/components/Form/TextArea';
 import Select from 'src/components/Form/Select';
 import RadioButton from 'src/components/Form/RadioButton';
-import CheckBox from 'src/components/Form/CheckBox';
+import CheckboxMulti from 'src/components/Form/CheckboxMulti';
 import CheckBoxSample from 'src/components/Form/CheckBoxSample';
 import DatePicker from 'src/components/Form/DatePicker';
 
@@ -29,8 +29,8 @@ const FormControl = (props) => {
     case 'radio':
       return <RadioButton {...rest} />;
 
-    case 'checkbox':
-      return <CheckBox {...rest} />;
+    case 'checkboxMulti':
+      return <CheckboxMulti {...rest} />;
 
     case 'checkboxSample':
       return <CheckBoxSample {...rest} />;

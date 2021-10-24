@@ -15,10 +15,10 @@ const Input = ({
   name,
   placeholder,
   value,
-  manageChange,
+  formInputField,
 }) => {
   const handleChange = (evt) => {
-    manageChange(evt.target.value, name);
+    formInputField(evt.target.value, name);
   };
 
   return (
@@ -43,7 +43,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  manageChange: PropTypes.func.isRequired,
+  formInputField: PropTypes.func.isRequired,
 };
 
 export default Input;

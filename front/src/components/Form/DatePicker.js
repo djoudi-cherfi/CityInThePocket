@@ -18,11 +18,11 @@ import TextError from 'src/components/Form/TextError';
 const DataPicker = ({
   label,
   name,
-  manageChange,
+  formInputField,
   value,
 }) => {
   const handleChange = (dateValue) => {
-    manageChange(dateValue, name);
+    formInputField(dateValue, name);
   };
 
   const handleSelected = () => {
@@ -64,7 +64,7 @@ const DataPicker = ({
 DataPicker.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  manageChange: PropTypes.func.isRequired,
+  formInputField: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.string,

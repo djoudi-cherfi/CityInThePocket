@@ -14,6 +14,7 @@ import './form.scss';
 
 // == Composant
 const FormContainer = ({
+  // Get state
   firstName,
   lastName,
   address,
@@ -26,15 +27,23 @@ const FormContainer = ({
   conditionsPrivacyPolicy,
   loginEmail,
   loginPassword,
+  updatePassword,
+  confirmUpdatePassword,
+  updateEmail,
+  confirmUpdateEmail,
+  forgotPassword,
+  resetPassword,
+  confirmResetPassword,
   description,
   selectOptions,
   selectOptionsSubmit,
   radioOptions,
   radioOptionsSubmit,
-  checkboxOptions,
-  checkboxOptionsSubmit,
+  checkboxMultiOptions,
+  checkboxMultiOptionsSubmit,
   date,
-  changeField,
+  // Send state
+  changeInputField,
   changeRadioOptionUpdate,
   changeRadioOptionAdd,
   changeSelectOptionUpdate,
@@ -43,6 +52,7 @@ const FormContainer = ({
   changeCheckboxOptionAdd,
   changeCheckboxOptionRemove,
 }) => {
+  // The initial values validated by Yup
   const initialValues = {
     firstName: firstName,
     lastName: lastName,
@@ -56,13 +66,21 @@ const FormContainer = ({
     conditionsPrivacyPolicy: conditionsPrivacyPolicy,
     loginEmail: loginEmail,
     loginPassword: loginPassword,
+    updatePassword: updatePassword,
+    confirmUpdatePassword: confirmUpdatePassword,
+    updateEmail: updateEmail,
+    confirmUpdateEmail: confirmUpdateEmail,
     description: description,
+    forgotPassword: forgotPassword,
+    resetPassword: resetPassword,
+    confirmResetPassword: confirmResetPassword,
     selectOptions: selectOptionsSubmit,
     radioOptions: radioOptionsSubmit,
-    checkboxOptions: checkboxOptionsSubmit,
+    checkboxMultiOptions: checkboxMultiOptionsSubmit,
     date: date,
   };
 
+  // Send all values to...
   const onSubmit = (values) => {
     console.log('Form data', values);
     // console.log('Saved data', JSON.parse(JSON.stringify(values)));
@@ -84,7 +102,7 @@ const FormContainer = ({
             name="firstName"
             placeholder="Michel"
             value={initialValues.firstName}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -93,7 +111,7 @@ const FormContainer = ({
             name="lastName"
             placeholder="Dupont"
             value={initialValues.lastName}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -102,7 +120,7 @@ const FormContainer = ({
             name="address"
             placeholder="5 rue de la boetie"
             value={initialValues.address}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -111,7 +129,7 @@ const FormContainer = ({
             name="postalCode"
             placeholder="75008"
             value={initialValues.postalCode}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -120,7 +138,7 @@ const FormContainer = ({
             name="city"
             placeholder="Paris"
             value={initialValues.city}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -129,7 +147,7 @@ const FormContainer = ({
             name="phoneNumber"
             placeholder="0123456789"
             value={initialValues.phoneNumber}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -138,7 +156,7 @@ const FormContainer = ({
             name="email"
             placeholder="email@email.com"
             value={initialValues.email}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -147,7 +165,7 @@ const FormContainer = ({
             name="password"
             placeholder="Min8@Max10"
             value={initialValues.password}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
@@ -156,33 +174,98 @@ const FormContainer = ({
             name="confirmPassword"
             placeholder="Min8@Max10"
             value={initialValues.confirmPassword}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="checkboxSample"
             type="checkbox"
             label="Politique de confidentialité et conditions d'utilisation"
             name="conditionsPrivacyPolicy"
-            manageChange={changeField}
+            formInputField={changeInputField}
             value={initialValues.conditionsPrivacyPolicy}
           />
           <FormControl
             control="input"
             type="email"
-            label="Email"
+            label="Email (connexion)"
             name="loginEmail"
             placeholder="email@email.com"
             value={initialValues.loginEmail}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="input"
             type="password"
-            label="Mot de passe"
+            label="Mot de passe (connexion)"
             name="loginPassword"
             placeholder="Min8@Max10"
             value={initialValues.loginPassword}
-            manageChange={changeField}
+            formInputField={changeInputField}
+          />
+
+          <FormControl
+            control="input"
+            type="password"
+            label="Mot de passe (à modifier)"
+            name="updatePassword"
+            placeholder="Min8@Max10"
+            value={initialValues.updatePassword}
+            formInputField={changeInputField}
+          />
+          <FormControl
+            control="input"
+            type="password"
+            label="Confirmer votre mot de passe"
+            name="confirmUpdatePassword"
+            placeholder="Min8@Max10"
+            value={initialValues.confirmUpdatePassword}
+            formInputField={changeInputField}
+          />
+
+          <FormControl
+            control="input"
+            type="email"
+            label="Email (à modifier)"
+            name="updateEmail"
+            placeholder="email@email.com"
+            value={initialValues.updateEmail}
+            formInputField={changeInputField}
+          />
+          <FormControl
+            control="input"
+            type="email"
+            label="Confirmer votre email (à modifier)"
+            name="confirmUpdateEmail"
+            placeholder="email@email.com"
+            value={initialValues.confirmUpdateEmail}
+            formInputField={changeInputField}
+          />
+          <FormControl
+            control="input"
+            type="email"
+            label="Email (forgotPassword)"
+            name="forgotPassword"
+            placeholder="email@email.com"
+            value={initialValues.forgotPassword}
+            formInputField={changeInputField}
+          />
+          <FormControl
+            control="input"
+            type="password"
+            label="Mot de passe (resetPassword)"
+            name="resetPassword"
+            placeholder="Min8@Max10"
+            value={initialValues.resetPassword}
+            formInputField={changeInputField}
+          />
+          <FormControl
+            control="input"
+            type="password"
+            label="Confirmer votre mot de passe (resetPassword)"
+            name="confirmResetPassword"
+            placeholder="Min8@Max10"
+            value={initialValues.confirmResetPassword}
+            formInputField={changeInputField}
           />
           <FormControl
             control="textarea"
@@ -190,7 +273,7 @@ const FormContainer = ({
             name="description"
             placeholder="votre description"
             value={initialValues.description}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <FormControl
             control="select"
@@ -212,15 +295,15 @@ const FormContainer = ({
             values={radioOptions}
           />
           <FormControl
-            control="checkbox"
+            control="checkboxMulti"
             type="checkbox"
-            label="Checkbox option"
-            name="checkboxOptions"
-            submitName="checkboxOptionsSubmit"
-            formCheckboxOptionUpdate={changeCheckboxOptionUpdate}
-            formCheckboxOptionAdd={changeCheckboxOptionAdd}
-            formCheckboxOptionRemove={changeCheckboxOptionRemove}
-            values={checkboxOptions}
+            label="checkboxMulti option"
+            name="checkboxMultiOptions"
+            submitName="checkboxMultiOptionsSubmit"
+            formCheckboxMultiOptionUpdate={changeCheckboxOptionUpdate}
+            formCheckboxMultiOptionAdd={changeCheckboxOptionAdd}
+            formCheckboxMultiOptionRemove={changeCheckboxOptionRemove}
+            values={checkboxMultiOptions}
           />
           <FormControl
             control="date"
@@ -228,7 +311,7 @@ const FormContainer = ({
             name="date"
             placeholder="Sélectionnez votre date"
             value={initialValues.date}
-            manageChange={changeField}
+            formInputField={changeInputField}
           />
           <button type="submit">Submit</button>
         </Form>
@@ -250,18 +333,25 @@ FormContainer.propTypes = {
   conditionsPrivacyPolicy: PropTypes.bool.isRequired,
   loginEmail: PropTypes.string.isRequired,
   loginPassword: PropTypes.string.isRequired,
+  updatePassword: PropTypes.string.isRequired,
+  confirmUpdatePassword: PropTypes.string.isRequired,
+  updateEmail: PropTypes.string.isRequired,
+  confirmUpdateEmail: PropTypes.string.isRequired,
+  forgotPassword: PropTypes.string.isRequired,
+  resetPassword: PropTypes.string.isRequired,
+  confirmResetPassword: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   selectOptions: PropTypes.array.isRequired,
   selectOptionsSubmit: PropTypes.array.isRequired,
   radioOptions: PropTypes.array.isRequired,
   radioOptionsSubmit: PropTypes.array.isRequired,
-  checkboxOptions: PropTypes.array.isRequired,
-  checkboxOptionsSubmit: PropTypes.array.isRequired,
+  checkboxMultiOptions: PropTypes.array.isRequired,
+  checkboxMultiOptionsSubmit: PropTypes.array.isRequired,
   date: PropTypes.oneOfType([
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
-  changeField: PropTypes.func.isRequired,
+  changeInputField: PropTypes.func.isRequired,
   changeSelectOptionUpdate: PropTypes.func.isRequired,
   changeSelectOptionAdd: PropTypes.func.isRequired,
   changeRadioOptionUpdate: PropTypes.func.isRequired,

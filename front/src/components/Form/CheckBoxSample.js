@@ -14,10 +14,10 @@ const CheckBoxSample = ({
   label,
   name,
   value,
-  manageChange,
+  formInputField,
 }) => {
   const handleChange = (evt) => {
-    manageChange(evt.target.checked, name);
+    formInputField(evt.target.checked, name);
   };
 
   return (
@@ -40,7 +40,7 @@ CheckBoxSample.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
-  manageChange: PropTypes.func.isRequired,
+  formInputField: PropTypes.func.isRequired,
 };
 
 export default CheckBoxSample;

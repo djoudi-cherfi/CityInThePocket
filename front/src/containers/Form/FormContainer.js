@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 
 import {
-  formField,
+  formInputField,
   formSelectOptionUpdate,
   formSelectOptionAdd,
   formRadioOptionUpdate,
   formRadioOptionAdd,
-  formCheckboxOptionUpdate,
-  formCheckboxOptionAdd,
-  formCheckboxOptionRemove,
+  formCheckboxMultiOptionUpdate,
+  formCheckboxMultiOptionAdd,
+  formCheckboxMultiOptionRemove,
 } from 'src/lib/actions/mainActions';
 
 // on importe le composant de présentation
@@ -31,13 +31,20 @@ const mapStateToProps = (state) => ({
   conditionsPrivacyPolicy: state.main.conditionsPrivacyPolicy,
   loginEmail: state.main.loginEmail,
   loginPassword: state.main.loginPassword,
+  updatePassword: state.main.updatePassword,
+  confirmUpdatePassword: state.main.confirmUpdatePassword,
+  updateEmail: state.main.updateEmail,
+  confirmUpdateEmail: state.main.confirmUpdateEmail,
+  forgotPassword: state.main.forgotPassword,
+  resetPassword: state.main.resetPassword,
+  confirmResetPassword: state.main.confirmResetPassword,
   description: state.main.description,
   selectOptions: state.main.selectOptions,
   selectOptionsSubmit: state.main.selectOptionsSubmit,
   radioOptions: state.main.radioOptions,
   radioOptionsSubmit: state.main.radioOptionsSubmit,
-  checkboxOptions: state.main.checkboxOptions,
-  checkboxOptionsSubmit: state.main.checkboxOptionsSubmit,
+  checkboxMultiOptions: state.main.checkboxMultiOptions,
+  checkboxMultiOptionsSubmit: state.main.checkboxMultiOptionsSubmit,
   date: state.main.date,
 });
 
@@ -45,9 +52,9 @@ const mapStateToProps = (state) => ({
 // si on a besoin de dispatcher des actions vers le store (modifier le state)
 const mapDispatchToProps = (dispatch) => ({
   // nom de la prop à remplir: fonction qui dispatch l'action
-  changeField: (value, name) => {
+  changeInputField: (value, name) => {
     // console.log(`value: ${value}, name: ${name}`);
-    const action = formField(value, name);
+    const action = formInputField(value, name);
     dispatch(action);
   },
 
@@ -62,7 +69,7 @@ const mapDispatchToProps = (dispatch) => ({
     const action = formSelectOptionAdd(value, name);
     dispatch(action);
   },
-  
+
   changeRadioOptionUpdate: (value, name) => {
     // console.log(`value: ${value}, name: ${name}`);
     const action = formRadioOptionUpdate(value, name);
@@ -77,19 +84,19 @@ const mapDispatchToProps = (dispatch) => ({
 
   changeCheckboxOptionUpdate: (value, name) => {
     // console.log(`value: ${value}, name: ${name}`);
-    const action = formCheckboxOptionUpdate(value, name);
+    const action = formCheckboxMultiOptionUpdate(value, name);
     dispatch(action);
   },
 
   changeCheckboxOptionAdd: (value, name) => {
     // console.log(`value: ${value}, name: ${name}`);
-    const action = formCheckboxOptionAdd(value, name);
+    const action = formCheckboxMultiOptionAdd(value, name);
     dispatch(action);
   },
 
   changeCheckboxOptionRemove: (value, name) => {
     // console.log(`value: ${value}, name: ${name}`);
-    const action = formCheckboxOptionRemove(value, name);
+    const action = formCheckboxMultiOptionRemove(value, name);
     dispatch(action);
   },
 });

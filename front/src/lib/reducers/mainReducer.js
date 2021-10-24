@@ -1,5 +1,6 @@
 import {
   CITY_NAME,
+  CITY_NAME_RESET,
   TOGGLE_NAVCATEGORIES_OPEN,
   TOGGLE_NAVCATEGORIES_OPEN_RESET,
   TOGGLE_IDENTITY_OPEN,
@@ -11,14 +12,14 @@ import {
   INFOS_REFS_SAVE,
   INFOS_NAME_SAVE,
   TOGGLE_SIDEBAR_TG_OPEN,
-  FORM_FIELD,
+  FORM_INPUT_FIELD,
   FORM_SELECT_OPTION_UPDATE,
   FORM_SELECT_OPTION_ADD,
   FORM_RADIO_OPTION_UPDATE,
   FORM_RADIO_OPTION_ADD,
-  FORM_CHECKBOX_OPTION_UPDATE,
-  FORM_CHECKBOX_OPTION_ADD,
-  FORM_CHECKBOX_OPTION_REMOVE,
+  FORM_CHECKBOX_MULTI_OPTION_UPDATE,
+  FORM_CHECKBOX_MULTI_OPTION_ADD,
+  FORM_CHECKBOX_MULTI_OPTION_REMOVE,
 } from 'src/lib/actions/mainActions';
 
 const initialState = {
@@ -36,6 +37,13 @@ const initialState = {
   conditionsPrivacyPolicy: true,
   loginEmail: '',
   loginPassword: '',
+  updatePassword: '',
+  confirmUpdatePassword: '',
+  updateEmail: '',
+  confirmUpdateEmail: '',
+  forgotPassword: '',
+  resetPassword: '',
+  confirmResetPassword: '',
   description: '',
   selectOptions: [
     { key: 'select_Option_0', value: 'Options', selected: true },
@@ -50,12 +58,12 @@ const initialState = {
     { key: 'radio_Option_3', value: 'Option 3', checked: false },
   ],
   radioOptionsSubmit: [],
-  checkboxOptions: [
+  checkboxMultiOptions: [
     { key: 'checkbox_Option_1', value: 'Option 1', checked: false },
     { key: 'checkbox_Option_2', value: 'Option 2', checked: false },
     { key: 'checkbox_Option_3', value: 'Option 3', checked: false },
   ],
-  checkboxOptionsSubmit: [],
+  checkboxMultiOptionsSubmit: [],
   date: null,
 
   // Header
@@ -160,6 +168,12 @@ function rootReducer(state = initialState, action) {
         cityName: action.cityName,
       };
 
+    case CITY_NAME_RESET:
+      return {
+        ...state,
+        cityName: '',
+      };
+
     case TOGGLE_NAVCATEGORIES_OPEN:
       return {
         ...state,
@@ -206,7 +220,7 @@ function rootReducer(state = initialState, action) {
       };
 
     // --------------- Form
-    case FORM_FIELD:
+    case FORM_INPUT_FIELD:
       return {
         ...state,
         [action.name]: action.value,
@@ -252,7 +266,7 @@ function rootReducer(state = initialState, action) {
         [action.name]: [action.value],
       };
 
-    case FORM_CHECKBOX_OPTION_UPDATE:
+    case FORM_CHECKBOX_MULTI_OPTION_UPDATE:
       return {
         ...state,
         [action.name]: state[action.name].map((option) => (
@@ -263,13 +277,13 @@ function rootReducer(state = initialState, action) {
         )),
       };
 
-    case FORM_CHECKBOX_OPTION_ADD:
+    case FORM_CHECKBOX_MULTI_OPTION_ADD:
       return {
         ...state,
         [action.name]: [...state[action.name], action.value],
       };
 
-    case FORM_CHECKBOX_OPTION_REMOVE:
+    case FORM_CHECKBOX_MULTI_OPTION_REMOVE:
       return {
         ...state,
         [action.name]: state[action.name].filter((option) => option.id !== action.value.id),
