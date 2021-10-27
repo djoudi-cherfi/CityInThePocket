@@ -17,6 +17,7 @@ import './navidentitysidebar.scss';
 // == Composant
 const NavIdentitySidebar = ({
   cityName,
+  headermarket,
   HandleToggleIdentityOpen,
   HandleToggleIdentityOpenReset,
   toggleIdentityOpen,
@@ -39,6 +40,19 @@ const NavIdentitySidebar = ({
       {!logged && (
         <div className={identityOpen}>
           <ul className="navidentity-sidebar-list">
+            {headermarket && (
+              <li className="navidentity-sidebar-list-item">
+                <NavLink
+                  to="/"
+                  className="navidentity-sidebar-list-item-link"
+                  onClick={() => {
+                    HandleToggleIdentityOpen();
+                  }}
+                >
+                  Marketplaces
+                </NavLink>
+              </li>
+            )}
             <li className="navidentity-sidebar-list-item">
               <NavLink
                 to="/identity/login-register"
@@ -49,17 +63,6 @@ const NavIdentitySidebar = ({
                 }}
               >
                 Me connecter
-              </NavLink>
-            </li>
-            <li className="navidentity-sidebar-list-item">
-              <NavLink
-                to="/"
-                className="navidentity-sidebar-list-item-link"
-                onClick={() => {
-                  HandleToggleIdentityOpen();
-                }}
-              >
-                Marketplaces
               </NavLink>
             </li>
           </ul>
@@ -146,17 +149,19 @@ const NavIdentitySidebar = ({
                 </NavLink>
               </li>
 
-              <li className="navidentity-sidebar-list-item">
-                <NavLink
-                  to="/"
-                  className="navidentity-sidebar-list-item-link"
-                  onClick={() => {
-                    HandleToggleIdentityOpen();
-                  }}
-                >
-                  Marketplaces
-                </NavLink>
-              </li>
+              {headermarket && (
+                <li className="navidentity-sidebar-list-item">
+                  <NavLink
+                    to="/"
+                    className="navidentity-sidebar-list-item-link"
+                    onClick={() => {
+                      HandleToggleIdentityOpen();
+                    }}
+                  >
+                    Marketplaces
+                  </NavLink>
+                </li>
+              )}
 
               <li className="navidentity-sidebar-list-item">
                 <NavLink
@@ -186,6 +191,17 @@ const NavIdentitySidebar = ({
             </div>
 
             <ul className="navidentity-sidebar-list">
+              {headermarket && (
+                <li className="navidentity-sidebar-list-item">
+                  <NavLink
+                    to="/"
+                    className="navidentity-sidebar-list-item-link"
+                  >
+                    Marketplaces
+                  </NavLink>
+                </li>
+              )}
+
               <li className="navidentity-sidebar-list-item">
                 <NavLink
                   to="/account/dashboard"
@@ -193,15 +209,6 @@ const NavIdentitySidebar = ({
                   activeClassName="current"
                 >
                   Mon compte
-                </NavLink>
-              </li>
-
-              <li className="navidentity-sidebar-list-item">
-                <NavLink
-                  to="/"
-                  className="navidentity-sidebar-list-item-link"
-                >
-                  Marketplaces
                 </NavLink>
               </li>
 
@@ -226,6 +233,7 @@ const NavIdentitySidebar = ({
 
 NavIdentitySidebar.propTypes = {
   cityName: PropTypes.string.isRequired,
+  headermarket: PropTypes.bool.isRequired,
   HandleToggleIdentityOpen: PropTypes.func.isRequired,
   HandleToggleIdentityOpenReset: PropTypes.func.isRequired,
   toggleIdentityOpen: PropTypes.bool.isRequired,

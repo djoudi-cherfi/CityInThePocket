@@ -9,10 +9,6 @@ import { slugifyCategoryName } from 'src/utils';
 
 import logo from 'src/assets/images/logo/logo-city-in-the-pocket-color.svg';
 
-// == Import
-import FooterInfos from 'src/components/Footer/FooterInfos';
-import SocialNetworks from 'src/components/Footer/SocialNetworks';
-
 import './findcity.scss';
 
 const Findcity = ({ cities, futurcCities, HandleCity }) => (
@@ -53,11 +49,6 @@ const Findcity = ({ cities, futurcCities, HandleCity }) => (
           ))}
           …
         </ul>
-      </div>
-
-      <div className="findcity-footer">
-        <FooterInfos />
-        <SocialNetworks />
       </div>
     </div>
   </div>

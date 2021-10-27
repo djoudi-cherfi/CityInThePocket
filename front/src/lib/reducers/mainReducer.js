@@ -12,6 +12,7 @@ import {
   INFOS_REFS_SAVE,
   INFOS_NAME_SAVE,
   TOGGLE_SIDEBAR_TG_OPEN,
+  RESET_FORM,
   FORM_INPUT_FIELD,
   FORM_SELECT_OPTION_UPDATE,
   FORM_SELECT_OPTION_ADD,
@@ -287,6 +288,50 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         [action.name]: state[action.name].filter((option) => option.id !== action.value.id),
+      };
+
+    case RESET_FORM:
+      return {
+        ...state,
+        firstName: '',
+        lastName: '',
+        address: '',
+        postalCode: '',
+        city: '',
+        phoneNumber: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        loginEmail: '',
+        loginPassword: '',
+        updatePassword: '',
+        confirmUpdatePassword: '',
+        updateEmail: '',
+        confirmUpdateEmail: '',
+        forgotPassword: '',
+        resetPassword: '',
+        confirmResetPassword: '',
+        description: '',
+        selectOptions: [
+          { key: 'select_Option_0', value: 'Options', selected: true },
+          { key: 'select_Option_1', value: 'option 1', selected: false },
+          { key: 'select_Option_2', value: 'option 2', selected: false },
+          { key: 'select_Option_3', value: 'option 3', selected: false },
+        ],
+        selectOptionsSubmit: [],
+        radioOptions: [
+          { key: 'radio_Option_1', value: 'Option 1', checked: false },
+          { key: 'radio_Option_2', value: 'Option 2', checked: false },
+          { key: 'radio_Option_3', value: 'Option 3', checked: false },
+        ],
+        radioOptionsSubmit: [],
+        checkboxMultiOptions: [
+          { key: 'checkbox_Option_1', value: 'Option 1', checked: false },
+          { key: 'checkbox_Option_2', value: 'Option 2', checked: false },
+          { key: 'checkbox_Option_3', value: 'Option 3', checked: false },
+        ],
+        checkboxMultiOptionsSubmit: [],
+        date: null,
       };
 
     default:

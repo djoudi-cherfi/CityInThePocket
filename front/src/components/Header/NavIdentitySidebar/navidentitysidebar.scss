@@ -146,32 +146,15 @@
       flex-direction: row;
       justify-content: flex-end;
 
+      li:first-child {
+        padding: 0.5rem 0 0 0;
+      }
+
       .navidentity-sidebar-list-item {
         width: initial;
-        padding: 0.5rem 0 0;
+        padding: 0.5rem 0 0 1rem;
         white-space: nowrap;
         border-bottom: initial;
-  
-        &:nth-child(2) {
-          padding: 0.5rem 1rem 0;
-        }
-      }
-    }
-  }
-}
-
-// Breakpoint desktop
-@media screen and (min-width: vars.$breakpoint-desktop-min) {
-  // sidebar
-  .navidentity-sidebar {
-
-    .navidentity-sidebar-list{
-
-      .navidentity-sidebar-list-item {
-  
-        &:nth-child(2) {
-          padding: 0.5rem 2rem 0;
-        }
       }
     }
   }

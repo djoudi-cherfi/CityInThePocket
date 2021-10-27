@@ -1,7 +1,7 @@
 @use 'src/styles/vars';
 
 .findcity {
-  height: 100vh;
+  grid-area: main;
   display: grid;
   grid-template-areas: 'container';
   grid-template-columns: 1fr;

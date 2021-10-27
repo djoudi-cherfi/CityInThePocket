@@ -25,6 +25,9 @@ export const CURRENT_SLIDE_COUNT = 'CURRENT_SLIDE_COUNT';
 export const TOGGLE_SLIDE_OPEN = 'TOGGLE_SLIDE_OPEN';
 
 // Form
+// Reset state initialValues
+export const RESET_FORM = 'RESET_FORM';
+
 // Input
 export const FORM_INPUT_FIELD = 'FORM_INPUT_FIELD';
 
@@ -109,6 +112,10 @@ export const toggleSlideOpen = (currentSlide) => ({
 
 // Form
 // Input
+export const resetForm = () => ({
+  type: RESET_FORM,
+});
+
 export const formInputField = (value, name) => ({
   type: FORM_INPUT_FIELD,
   value,

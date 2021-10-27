@@ -17,7 +17,13 @@ import logo from 'src/assets/images/logo/logo-city-in-the-pocket-color.svg';
 import './header.scss';
 
 // == Composant
-const Header = ({ cityName, handelHeaderHeight }) => {
+const Header = ({
+  headercategory,
+  headermarket,
+  headerlogo,
+  cityName,
+  handelHeaderHeight,
+}) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -26,23 +32,27 @@ const Header = ({ cityName, handelHeaderHeight }) => {
 
   return (
     <header ref={ref} className="header">
-      <div className="navcategory">
-        <NavCategoryButton />
-        <NavCategorySidebar />
-      </div>
+      {headercategory && (
+        <div className="navcategory">
+          <NavCategoryButton />
+          <NavCategorySidebar />
+        </div>
+      )}
 
-      <Link to={`/${cityName}/home`} className="header-logo-cityinthepocket">
-        <img
-          src={logo}
-          srcSet={`${logo} 177w`}
-          sizes="(max-width: 273px) 177px,"
-          alt="logo city in the pocket"
-        />
-      </Link>
+      {headerlogo && (
+        <Link to={`/${cityName}/home`} className="header-logo-cityinthepocket">
+          <img
+            src={logo}
+            srcSet={`${logo} 177w`}
+            sizes="(max-width: 273px) 177px,"
+            alt="logo city in the pocket"
+          />
+        </Link>
+      )}
 
       <div className="navidentity">
         <NavIdentityButton />
-        <NavIdentitySidebar />
+        <NavIdentitySidebar headermarket={headermarket} />
       </div>
     </header>
   );
@@ -50,6 +60,9 @@ const Header = ({ cityName, handelHeaderHeight }) => {
 
 Header.propTypes = {
   cityName: PropTypes.string.isRequired,
+  headercategory: PropTypes.bool.isRequired,
+  headermarket: PropTypes.bool.isRequired,
+  headerlogo: PropTypes.bool.isRequired,
   handelHeaderHeight: PropTypes.func.isRequired,
 };
 

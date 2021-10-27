@@ -1,6 +1,7 @@
 @use 'src/styles/vars';
 
 .form-container {
+  grid-area: main;
 
   label {
     font-weight: vars.$font-bold;
@@ -19,7 +20,16 @@
     color: vars.$color-black;
     background-color: vars.$color-white;
     background-image: none;
-    border: 1px solid vars.$color-gray-light;
+    border: 0.1rem solid vars.$color-gray-light;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    height: 2rem;
+  }
+
+  input:focus {
+    border: 0.3rem solid vars.$color-gray-light;
   }
   
   .form-control,
