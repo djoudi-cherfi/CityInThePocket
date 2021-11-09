@@ -38,7 +38,7 @@ const App = ({
   loadCategoriesNames,
   categoryNamesLoaded,
   handleInfosData,
-  toggleSlideOpen,
+  toggleSlideProductOpen,
 }) => {
   const { TermsAndConditionsData, LegalNoticeData } = infosData;
 
@@ -54,13 +54,13 @@ const App = ({
           <ScrollToTop />
           <Switch>
             <Route exact path="/form">
-              <Header headercategory={false} headermarket headerlogo />
               <Form />
             </Route>
 
             <Route exact path="/">
               <Header headercategory={false} headermarket={false} headerlogo={false} />
               <FindCity />
+              <Footer />
             </Route>
 
             <Route
@@ -75,15 +75,17 @@ const App = ({
             >
               <Header headercategory={false} headermarket headerlogo />
               <Pages />
+              <Footer />
             </Route>
 
             <Route exact path="/:city/*">
-              {!toggleSlideOpen ? (
+              {toggleSlideProductOpen ? (
                 <Slider />
               ) : (
                 <>
                   <Header headercategory headermarket headerlogo />
                   <City />
+                  <Footer />
                 </>
               )}
             </Route>
@@ -91,10 +93,10 @@ const App = ({
             <Route path="*">
               <Header headercategory={false} headermarket headerlogo />
               <ErrorPage />
+              <Footer />
             </Route>
 
           </Switch>
-          <Footer />
         </>
       ) : (
         <Loader />
@@ -107,7 +109,7 @@ App.propTypes = {
   loadCategoriesNames: PropTypes.func.isRequired,
   categoryNamesLoaded: PropTypes.bool.isRequired,
   handleInfosData: PropTypes.func.isRequired,
-  toggleSlideOpen: PropTypes.bool.isRequired,
+  toggleSlideProductOpen: PropTypes.bool.isRequired,
 };
 
 // == Export

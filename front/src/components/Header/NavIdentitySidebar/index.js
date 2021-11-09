@@ -39,33 +39,65 @@ const NavIdentitySidebar = ({
     <>
       {!logged && (
         <div className={identityOpen}>
-          <ul className="navidentity-sidebar-list">
-            {headermarket && (
+          <MediaQuery maxWidth={breakpoint.laptopMax} onChange={handleMediaQueryChange}>
+            <ul className="navidentity-sidebar-list">
+              {headermarket && (
+                <li className="navidentity-sidebar-list-item">
+                  <NavLink
+                    to="/"
+                    className="navidentity-sidebar-list-item-link"
+                    onClick={() => {
+                      HandleToggleIdentityOpen();
+                    }}
+                  >
+                    Marketplaces
+                  </NavLink>
+                </li>
+              )}
               <li className="navidentity-sidebar-list-item">
                 <NavLink
-                  to="/"
+                  to="/identity/login-register"
                   className="navidentity-sidebar-list-item-link"
+                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
                 >
-                  Marketplaces
+                  Me connecter
                 </NavLink>
               </li>
-            )}
-            <li className="navidentity-sidebar-list-item">
-              <NavLink
-                to="/identity/login-register"
-                className="navidentity-sidebar-list-item-link"
-                activeClassName="current"
-                onClick={() => {
-                  HandleToggleIdentityOpen();
-                }}
-              >
-                Me connecter
-              </NavLink>
-            </li>
-          </ul>
+            </ul>
+          </MediaQuery>
+
+          <MediaQuery minWidth={breakpoint.laptopMin}>
+            <ul className="navidentity-sidebar-list">
+              {headermarket && (
+                <li className="navidentity-sidebar-list-item">
+                  <NavLink
+                    to="/"
+                    className="navidentity-sidebar-list-item-link"
+                    onClick={() => {
+                      HandleToggleIdentityOpen();
+                    }}
+                  >
+                    Marketplaces
+                  </NavLink>
+                </li>
+              )}
+              <li className="navidentity-sidebar-list-item">
+                <NavLink
+                  to="/identity/login-register"
+                  className="navidentity-sidebar-list-item-link"
+                  activeClassName="current"
+                  onClick={() => {
+                    HandleToggleIdentityOpen();
+                  }}
+                >
+                  Me connecter
+                </NavLink>
+              </li>
+            </ul>
+          </MediaQuery>
         </div>
       )}
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { currentSlideCount, toggleSlideOpen } from 'src/lib/actions/mainActions';
+import { currentSlideCount, toggleSlideProductClosed } from 'src/lib/actions/mainActions';
 
 // on importe le composant de présentation
 import Slider from 'src/components/Product/Slider';
@@ -23,9 +23,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(action);
   },
 
-  closeSlide: (value) => {
-    const action = toggleSlideOpen(value);
-    dispatch(action);
+  closeSlide: () => {
+    dispatch(toggleSlideProductClosed());
   },
 });
 

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { productIdUrlSave, productGet } from 'src/lib/actions/productActions';
 
-import { currentSlideCount, toggleSlideOpen } from 'src/lib/actions/mainActions';
+import { currentSlideCount, toggleSlideProductOpen } from 'src/lib/actions/mainActions';
 
 // on importe le composant de présentation
 import Product from 'src/components/Product';
@@ -18,7 +18,7 @@ const mapStateToProps = (state) => ({
   slidesData: state.products.slidesData,
   currentSlide: state.main.currentSlide,
   srcSlide: state.main.srcSlide,
-  toggleSlideOpen: state.main.toggleSlideOpen,
+  toggleSlideProductOpen: state.main.toggleSlideProductOpen,
 });
 
 // === mapDispatchToProps
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 
   openSlide: (value) => {
-    const action = toggleSlideOpen(value);
+    const action = toggleSlideProductOpen(value);
     dispatch(action);
   },
 });

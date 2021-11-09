@@ -22,7 +22,8 @@ export const TOGGLE_IDENTITY_OPEN_RESET = 'TOGGLE_IDENTITY_OPEN_RESET';
 
 // Slider button
 export const CURRENT_SLIDE_COUNT = 'CURRENT_SLIDE_COUNT';
-export const TOGGLE_SLIDE_OPEN = 'TOGGLE_SLIDE_OPEN';
+export const TOGGLE_SLIDE_PRODUCT_OPEN = 'TOGGLE_SLIDE_PRODUCT_OPEN';
+export const TOGGLE_SLIDE_PRODUCT_CLOSED = 'TOGGLE_SLIDE_PRODUCT_CLOSED';
 
 // Form
 // Reset state initialValues
@@ -105,9 +106,13 @@ export const currentSlideCount = (currentSlide) => ({
   currentSlide,
 });
 
-export const toggleSlideOpen = (currentSlide) => ({
-  type: TOGGLE_SLIDE_OPEN,
+export const toggleSlideProductOpen = (currentSlide) => ({
+  type: TOGGLE_SLIDE_PRODUCT_OPEN,
   currentSlide,
+});
+
+export const toggleSlideProductClosed = () => ({
+  type: TOGGLE_SLIDE_PRODUCT_CLOSED,
 });
 
 // Form

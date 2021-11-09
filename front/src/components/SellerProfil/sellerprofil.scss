@@ -1,6 +1,7 @@
 @use 'src/styles/vars';
 
 .sellerprofil {
+  grid-area: main;
   padding: vars.$padding-header-footer-medium 0;
 
   .sellerprofil-container {

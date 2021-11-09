@@ -11,7 +11,7 @@ import App from 'src/components/App';
 const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
   categoryNamesLoaded: state.shops.categoryNamesLoaded,
-  toggleSlideOpen: state.main.toggleSlideOpen,
+  toggleSlideProductOpen: state.main.toggleSlideProductOpen,
 });
 
 // === mapDispatchToProps

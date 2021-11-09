@@ -6,7 +6,8 @@ import {
   TOGGLE_IDENTITY_OPEN,
   TOGGLE_IDENTITY_OPEN_RESET,
   CURRENT_SLIDE_COUNT,
-  TOGGLE_SLIDE_OPEN,
+  TOGGLE_SLIDE_PRODUCT_OPEN,
+  TOGGLE_SLIDE_PRODUCT_CLOSED,
   HEADER_HEIGHT_SAVE,
   INFOS_DATA_SAVE,
   INFOS_REFS_SAVE,
@@ -120,7 +121,7 @@ const initialState = {
   toggleNavCategoryOpen: false,
   toggleIdentityOpen: false,
   currentSlide: 0,
-  toggleSlideOpen: false,
+  toggleSlideProductOpen: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -207,17 +208,24 @@ function rootReducer(state = initialState, action) {
         toggleIdentityOpen: false,
       };
 
+    // Slider button
     case CURRENT_SLIDE_COUNT:
       return {
         ...state,
         currentSlide: action.currentSlide,
       };
 
-    case TOGGLE_SLIDE_OPEN:
+    case TOGGLE_SLIDE_PRODUCT_OPEN:
       return {
         ...state,
-        toggleSlideOpen: !state.toggleSlideOpen,
+        toggleSlideProductOpen: true,
         currentSlide: action.currentSlide,
+      };
+
+    case TOGGLE_SLIDE_PRODUCT_CLOSED:
+      return {
+        ...state,
+        toggleSlideProductOpen: false,
       };
 
     // --------------- Form

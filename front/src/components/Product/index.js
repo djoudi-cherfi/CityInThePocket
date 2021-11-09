@@ -23,7 +23,7 @@ const ProductDetail = ({
   slidesData,
   currentSlide,
   openSlide,
-  toggleSlideOpen,
+  toggleSlideProductOpen,
 }) => {
   const { id } = useParams();
 
@@ -48,7 +48,7 @@ const ProductDetail = ({
       {productLoaded
         ? (
           <>
-            {toggleSlideOpen && (
+            {toggleSlideProductOpen === false && (
               <div className="product">
                 <div className="thumbnail">
                   {slidesData.map((slide, index) => (
@@ -118,7 +118,7 @@ ProductDetail.propTypes = {
   ).isRequired,
   currentSlide: PropTypes.number.isRequired,
   openSlide: PropTypes.func.isRequired,
-  toggleSlideOpen: PropTypes.bool.isRequired,
+  toggleSlideProductOpen: PropTypes.bool.isRequired,
 };
 
 // == Export

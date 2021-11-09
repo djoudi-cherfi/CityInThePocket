@@ -1,6 +1,7 @@
 @use 'src/styles/vars';
 
 .product {
+  grid-area: main;
   padding: vars.$padding-header-footer-medium 0;
 
   display: grid;
