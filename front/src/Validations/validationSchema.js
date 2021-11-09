@@ -163,7 +163,7 @@ const properties = {
 };
 
 // Function filters properties and returns a custom schema
-export const filteredProperties = (...schemas) => {
+export const filterValidation = (...schemas) => {
   const foudProperties = schemas.reduce((result, key) => (
     { ...result, [key]: properties[key] }), {});
 
@@ -171,4 +171,4 @@ export const filteredProperties = (...schemas) => {
   return Yup.object(foudProperties);
 };
 
-export default { filteredProperties };
+export default { filterValidation };

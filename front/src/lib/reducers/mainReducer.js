@@ -80,7 +80,7 @@ const initialState = {
   toggleSidebarTgOpen: false,
 
   // City name
-  cityName: 'paris',
+  cityName: '',
 
   // Cities
   cities: [

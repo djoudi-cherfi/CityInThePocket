@@ -1,7 +1,6 @@
 @use 'src/styles/vars';
 
 .category {
-  grid-area: main;
   padding: vars.$padding-header-footer-medium 0;
 
   .category-container {

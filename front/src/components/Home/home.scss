@@ -1,7 +1,6 @@
 @use 'src/styles/vars';
 
 .home {
-  grid-area: main;
   padding: vars.$padding-header-footer-medium 0;
 
   .home-list {

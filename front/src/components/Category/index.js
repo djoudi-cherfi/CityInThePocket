@@ -50,8 +50,8 @@ const Category = ({
 
   return (
     <>
-      {redirect && (<Redirect to="/paris/home" />)}
-      {city !== cityName && (<Redirect to="/paris/home" />)}
+      {redirect && (<Redirect to={`/${cityName}/category/`} />)}
+      {city !== cityName && (<Redirect to={`/${cityName}/category/`} />)}
       {shopsByCategoryLoaded ? (
         <div className="category">
           <Helmet>

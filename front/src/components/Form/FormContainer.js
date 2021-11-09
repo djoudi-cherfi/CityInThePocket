@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { Formik, Form } from 'formik';
 
-import { filteredProperties } from 'src/Validations/validationSchema';
+import { filterValidation } from 'src/Validations/validationSchema';
 
 import FormControl from 'src/components/Form/FormControl';
 
@@ -82,7 +82,7 @@ const FormContainer = ({
     date: date,
   };
 
-  const validationSchema = filteredProperties(
+  const validationSchema = filterValidation(
     'firstName',
     'lastName',
     'address',

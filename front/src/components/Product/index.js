@@ -10,9 +10,6 @@ import { Helmet } from 'react-helmet';
 // == Loader animation
 import Loader from 'src/components/Loader/LoaderCircle';
 
-// == Import
-import Slider from 'src/containers/Product/Slider';
-
 import './product.scss';
 
 // == Composant
@@ -99,9 +96,6 @@ const ProductDetail = ({
                 </div>
                 <p className="product-description">{product.description}</p>
               </div>
-            )}
-            {!toggleSlideOpen && (
-              <Slider {...product} />
             )}
           </>
         ) : (<Loader />)}

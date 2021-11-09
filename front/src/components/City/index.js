@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
 // == Router
 import { Route, Switch } from 'react-router-dom';
 
+// == Import header
+import Header from 'src/containers/Header';
+
 // == Import pages
 // Home page
 import Home from 'src/containers/Home';
@@ -18,6 +21,8 @@ import List from 'src/components/List';
 import SellerProfil from 'src/containers/SellerProfil';
 // Product page
 import Product from 'src/containers/Product';
+// Error page
+import ErrorPage from 'src/components/ErrorPage';
 
 // == Style
 import './city.scss';
@@ -46,6 +51,11 @@ const City = ({
 
       <Route exact path={`/${cityName}/product/:id`}>
         <Product />
+      </Route>
+
+      <Route path="*">
+        <Header headercategory headermarket headerlogo />
+        <ErrorPage />
       </Route>
     </Switch>
   </div>

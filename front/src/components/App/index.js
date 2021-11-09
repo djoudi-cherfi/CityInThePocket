@@ -16,21 +16,20 @@ import Header from 'src/containers/Header';
 import Footer from 'src/components/Footer';
 
 // ==  Import pages
+// FindCity page
 import FindCity from 'src/containers/FindCity';
+// City page
 import City from 'src/containers/City';
 // Identity login and register page
-import Identity from 'src/containers/Identity';
-// Identity other page
-import ForgotPassword from 'src/containers/Identity/ForgotPassword';
-import ResetPassword from 'src/containers/Identity/ResetPassword';
-// Account dashboard page
-import Account from 'src/containers/Account';
-// Information legal notice ant terms and conditions page
-import Informations from 'src/containers/Informations';
+import Pages from 'src/containers/Pages';
+
 // Error page
 import ErrorPage from 'src/components/ErrorPage';
 
 import Form from 'src/containers/Form/FormContainer';
+
+// == Import
+import Slider from 'src/containers/Product/Slider';
 
 import './styles.scss';
 
@@ -38,8 +37,8 @@ import './styles.scss';
 const App = ({
   loadCategoriesNames,
   categoryNamesLoaded,
-  logged,
   handleInfosData,
+  toggleSlideOpen,
 }) => {
   const { TermsAndConditionsData, LegalNoticeData } = infosData;
 
@@ -64,41 +63,36 @@ const App = ({
               <FindCity />
             </Route>
 
-            <Route exact path="/identity/login-register">
+            <Route
+              exact
+              path={[
+                '/identity/login-register',
+                '/identity/forgot-password',
+                '/identity/reset-password/:id/:slug',
+                '/account/:slug',
+                '/informations/:slug',
+              ]}
+            >
               <Header headercategory={false} headermarket headerlogo />
-              <Identity />
+              <Pages />
             </Route>
 
-            <Route exact path="/identity/forgot-password">
-              <Header headercategory={false} headermarket headerlogo />
-              <ForgotPassword />
-            </Route>
-
-            <Route exact path="/identity/reset-password/:id/:slug">
-              <Header headercategory={false} headermarket headerlogo />
-              <ResetPassword />
-            </Route>
-
-            {logged && (
-              <Route exact path="/account/:slug">
-                <Header headercategory={false} headermarket headerlogo />
-                <Account />
-              </Route>
-            )}
-
-            <Route exact path="/informations/:slug">
-              <Header headercategory={false} headermarket headerlogo />
-              <Informations />
-            </Route>
-
-            <Route exact path="/*">
-              <Header headercategory headermarket headerlogo />
-              <City />
+            <Route exact path="/:city/*">
+              {!toggleSlideOpen ? (
+                <Slider />
+              ) : (
+                <>
+                  <Header headercategory headermarket headerlogo />
+                  <City />
+                </>
+              )}
             </Route>
 
             <Route path="*">
+              <Header headercategory={false} headermarket headerlogo />
               <ErrorPage />
             </Route>
+
           </Switch>
           <Footer />
         </>
@@ -112,8 +106,8 @@ const App = ({
 App.propTypes = {
   loadCategoriesNames: PropTypes.func.isRequired,
   categoryNamesLoaded: PropTypes.bool.isRequired,
-  logged: PropTypes.bool.isRequired,
   handleInfosData: PropTypes.func.isRequired,
+  toggleSlideOpen: PropTypes.bool.isRequired,
 };
 
 // == Export

@@ -1,7 +1,6 @@
 @use 'src/styles/vars';
 
 .account {
-  grid-area: main;
 
 }
 
@@ -17,7 +16,6 @@
 // Breakpoint laptop
 @media screen and (min-width: vars.$breakpoint-laptop-min) {
   .account {
-    justify-self: center;
     padding: vars.$padding-header-footer-medium 0;
   
   
