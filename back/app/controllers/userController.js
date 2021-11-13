@@ -11,25 +11,32 @@ const emailTemplate = require("../templates/emailTemplate");
 const userController = {
 
     // Need refacto
+    validEmail: async (req, res) => {
+        const user = await User.findOneEmail(req.body.email);
+
+        if (user) {
+            // Si l'email est déjà utilisé
+            res.json({ "isUnique": false });
+        } else {
+            // Si l'email n'est pas déjà utilisé
+            res.json({ "isUnique": true });
+        }
+    },
+
     addOne: async (req, res) => {
 
         const userForm = req.body;
-        const user = await User.findOneEmail(req.body.email);
 
         if (!req.body.lastName || !req.body.firstName || !req.body.email ||
             !req.body.password || !req.body.confirmPassword ||
             !req.body.phone_number || !req.body.address || !req.body.city ||
-            !req.body.postal_code) {
+            !req.body.postal_code || !req.body.conditions_privacy_policy) {
 
             res.status(400).json({ "error": "Il manque des informations dans le formulaire" });
 
         } else if (req.body.password !== req.body.confirmPassword) {
 
             res.status(400).json({ "error": "Les mots de passe ne correspondent pas" });
-
-        } else if (user) {
-
-            res.status(400).json({ "error": "Adresse Mail déjà utilisée" });
 
         } else {
 

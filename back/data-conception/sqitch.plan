@@ -18,3 +18,4 @@ modifCoordinates 2021-08-18T14:14:19Z Etudiant O'clock <student@teleporter> # mo
 addCoordinateV2 2021-08-18T15:00:33Z Etudiant O'clock <student@teleporter> # ajout des coordonnes dans un autre format
 removeCoordinateV1 2021-08-18T15:08:04Z Etudiant O'clock <student@teleporter> # drop de latitude et longitude
 verifiedAccount 2021-09-15T05:29:37Z Etudiant O'clock <student@teleporter> # ajout d'une colonne verified, afin de valider le compte par mail
+addCppUser 2021-11-09T23:23:10Z System Administrator <root@imac-de-djoudi.home> # ajout de la colonne conditions_privacy_policy

@@ -4,6 +4,7 @@ const { Router } = require('express');
 const { auth } = require('./middlewares/token');
 const apiRouter = Router();
 
+const emailSchema = require('../schema/email');
 const userSchema = require('../schema/user');
 const shopSchema = require('../schema/shop');
 const productSchema = require('../schema/product');
@@ -33,6 +34,7 @@ apiRouter.get('/users', userController.getAll); // Renvoi tout les users
 apiRouter.post('/user/login', userController.doLogin); //
 apiRouter.get('/token', userController.refreshToken);
 
+apiRouter.post('/user/validemail', validateBody(emailSchema), userController.validEmail); // Check si un utilisateur
 apiRouter.post('/user', validateBody(userSchema), userController.addOne); // Créer un utilisateur
 // apiRouter.patch('/user/:id', userController.updateOneById) // Modifier un utilisateur par son id 
 apiRouter.delete('/user/:id', userController.deleteOneById); // Supprimer un utilisateur par son id 

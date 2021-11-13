@@ -33,7 +33,7 @@ class User {
      * @param {Object} data
      */
 
-    constructor (data = {}) {
+    constructor(data = {}) {
 
         for (const prop in data) {
 
@@ -49,7 +49,7 @@ class User {
      * @async
      * @static
      */
-    static async findAll () {
+    static async findAll() {
 
         const {
             rows
@@ -67,7 +67,7 @@ class User {
      * @static
      */
 
-    static async findOne (id) {
+    static async findOne(id) {
 
         const {
             rows
@@ -88,7 +88,7 @@ class User {
 
     }
 
-    static async findOneEmail (email) {
+    static async findOneEmail(email) {
 
         const {
             rows
@@ -109,7 +109,7 @@ class User {
 
     }
 
-    async save () {
+    async save() {
 
         // Si id, UPDATE, sinon, INSERT
         if (this.id) {
@@ -117,8 +117,8 @@ class User {
             // UPDATE
             try {
 
-                const {rows} = await db.query(
-                    'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11 WHERE id = $12 RETURNING id;',
+                const { rows } = await db.query(
+                    'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11 conditions_privacy_policy = $12 WHERE id = $13 RETURNING id;',
                     [
                         this.firstname,
                         this.lastname,
@@ -131,6 +131,7 @@ class User {
                         this.create_date,
                         this.password,
                         this.verified,
+                        this.conditions_privacy_policy,
                         this.id
                     ]
                 );
@@ -158,15 +159,16 @@ class User {
                 const {
                     rows
                 } = await db.query(
-                    'INSERT INTO "user" (firstName, lastName, email, phone_number, address, city, postal_code, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id;',
+                    'INSERT INTO "user" (firstName, lastName, address, city, postal_code, email, phone_number, conditions_privacy_policy, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;',
                     [
                         this.firstName,
                         this.lastName,
-                        this.email,
-                        this.phone_number,
                         this.address,
                         this.city,
                         this.postal_code,
+                        this.email,
+                        this.phone_number,
+                        this.conditions_privacy_policy,
                         encryptPassword
 
                     ]
@@ -188,7 +190,7 @@ class User {
     }
 
     // Delete the user
-    async delete () {
+    async delete() {
 
         if (this.id) {
 
