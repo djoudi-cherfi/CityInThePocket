@@ -2,112 +2,87 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { userLoginSchema } from 'src/Validations/UserLoginValidations';
+import { NavLink, useHistory } from 'react-router-dom';
 
-import { NavLink, Redirect } from 'react-router-dom';
+import { Formik, Form } from 'formik';
 
-// == Import
-import LoginField from './LoginField';
+import { filterValidation } from 'src/Validations/validationSchema';
+
+import FormControl from 'src/components/Form/FormControl';
 
 import './login.scss';
 
 // == Composant
 const Login = ({
-  cityName,
-  email,
-  password,
-  changeLoginField,
+  // Form
+  loginEmail,
+  loginPassword,
+
+  // Send state
+  changeInputField,
+
+  // Create account
   handleLoginCreate,
-  loginInputErrorMessage,
-  loginValidation,
-  serverLoginValidation,
-  logged,
-  serverErrorseStatus,
+
+  // Reset state initialValues
+  handleResetForm,
 }) => {
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
+  const history = useHistory();
 
-    const formData = {
-      email: evt.target[0].value,
-      password: evt.target[1].value,
-    };
+  // The initial values validated by Yup
+  const initialValues = {
+    loginEmail: loginEmail,
+    loginPassword: loginPassword,
+  };
 
-    // Si isValid est égale à true envoie du formulaire
-    const isValid = userLoginSchema.isValidSync(formData);
-    if (isValid === true) {
-      handleLoginCreate();
-    }
+  const validationSchema = filterValidation(
+    'loginEmail',
+    'loginPassword',
+  );
 
-    // Fonction validate qui retourne les erreurs yup des input
-    // avec abortEarly pour avoir toutes les erreurs dans un tableau inner
-    userLoginSchema
-      .validate(formData, { abortEarly: false })
-      .then(() => {
-        // Success
-      })
-      .catch((err) => {
-        // Récupère les erreurs yup des input (err.inner)
-        loginInputErrorMessage(err.inner);
-      });
+  // Send all values to...
+  const handleSubmit = (_, { setSubmitting }) => {
+    // make async call
+    setSubmitting(true);
+    handleLoginCreate();
+    handleResetForm();
+    history.goBack();
+    setSubmitting(false);
   };
 
   return (
     <div className="login">
-      <form autoComplete="off" className="login-form" onSubmit={handleSubmit}>
-        {serverErrorseStatus === 400 && (
-          <div className="login-form-input-alert">
-            <span>{serverLoginValidation}</span>
-          </div>
-        )}
-        <LoginField
-          type="email"
-          name="loginEmail"
-          placeholder="Adresse Email"
-          manageChange={changeLoginField}
-          value={email}
-        />
-        {loginValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'email'
-              && (
-                <span key={email} className="login-form-input-validation">
-                  {inner.message}
-                </span>
-              ),
-        )}
-        {loginValidation.map(
-          (inner) => inner.value.length > 0
-          && inner.type === 'matches'
-          && inner.path === 'email'
-            && (
-              <span key={email} className="login-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <LoginField
-          type="password"
-          name="loginPassword"
-          placeholder="Mot de passe"
-          manageChange={changeLoginField}
-          value={password}
-        />
-        {loginValidation.map(
-          (inner) => inner.value.length === 0
-          && inner.type === 'required'
-          && inner.path === 'password'
-            && (
-              <span key={password} className="login-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ isSubmitting, isValid }) => (
+          <Form>
+            <FormControl
+              control="input"
+              type="email"
+              label="Email"
+              name="loginEmail"
+              placeholder="email@email.com"
+              value={initialValues.loginEmail}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="password"
+              label="Mot de passe"
+              name="loginPassword"
+              placeholder="Min8@Max10"
+              value={initialValues.loginPassword}
+              formInputField={changeInputField}
+            />
 
-        <button type="submit" className="login-form-submit">
-          Connexion
-        </button>
-      </form>
+            <button className="form-container-submit-btn" type="submit" disabled={!isValid || isSubmitting}>Submit</button>
+          </Form>
+        )}
+      </Formik>
 
       <NavLink
         to="/identity/forgot-password"
@@ -115,50 +90,29 @@ const Login = ({
       >
         Mot passe oublié ?
       </NavLink>
-
-      {logged && <Redirect to={`/${cityName}/home`} />}
     </div>
   );
 };
 
 Login.propTypes = {
+  // City name in URL
   cityName: PropTypes.string.isRequired,
-  /** value for mail */
-  email: PropTypes.string.isRequired,
-  /** value for password */
-  password: PropTypes.string.isRequired,
-  /** called when onChange event is received by an input, two parameters :
-   * - new value
-   * - name
-   */
-  changeLoginField: PropTypes.func.isRequired,
-  /** called when the form is submitted */
-  handleLoginCreate: PropTypes.func.isRequired,
 
-  // Fonction d'envoi de l'objet erreur des input de yup
-  loginInputErrorMessage: PropTypes.func.isRequired,
-
-  loginValidation: PropTypes.arrayOf(
-    PropTypes.shape({
-      // Type d'erreur du shema yup
-      type: PropTypes.string,
-      // Type d'erreur du shema yup
-      value: PropTypes.string,
-      // Nom de l'input match avec yup
-      path: PropTypes.string,
-      // Message d'erreur de l'input avec yup
-      message: PropTypes.string,
-    }),
-  ).isRequired,
-
-  // Si logged redirection vers la home page
+  // Logged redirection vers la home page
   logged: PropTypes.bool.isRequired,
 
-  // Réponse message d'erreur du serveur
-  serverLoginValidation: PropTypes.string.isRequired,
+  // Form
+  loginEmail: PropTypes.string.isRequired,
+  loginPassword: PropTypes.string.isRequired,
 
-  // Réponse du submit status 400
-  serverErrorseStatus: PropTypes.number.isRequired,
+  // Send state
+  changeInputField: PropTypes.func.isRequired,
+
+  // Create account
+  handleLoginCreate: PropTypes.func.isRequired,
+
+  // Reset state initialValues
+  handleResetForm: PropTypes.func.isRequired,
 };
 
 // == Export

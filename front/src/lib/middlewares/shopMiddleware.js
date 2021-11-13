@@ -40,7 +40,7 @@ const shopMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     // --------------- Category
     case CATEGORY_NAMES_GET: {
-      instance.get('/category/')
+      axios.get(`${API_URL}/category/`)
         .then((response) => {
           // console.log('la réponse du serveur suite SHOPS_LAST_ADD_GET :', response);
           store.dispatch(categoryNamesSave(response.data));
@@ -53,7 +53,7 @@ const shopMiddleware = (store) => (next) => (action) => {
 
     // --------------- Shop last
     case SHOPS_LAST_ADD_GET: {
-      instance.get('/shop/last')
+      axios.get(`${API_URL}/shop/last`)
         .then((response) => {
           // console.log('response api for last shop', response);
           // console.log('la réponse du serveur suite SHOPS_LAST_ADD_GET :', response);
@@ -69,7 +69,7 @@ const shopMiddleware = (store) => (next) => (action) => {
     case SHOPS_BY_CATEGORY_GET: {
       const id = shops.categoryNameIdUrl;
 
-      instance.get(`/category/${id}/shops`)
+      axios.get(`${API_URL}/category/${id}/shops`)
         .then((response) => {
           // console.log('la réponse du serveur suite SHOPS_LAST_ADD_GET :', response);
           store.dispatch(shopsByCategorySave(response.data));
@@ -84,13 +84,13 @@ const shopMiddleware = (store) => (next) => (action) => {
     case SHOP_GET: {
       const id = shops.shopIdUrl;
 
-      instance.get(`/shop/${id}`)
+      axios.get(`${API_URL}/shop/${id}`)
         .then((response) => {
           // console.log('la réponse du serveur suite SHOPS_LAST_ADD_GET :', response);
           store.dispatch(shopSave(response.data));
         })
         .catch((error) => {
-          // console.log('l\'erreur du serveur suite SHOPS_BY_CATEGORY_GET :', error.response.data.error);
+          console.log('l\'erreur du serveur suite SHOPS_BY_CATEGORY_GET :', error.response.data.error);
         });
       break;
     }

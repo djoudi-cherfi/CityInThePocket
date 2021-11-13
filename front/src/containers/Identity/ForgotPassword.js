@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 
-import {
-  forgotPasswordField,
-  forgotPasswordCreate,
-  forgotPasswordValidationInput,
-} from 'src/lib/actions/authActions';
+// import {
+//   forgotPasswordField,
+//   forgotPasswordCreate,
+//   forgotPasswordValidationInput,
+// } from 'src/lib/actions/authActions';
 
 // on importe le composant de présentation
 import ForgotPassword from 'src/components/Identity/ForgotPassword';
@@ -25,20 +25,20 @@ const mapStateToProps = (state) => ({
 // si on a besoin de dispatcher des actions vers le store (modifier le state)
 const mapDispatchToProps = (dispatch) => ({
   // nom de la prop à remplir: fonction qui dispatch l'action
-  changeForgotPasswordField: (value, name) => {
-    const action = forgotPasswordField(value, name);
-    dispatch(action);
-  },
+  // changeForgotPasswordField: (value, name) => {
+  //   const action = forgotPasswordField(value, name);
+  //   dispatch(action);
+  // },
 
-  handleForgotPasswordCreate: () => {
-    const action = forgotPasswordCreate();
-    dispatch(action);
-  },
+  // handleForgotPasswordCreate: () => {
+  //   const action = forgotPasswordCreate();
+  //   dispatch(action);
+  // },
 
-  forgotPasswordErrorMessage: (value) => {
-    const action = forgotPasswordValidationInput(value);
-    dispatch(action);
-  },
+  // forgotPasswordErrorMessage: (value) => {
+  //   const action = forgotPasswordValidationInput(value);
+  //   dispatch(action);
+  // },
 });
 
 // === création de l'assistant

@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import axios from 'axios';
 
 const firstnameRegExp = /^(?=.*[a-zA-Z])[a-zA-Z ']{1,}$/;
 const lastnameRegExp = /^(?=.*[a-zA-Z])[a-zA-Z ']{1,}$/;
@@ -9,7 +10,6 @@ const emailRegExp = /^([A-Za-z0-9_\-.])+@([A-Za-z_\-.])+\.([A-Za-z]{2,3})$/;
 const passwordRegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,30}$/;
 
 // == properties for schema
-
 const properties = {
   // Register
   firstName: Yup
@@ -51,6 +51,22 @@ const properties = {
   email: Yup
     .string()
     .email()
+    .test('checkSingleEmail', 'Cette email est déjà utilisé', async (email) => {
+      let validEmail = true;
+      try {
+        if (!email) {
+          return validEmail;
+        }
+        const { data: { isUnique } } = await axios.post(
+          `${API_URL}/user/validemail`, { email: email },
+        );
+        validEmail = isUnique;
+      }
+      catch (error) {
+        console.error(error);
+      }
+      return validEmail;
+    })
     .matches(emailRegExp,
       'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
     .required('Veuillez entrer votre email'),
@@ -78,6 +94,22 @@ const properties = {
     .email()
     .matches(emailRegExp,
       'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .test('checkSingleEmail', 'Cette email n\'est pas utilisé', async (email) => {
+      let validEmail = true;
+      try {
+        if (!email) {
+          return validEmail;
+        }
+        const { data: { isUnique } } = await axios.post(
+          `${API_URL}/user/validemail`, { email: email },
+        );
+        validEmail = !isUnique;
+      }
+      catch (error) {
+        console.error(error);
+      }
+      return validEmail;
+    })
     .required('Veuillez entrer votre email'),
 
   loginPassword: Yup

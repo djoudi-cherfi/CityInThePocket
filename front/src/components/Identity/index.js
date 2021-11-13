@@ -20,10 +20,6 @@ const Identity = ({
   handleToggleLogin,
   handleToggleRegister,
 }) => {
-  const toggleBtn = classNames('identity-container-button-switch', {
-    switch: toggleLoginRegister,
-  });
-
   const colorBtnLogin = classNames('identity-container-button-login', {
     switch: toggleLoginRegister,
   });
@@ -39,34 +35,32 @@ const Identity = ({
         <meta name="description" content={toggleLoginRegister ? 'login' : 'register'} />
       </Helmet>
 
-      <div className="identity-container-button">
-        <NavLink
-          to="/identity/login-register"
-          className={colorBtnLogin}
-          onClick={() => {
-            handleToggleLogin();
-          }}
-        >
-          Connexion
-        </NavLink>
+      <div className="identity-container">
+        <div className="identity-container-button">
+          <NavLink
+            to="/identity/login-register"
+            className={colorBtnLogin}
+            onClick={() => {
+              handleToggleLogin();
+            }}
+          >
+            Connexion
+          </NavLink>
 
-        <NavLink
-          to="/identity/login-register"
-          className={colorBtnRegister}
-          onClick={() => {
-            handleToggleRegister();
-          }}
-        >
-          Inscription
-        </NavLink>
-        {/* <div className={toggleBtn}> </div> */}
-      </div>
+          <NavLink
+            to="/identity/login-register"
+            className={colorBtnRegister}
+            onClick={() => {
+              handleToggleRegister();
+            }}
+          >
+            Inscription
+          </NavLink>
+        </div>
 
-      <div className="identity-container-form">
         {toggleLoginRegister && (
           <Register />
         )}
-
         {!toggleLoginRegister && (
           <Login />
         )}

@@ -43,9 +43,9 @@
     margin-bottom: 1rem;
   }
   
-  .form-control-radiobutton-labels,
-  .form-control-checkbox-labels {
-    display: inline;
+  .form-control-checkbox {
+    display: flex;
+    flex-direction: row;
   }
   
   .form-control-datepicker {
@@ -97,6 +97,8 @@
       background-color: vars.$color-gray-dark;
     }
   }
+  
+  .form-container-submit-btn {}
   
   .error {
     color: vars.$color-purple;

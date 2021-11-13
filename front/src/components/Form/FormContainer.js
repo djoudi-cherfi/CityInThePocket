@@ -344,7 +344,7 @@ const FormContainer = ({
               value={initialValues.date}
               formInputField={changeInputField}
             />
-            <button type="submit" disabled={!isValid || isSubmitting}>Submit</button>
+            <button className="form-container-submit-btn" type="submit" disabled={!isValid || isSubmitting}>Submit</button>
           </Form>
         )}
       </Formik>

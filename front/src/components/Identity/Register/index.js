@@ -2,401 +2,209 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { userRegisterSchema } from 'src/Validations/UserRegisterValidations';
+import { useHistory } from 'react-router-dom';
 
-import { Redirect } from 'react-router-dom';
+import { Formik, Form } from 'formik';
 
-// == Import
-import RegisterField from './RegisterField';
-import RegisterFieldCheckBox from './RegisterFieldCheckBox';
+import { filterValidation } from 'src/Validations/validationSchema';
+
+import FormControl from 'src/components/Form/FormControl';
 
 import './register.scss';
 
 // == Composant
 const Register = ({
-  cityName,
+  // Form
   firstName,
   lastName,
-  city,
-  postalCode,
-  phoneNumber,
   address,
+  postalCode,
+  city,
+  phoneNumber,
   email,
   password,
   confirmPassword,
   conditionsPrivacyPolicy,
-  changeRegisterField,
+
+  // Send state
+  changeInputField,
+
+  // Create account
   handleRegisterCreate,
-  registerInputErrorMessage,
-  isValidConfirmPassword,
-  registerValidationConfirmPassword,
-  registerValidation,
-  serverRegisterValidation,
-  registred,
-  serverErrorseStatus,
+
+  // Reset state initialValues
+  handleResetForm,
 }) => {
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
+  const history = useHistory();
 
-    const formData = {
-      firstName: evt.target[0].value,
-      lastName: evt.target[1].value,
-      address: evt.target[2].value,
-      postalCode: evt.target[3].value,
-      city: evt.target[4].value,
-      phoneNumber: evt.target[5].value,
-      email: evt.target[6].value,
-      password: evt.target[7].value,
-      confirmPassword: evt.target[8].value,
-    };
+  // The initial values validated by Yup
+  const initialValues = {
+    firstName: firstName,
+    lastName: lastName,
+    address: address,
+    postalCode: postalCode,
+    city: city,
+    phoneNumber: phoneNumber,
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+    conditionsPrivacyPolicy: conditionsPrivacyPolicy,
+  };
 
-    // Si isValid est égale à true envoie du formulaire
-    const isValid = userRegisterSchema.isValidSync(formData);
-    if (isValid === true) {
-      handleRegisterCreate();
-    }
-    // console.log(isValid);
+  const validationSchema = filterValidation(
+    'firstName',
+    'lastName',
+    'address',
+    'postalCode',
+    'city',
+    'phoneNumber',
+    'email',
+    'password',
+    'confirmPassword',
+    'conditionsPrivacyPolicy',
+  );
 
-    const inputPassword = password.length > 0;
-    isValidConfirmPassword(inputPassword);
-
-    // Fonction validate qui retourne les erreurs yup des input
-    // avec abortEarly pour avoir toutes les erreurs dans un tableau inner
-    userRegisterSchema
-      .validate(formData, { abortEarly: false })
-      .then(() => {
-        // Success
-      })
-      .catch((err) => {
-        // console.log(err);
-        // Récupère les erreurs yup des input (err.inner)
-        registerInputErrorMessage(err.inner);
-      });
+  // Send all values to...
+  const handleSubmit = (_, { setSubmitting }) => {
+    // make async call
+    setSubmitting(true);
+    handleRegisterCreate();
+    handleResetForm();
+    history.goBack();
+    setSubmitting(false);
   };
 
   return (
     <div className="register">
-      <form autoComplete="off" className="register-form" onSubmit={handleSubmit}>
-        {serverErrorseStatus === 400 && (
-          <div className="register-form-input-alert">
-            <span>{serverRegisterValidation}</span>
-          </div>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <FormControl
+              control="input"
+              type="text"
+              label="Prénom"
+              name="firstName"
+              placeholder="Michel"
+              value={initialValues.firstName}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="text"
+              label="Nom"
+              name="lastName"
+              placeholder="Dupont"
+              value={initialValues.lastName}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="text"
+              label="Address"
+              name="address"
+              placeholder="5 rue de la boetie"
+              value={initialValues.address}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="text"
+              label="Code postal"
+              name="postalCode"
+              placeholder="75008"
+              value={initialValues.postalCode}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="text"
+              label="Ville"
+              name="city"
+              placeholder="Paris"
+              value={initialValues.city}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="text"
+              label="Numéro de télephone"
+              name="phoneNumber"
+              placeholder="0123456789"
+              value={initialValues.phoneNumber}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="email"
+              label="Email"
+              name="email"
+              placeholder="email@email.com"
+              value={initialValues.email}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="password"
+              label="Mot de passe"
+              name="password"
+              placeholder="Min8@Max10"
+              value={initialValues.password}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="input"
+              type="password"
+              label="Confirmer votre mot de passe"
+              name="confirmPassword"
+              placeholder="Min8@Max10"
+              value={initialValues.confirmPassword}
+              formInputField={changeInputField}
+            />
+            <FormControl
+              control="checkboxSample"
+              type="checkbox"
+              label="Politique de confidentialité et conditions d'utilisation"
+              name="conditionsPrivacyPolicy"
+              formInputField={changeInputField}
+              value={initialValues.conditionsPrivacyPolicy}
+            />
+            <button className="form-container-submit-btn" type="submit" disabled={isSubmitting}>Submit</button>
+          </Form>
         )}
-        <RegisterField
-          type="text"
-          name="firstName"
-          placeholder="Prénom"
-          manageChange={changeRegisterField}
-          value={firstName}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'firstName'
-            && (
-              <span key={firstName} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'firstName'
-            && (
-              <span key={firstName} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="text"
-          name="lastName"
-          placeholder="Nom"
-          manageChange={changeRegisterField}
-          value={lastName}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'lastName'
-            && (
-              <span key={lastName} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'lastName'
-            && (
-              <span key={lastName} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="text"
-          name="address"
-          placeholder="Adresse"
-          manageChange={changeRegisterField}
-          value={address}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'address'
-            && (
-              <span key={address} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'address'
-            && (
-              <span key={address} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          name="postalCode"
-          placeholder="Code postal"
-          manageChange={changeRegisterField}
-          value={postalCode}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'postalCode'
-            && (
-              <span key={postalCode} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'postalCode'
-            && (
-              <span key={postalCode} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="text"
-          name="city"
-          placeholder="Ville"
-          manageChange={changeRegisterField}
-          value={city}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'city'
-            && (
-              <span key={city} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'city'
-            && (
-              <span key={city} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="tel"
-          name="phoneNumber"
-          placeholder="Numéro de téléphone"
-          manageChange={changeRegisterField}
-          value={phoneNumber}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'phoneNumber'
-            && (
-              <span key={phoneNumber} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'phoneNumber'
-            && (
-              <span key={phoneNumber} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="email"
-          name="email"
-          placeholder="Adresse Email"
-          manageChange={changeRegisterField}
-          value={email}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'email'
-            && (
-              <span key={email} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'email'
-            && (
-              <span key={email} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="password"
-          name="password"
-          placeholder="Mot de passe"
-          manageChange={changeRegisterField}
-          value={password}
-        />
-        {registerValidation.map(
-          (inner) => inner.value.length === 0
-            && inner.type === 'required'
-            && inner.path === 'password'
-            && (
-              <span key={password} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'password'
-            && (
-              <span key={password} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-        <RegisterField
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirmer mot de passe"
-          manageChange={changeRegisterField}
-          value={confirmPassword}
-        />
-        {registerValidationConfirmPassword === true && (
-          <span key={confirmPassword} className="register-form-input-validation">
-            Veuillez confirmer votre mot de passe
-          </span>
-        )}
-        {registerValidation.map(
-          (inner) => inner.value.length > 0
-            && inner.type === 'matches'
-            && inner.path === 'confirmPassword'
-            && (
-              <span key={confirmPassword} className="register-form-input-validation">
-                {inner.message}
-              </span>
-            ),
-        )}
-
-        <RegisterFieldCheckBox
-          type="checkbox"
-          name="conditionsPrivacyPolicy"
-          manageChange={changeRegisterField}
-          value={conditionsPrivacyPolicy}
-        />
-
-        <button type="submit" className="register-form-submit">
-          S'inscire
-        </button>
-      </form>
-
-      {registred && <Redirect to={`/${cityName}/home`} />}
+      </Formik>
     </div>
   );
 };
 
 Register.propTypes = {
-  cityName: PropTypes.string.isRequired,
-  // value for firstName
-  firstName: PropTypes.string.isRequired,
-  // value for lasname
-  lastName: PropTypes.string.isRequired,
-  // value for phoneNumber
-  phoneNumber: PropTypes.string.isRequired,
-  // value for city
-  city: PropTypes.string.isRequired,
-  // value for city
-  address: PropTypes.string.isRequired,
-  // value for city
-  postalCode: PropTypes.string.isRequired,
-  // value for mail
-  email: PropTypes.string.isRequired,
-  // value for password
-  password: PropTypes.string.isRequired,
-  // value for confirmPassword
-  confirmPassword: PropTypes.string.isRequired,
-  // conditionsPrivacyPolicy
-  conditionsPrivacyPolicy: PropTypes.bool.isRequired,
-  /** called when onChange event is received by an input, two parameters :
-   * - new value
-   * - name
-   */
-  changeRegisterField: PropTypes.func.isRequired,
-  // called when the form is submitted
-  handleRegisterCreate: PropTypes.func.isRequired,
-
-  // Fonction d'envoi de l'objet erreur des input de yup
-  registerInputErrorMessage: PropTypes.func.isRequired,
-
-  // Envoie true si l'input password est renseigné
-  isValidConfirmPassword: PropTypes.func.isRequired,
-
-  // Récupérere la valeur true ou false de l'input password
-  registerValidationConfirmPassword: PropTypes.bool.isRequired,
-
-  registerValidation: PropTypes.arrayOf(
-    PropTypes.shape({
-      // Type d'erreur du shema yup
-      type: PropTypes.string,
-      // Type d'erreur du shema yup
-      value: PropTypes.string,
-      // Nom de l'input match avec yup
-      path: PropTypes.string,
-      // Message d'erreur de l'input avec yup
-      message: PropTypes.string,
-    }),
-  ).isRequired,
-
   // Registred redirection vers le compte utilisateur
   registred: PropTypes.bool.isRequired,
 
-  // Réponse message d'erreur du serveur
-  serverRegisterValidation: PropTypes.string.isRequired,
+  // Form
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  postalCode: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  confirmPassword: PropTypes.string.isRequired,
+  conditionsPrivacyPolicy: PropTypes.bool.isRequired,
 
-  // Réponse du submit status 400
-  serverErrorseStatus: PropTypes.number.isRequired,
+  // Send state
+  changeInputField: PropTypes.func.isRequired,
+
+  // Create account
+  handleRegisterCreate: PropTypes.func.isRequired,
+
+  // Reset state initialValues
+  handleResetForm: PropTypes.func.isRequired,
 };
 
 // == Export

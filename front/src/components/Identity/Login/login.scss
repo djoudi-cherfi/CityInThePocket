@@ -1,50 +1,48 @@
 @use 'src/styles/vars';
 
 .login {
+  grid-area: form;
 
-  .login-form {
+  .form-control-input {
+    margin-bottom: 1rem;
 
-    .loginfield-input-label {
-      .loginfield-input {
-        width: 100%;
-        height: 2rem;
-        margin: 1rem 0 0;
-        padding: 1rem;
-        border-radius: 1rem;
-        border: none;
-      }
+    label {
+      font-weight: vars.$font-bold;
+      display: block;
+      margin: 0.3rem;
     }
-
-    .login-form-input-alert {
-      width: 100%;
-      padding: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: vars.$font-small;
-      color: vars.$color-white;
-      border-radius: 2rem;
-      background-color: vars.$color-purple;
-    }
-
-    .login-form-input-validation {
-      width: 100%;
-      margin: 0.5rem 0 0;
-      display: inline-block;
-      font-size: vars.$font-small;
-      color: vars.$color-purple;
-    }
-
-    .login-form-submit {
+    
+    input[type="email"],
+    input[type="password"] {
+      display: block;
       width: 100%;
       height: 2rem;
-      margin: 1rem 0 0;
-      font-size: vars.$font-medium;
-      color: vars.$color-white;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      color: vars.$color-black;
+      background-color: vars.$color-white;
+      background-image: none;
+      border: 0.1rem solid vars.$color-gray-light;
       border-radius: 1rem;
-      border: none;
-      background-color: vars.$color-purple;
     }
+  
+    input:focus {
+      border: 0.3rem solid vars.$color-purple;
+    }
+  }
+
+  .form-container-submit-btn {
+    width: 100%;
+    height: 2rem;
+    font-size: vars.$font-medium;
+    color: vars.$color-white;
+    border-radius: 1rem;
+    border: none;
+    background-color: vars.$color-purple;
+  }
+
+  .error {
+    color: vars.$color-purple;
   }
 
   .login-forgot-password {

@@ -3,28 +3,15 @@ import {
   TOGGLE_LOGIN,
   TOGGLE_REGISTER,
   // --------------- Register
-  USER_IDENTITY_FIELD,
   REGISTRED,
   // --------------- Login
   LOGIN_USER_SAVE,
   USER_IDENTITY_SAVE,
   // --------------- Forgot password
-  FORGOT_PASSWORD_EMAIL_INPUT_FIELD,
   FORGOT_PASSWORD_SENT,
   // --------------- Reset password
   RESET_PASSWORD_PARAMS,
-  RESET_PASSWORD_INPUT_FIELD,
   RESET_PASSWORD_SENT,
-  // --------------- Register validation
-  REGISTER_VALIDATION_INPUT,
-  REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT,
-  // --------------- Login validation
-  LOGIN_VALIDATION_INPUT,
-  // --------------- Forgot password validation
-  FORGOT_PASSWORD_VALIDATION_INPUT,
-  // --------------- Reset password validation
-  RESET_PASSWORD_VALIDATION_INPUT,
-  RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT,
   // --------------- Logout
   LOGOUT_USER_SAVE,
 } from 'src/lib/actions/authActions';
@@ -34,49 +21,26 @@ const initialState = {
   toggleLoginRegister: false,
 
   // --------------- Register
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  address: '',
-  city: '',
-  postalCode: '',
-  phoneNumber: '',
-  conditionsPrivacyPolicy: true,
-
-  registerValidation: [],
-  registerValidationConfirmPassword: false,
   registred: false,
 
   // --------------- Login
-  loginEmail: '',
-  loginPassword: '',
   userId: null,
   verified: false,
   xsrfToken: null,
   accessTokenExpiresIn: null,
   refreshTokenExpiresIn: null,
 
-  loginValidation: [],
   logged: false,
 
   userIdentity: {},
   userIdentityload: false,
 
   // --------------- Forgot password
-  forgotPassword: '',
-  forgotPasswordValidation: [],
   forgotPasswordSent: false,
 
   // --------------- Reset password
   resetPassworUserId: '',
   resetPassworToken: '',
-  resetPassword: '',
-  resetPasswordConfirm: '',
-
-  resetPasswordValidation: [],
-  resetPasswordValidationConfirmPassword: false,
   resetPasswordSent: false,
 
   // --------------- Logout
@@ -101,12 +65,6 @@ function authReducer(state = initialState, action) {
       };
 
     // --------------- Register
-    case USER_IDENTITY_FIELD:
-      return {
-        ...state,
-        [action.name]: action.value,
-      };
-
     case REGISTRED:
       return {
         ...state,
@@ -133,12 +91,6 @@ function authReducer(state = initialState, action) {
       };
 
     // --------------- Forgot password
-    case FORGOT_PASSWORD_EMAIL_INPUT_FIELD:
-      return {
-        ...state,
-        [action.name]: action.value,
-      };
-
     case FORGOT_PASSWORD_SENT:
       return {
         ...state,
@@ -155,12 +107,6 @@ function authReducer(state = initialState, action) {
         resetPassworToken: action.slug,
       };
 
-    case RESET_PASSWORD_INPUT_FIELD:
-      return {
-        ...state,
-        [action.name]: action.value,
-      };
-
     case RESET_PASSWORD_SENT:
       return {
         ...state,
@@ -171,46 +117,6 @@ function authReducer(state = initialState, action) {
         resetPasswordConfirm: '',
         resetPasswordValidation: [],
         resetPasswordValidationConfirmPassword: false,
-      };
-
-    // --------------- Validation register
-    case REGISTER_VALIDATION_INPUT:
-      return {
-        ...state,
-        registerValidation: action.registerValidation,
-      };
-
-    case REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT:
-      return {
-        ...state,
-        registerValidationConfirmPassword: action.registerValidationConfirmPassword,
-      };
-
-    // --------------- Validation login
-    case LOGIN_VALIDATION_INPUT:
-      return {
-        ...state,
-        loginValidation: action.loginValidation,
-      };
-
-    // --------------- Forgot password validation
-    case FORGOT_PASSWORD_VALIDATION_INPUT:
-      return {
-        ...state,
-        forgotPasswordValidation: action.forgotPasswordValidation,
-      };
-
-    // --------------- Reset password validation
-    case RESET_PASSWORD_VALIDATION_INPUT:
-      return {
-        ...state,
-        resetPasswordValidation: action.resetPasswordValidation,
-      };
-
-    case RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT:
-      return {
-        ...state,
-        resetPasswordValidationConfirmPassword: action.resetPasswordValidationConfirmPassword,
       };
 
     // --------------- Logout

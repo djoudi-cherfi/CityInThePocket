@@ -39,7 +39,7 @@ const productsMiddleware = (store) => (next) => (action) => {
     // --------------- Product last
     case PRODUCT_LAST_ADD_GET: {
       // console.log('authMiddleware va traiter une action Listproducts');
-      instance.get('/product/last')
+      axios.get(`${API_URL}/product/last`)
         .then((response) => {
           // console.log('response api for last product', response);
           // veut stocker response.data dans le state
@@ -56,7 +56,7 @@ const productsMiddleware = (store) => (next) => (action) => {
       const id = shops.shopIdUrl;
 
       if (id) {
-        instance.get(`/shop/${id}/products`)
+        axios.get(`${API_URL}/shop/${id}/products`)
           .then((response) => {
             // console.log('response api for shop PRODUCTS_BY_SHOP_GET', response);
             store.dispatch(productsByShopSave(response.data));
@@ -73,7 +73,7 @@ const productsMiddleware = (store) => (next) => (action) => {
       const id = products.productIdUrl;
 
       if (id) {
-        instance.get(`/product/${id}`)
+        axios.get(`${API_URL}/product/${id}`)
           .then((response) => {
             // console.log('response api for shop PRODUCTS_BY_SHOP_GET', response);
             store.dispatch(productSave(response.data));

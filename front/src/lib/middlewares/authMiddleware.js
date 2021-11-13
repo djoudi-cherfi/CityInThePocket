@@ -42,6 +42,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
   // On récupére le tiroir du state
   const { auth } = store.getState();
+  const { form } = store.getState();
 
   const instance = axios.create({
     // Inclure des cookies et des en-têtes d'authentification
@@ -59,19 +60,18 @@ const authMiddleware = (store) => (next) => (action) => {
   switch (action.type) {
     // --------------- Register
     case USER_IDENTITY_CREATE: {
-      instance
-        .post('/user/', {
-          firstName: auth.firstName,
-          lastName: auth.lastName,
-          address: auth.address,
-          city: auth.city,
-          postal_code: auth.postalCode,
-          email: auth.email,
-          password: auth.password,
-          confirmPassword: auth.confirmPassword,
-          phone_number: auth.phoneNumber,
-          // conditions_privacy_policy: auth.conditionsPrivacyPolicy,
-        })
+      axios.post(`${API_URL}/user/`, {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        address: form.address,
+        postal_code: form.postalCode,
+        city: form.city,
+        phone_number: form.phoneNumber,
+        email: form.email,
+        password: form.password,
+        confirmPassword: form.confirmPassword,
+        conditions_privacy_policy: form.conditionsPrivacyPolicy,
+      })
         .then((response) => {
           // console.log('la réponse du serveur USER_IDENTITY_CREATE :', response.status);
           if (response.status) {
@@ -80,7 +80,7 @@ const authMiddleware = (store) => (next) => (action) => {
         })
         .catch((error) => {
           // console.log('l\'erreur du serveur USER_IDENTITY_CREATE :', error.response.data);
-          store.dispatch(serverValidationInput(error.response.data.error));
+          // store.dispatch(serverValidationInput(error.response.data.message));
           store.dispatch(serverErrorseStatusSave(error.response.status));
         });
       break;
@@ -90,8 +90,8 @@ const authMiddleware = (store) => (next) => (action) => {
     case LOGIN: {
       instance
         .post('/user/login', {
-          email: auth.loginEmail,
-          password: auth.loginPassword,
+          email: form.loginEmail,
+          password: form.loginPassword,
         })
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
@@ -117,10 +117,9 @@ const authMiddleware = (store) => (next) => (action) => {
 
     // --------------- Forgot password
     case FORGOT_PASSWORD_EMAIL_INPUT_CREATE: {
-      instance
-        .post('/forget-password', {
-          email: auth.forgotPassword,
-        })
+      axios.post(`${API_URL}/forget-password`, {
+        email: auth.forgotPassword,
+      })
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
           if (response.status) {
@@ -138,16 +137,12 @@ const authMiddleware = (store) => (next) => (action) => {
     // --------------- Reset password
     case RESET_PASSWORD_INPUT_CREATE: {
       const { resetPassworUserId, resetPassworToken } = auth;
-      console.log(`/reset-password/${resetPassworUserId}/${resetPassworToken}`);
-      console.log(auth.resetPassword);
-      console.log(auth.resetPasswordConfirm);
 
       if (resetPassworUserId && resetPassworToken) {
-        instance
-          .post(`/reset-password/${resetPassworUserId}/${resetPassworToken}`, {
-            resetPassword: auth.resetPassword,
-            resetPasswordConfirm: auth.resetPasswordConfirm,
-          })
+        axios.post(`${API_URL}/reset-password/${resetPassworUserId}/${resetPassworToken}`, {
+          resetPassword: auth.resetPassword,
+          resetPasswordConfirm: auth.resetPasswordConfirm,
+        })
           .then((response) => {
             // console.log('la réponse du serveur LOGIN :', response);
             store.dispatch(serverResponseStatusSave(response.status));
@@ -167,8 +162,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
       if (userId) {
         // const id = userId.toString();
-        instance
-          .get(`/user/${userId}`)
+        instance.get(`/user/${userId}`)
           .then((response) => {
             // console.log('la réponse du serveur USER_IDENTITY_GET :', response);
 
@@ -189,8 +183,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
       if (userID) {
         const id = userID.toString(10);
-        instance
-          .get(`/shop/user/${id}`)
+        instance.get(`/shop/user/${id}`)
           // console.log('la réponse du serveur SHOP_USER_ID_GET :', response);
           .then((response) => {
             // console.log('response api for shop userID', response);
@@ -205,8 +198,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
     // --------------- Login
     case LOGOUT: {
-      instance
-        .get('/user/logout')
+      axios.get(`${API_URL}/user/logout`)
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
           store.dispatch(serverResponseStatusSave(response.status));

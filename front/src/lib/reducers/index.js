@@ -10,6 +10,7 @@ import { encryptTransform } from 'redux-persist-transform-encrypt';
 import servReducer from 'src/lib/reducers/servReducer';
 import mainReducer from 'src/lib/reducers/mainReducer';
 import authReducer from 'src/lib/reducers/authReducer';
+import formReducer from 'src/lib/reducers/formReducer';
 import shopReducer from 'src/lib/reducers/shopReducer';
 import productReducer from 'src/lib/reducers/productReducer';
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   serv: servReducer,
   main: mainReducer,
   auth: authReducer,
+  form: formReducer,
   shops: shopReducer,
   products: productReducer,
 });
@@ -26,7 +28,7 @@ const rootReducer = combineReducers({
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['main', 'auth', 'shops', 'products'],
+  whitelist: ['main', 'auth', 'form', 'shops', 'products'],
   transforms: [
     encryptTransform({
       secretKey: 'my-super-secret-key',
