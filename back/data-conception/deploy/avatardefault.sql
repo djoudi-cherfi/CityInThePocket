@@ -4,4 +4,5 @@ BEGIN;
 
 ALTER TABLE "user"
 ALTER COLUMN "avatar" SET DEFAULT 'avatar.png';
+
 COMMIT;

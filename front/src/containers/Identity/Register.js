@@ -11,8 +11,6 @@ import Register from 'src/components/Identity/Register';
 // si on a besoin de lire des informations dans le state
 const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
-  registred: state.auth.registred,
-
   firstName: state.form.firstName,
   lastName: state.form.lastName,
   address: state.form.address,

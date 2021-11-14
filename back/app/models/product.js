@@ -1,5 +1,3 @@
-"use strict";
-
 const db = require('../database');
 
 /**
@@ -18,154 +16,111 @@ const db = require('../database');
  */
 
 class Product {
+  /**
+   *
+   * @param {Object} data
+   */
 
-    /**
-     *
-     * @param {Object} data
-     */
+  constructor(data = {}) {
+    Object.keys(data).forEach((prop) => {
+      this[prop] = data[prop];
+    });
+  }
 
-    constructor (data = {}) {
+  /**
+   * Fetches every product in the database
+   * @returns {Array<Product>}
+   * @async
+   * @static
+   */
+  static async findAll() {
+    const { rows } = await db.query('SELECT * FROM product;');
 
-        for (const prop in data) {
+    return rows.map((row) => new Product(row));
+  }
 
-            this[prop] = data[prop];
+  /**
+   * Fetches a single product from the database
+   * @param {number} id
+   * @returns {Product|null}
+   * @async
+   * @static
+   */
 
-        }
+  static async findOne(id) {
+    const { rows } = await db.query(
+      'SELECT * FROM product WHERE id = $1;',
+      [id],
+    );
 
+    if (rows[0]) {
+      return new Product(rows[0]);
     }
+    return null;
+  }
 
-    /**
-     * Fetches every product in the database
-     * @returns {Array<Product>}
-     * @async
-     * @static
-     */
-    static async findAll () {
+  static async findLastest() {
+    const { rows } = await db.query('SELECT * FROM product ORDER BY id DESC LIMIT 5;');
 
-        const {
-            rows
-        } = await db.query('SELECT * FROM product;');
+    return rows.map((row) => new Product(row));
+  }
 
-        return rows.map((row) => new Product(row));
+  async save() {
+    // si id, UPDATE, sinon, INSERT
+    if (this.id) {
+      // UPDATE
+      try {
+        const { rows } = await db.query(
+          'UPDATE "product" SET name = $1, description = $2, price = $3, shop_id = $4 WHERE id = $5',
+          [
+            this.name,
+            this.description,
+            this.price,
+            this.shop_id,
+            this.id,
+          ],
+        );
+        return rows;
+      }
+      catch (err) {
+        // Lance une erreur sql précise
+        throw new Error(err.detail);
+      }
 
+      // INSERT
     }
-
-    /**
-     * Fetches a single product from the database
-     * @param {number} id
-     * @returns {Product|null}
-     * @async
-     * @static
-     */
-
-    static async findOne (id) {
-
-        const {
-            rows
-        } = await db.query(
-            'SELECT * FROM product WHERE id = $1;',
-            [id]
+    else {
+      try {
+        const { rows } = await db.query(
+          'INSERT INTO product (name, description, price, shop_id) VALUES ($1, $2, $3, $4) RETURNING id;',
+          [
+            this.name,
+            this.description,
+            this.price,
+            this.shop_id,
+          ],
         );
 
-        if (rows[0]) {
+        this.id = rows[0].id;
 
-            return new Product(rows[0]);
-
-        } else {
-
-            return null;
-
-        }
-
+        return this.id;
+      }
+      catch (err) {
+        // Lance une erreur sql précise
+        throw new Error(err.detail);
+      }
     }
+  }
 
-    static async findLastest () {
-
-        const {
-            rows
-        } = await db.query('SELECT * FROM product ORDER BY id DESC LIMIT 5;');
-
-        return rows.map((row) => new Product(row));
-
+  // Delete the product
+  async delete() {
+    if (this.id) {
+      await db.query(
+        'DELETE FROM "product" WHERE id = $1',
+        [this.id],
+      );
     }
-
-
-    async save () {
-
-        // si id, UPDATE, sinon, INSERT
-        if (this.id) {
-
-            // UPDATE
-            try {
-
-                const {
-                    rows
-                } = await db.query(
-                    'UPDATE "product" SET name = $1, description = $2, price = $3, shop_id = $4 WHERE id = $5',
-                    [
-                        this.name,
-                        this.description,
-                        this.price,
-                        this.shop_id,
-                        this.id
-                    ]
-                );
-                return rows;
-
-            } catch (err) {
-
-                // Lance une erreur sql précise
-                throw new Error(err.detail);
-
-            }
-
-            // INSERT
-
-        } else {
-
-            try {
-
-                const {
-                    rows
-                } = await db.query(
-                    'INSERT INTO product (name, description, price, shop_id) VALUES ($1, $2, $3, $4) RETURNING id;',
-                    [
-                        this.name,
-                        this.description,
-                        this.price,
-                        this.shop_id
-                    ]
-                );
-
-                this.id = rows[0].id;
-
-                return this.id;
-
-            } catch (err) {
-
-                // Lance une erreur sql précise
-                throw new Error(err.detail);
-
-            }
-
-        }
-
-    }
-
-    // Delete the product
-    async delete () {
-
-        if (this.id) {
-
-            await db.query(
-                'DELETE FROM "product" WHERE id = $1',
-                [this.id]
-            );
-
-        }
-
-    }
-
+  }
 }
 
 module.exports = Product;

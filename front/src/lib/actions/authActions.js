@@ -26,8 +26,9 @@ export const USER_IDENTITY_SAVE = 'USER_IDENTITY_SAVE';
 
 // --------------- Forgot password
 // page /identity/forgot-password
-export const FORGOT_PASSWORD_EMAIL_INPUT_CREATE = 'FORGOT_PASSWORD_EMAIL_INPUT_CREATE';
 export const FORGOT_PASSWORD_SENT = 'FORGOT_PASSWORD_SENT';
+export const FORGOT_PASSWORD_SENT_STATUS_RESET = 'FORGOT_PASSWORD_SENT_STATUS_RESET';
+export const FORGOT_PASSWORD_SENT_STATUS = 'FORGOT_PASSWORD_SENT_STATUS';
 
 // --------------- Reset password
 // page /identity/reset-password/:id/:slug
@@ -114,12 +115,16 @@ export const userIdentitySave = (userIdentity) => ({
 
 // --------------- Forgot Password
 // page /identity/forgot-password
-export const forgotPasswordCreate = () => ({
-  type: FORGOT_PASSWORD_EMAIL_INPUT_CREATE,
-});
-
 export const forgotPasswordSent = () => ({
   type: FORGOT_PASSWORD_SENT,
+});
+
+export const forgotPasswordSentStatusReset = () => ({
+  type: FORGOT_PASSWORD_SENT_STATUS_RESET,
+});
+
+export const forgotPasswordSentStatus = () => ({
+  type: FORGOT_PASSWORD_SENT_STATUS,
 });
 
 // --------------- Reset Password

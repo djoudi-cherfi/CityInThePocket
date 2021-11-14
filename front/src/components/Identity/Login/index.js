@@ -26,6 +26,9 @@ const Login = ({
 
   // Reset state initialValues
   handleResetForm,
+
+  // Reset status forgotPasswordSentStatus
+  handleForgotPasswordSentStatusReset,
 }) => {
   const history = useHistory();
 
@@ -87,6 +90,7 @@ const Login = ({
       <NavLink
         to="/identity/forgot-password"
         className="login-forgot-password"
+        onClick={handleForgotPasswordSentStatusReset}
       >
         Mot passe oublié ?
       </NavLink>
@@ -95,12 +99,6 @@ const Login = ({
 };
 
 Login.propTypes = {
-  // City name in URL
-  cityName: PropTypes.string.isRequired,
-
-  // Logged redirection vers la home page
-  logged: PropTypes.bool.isRequired,
-
   // Form
   loginEmail: PropTypes.string.isRequired,
   loginPassword: PropTypes.string.isRequired,
@@ -113,6 +111,9 @@ Login.propTypes = {
 
   // Reset state initialValues
   handleResetForm: PropTypes.func.isRequired,
+
+  // Reset status forgotPasswordSentStatus
+  handleForgotPasswordSentStatusReset: PropTypes.func.isRequired,
 };
 
 // == Export

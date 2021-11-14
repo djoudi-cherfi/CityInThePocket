@@ -1,17 +1,12 @@
-"use strict";
-
 const emailTemplate = {
 
-    validationEmailData: (user, link) => {
-
-        const data =
-
-        {
-            from: "contact.cityinthepocket@gmail.com",
-            to: user.email,
-            subject: "CityInThePocket - Confirmer votre compte",
-            html:
-            `<html> 
+  validationEmailData: (user, link) => {
+    const data = {
+      from: 'contact.cityinthepocket@gmail.com',
+      to: user.email,
+      subject: 'CityInThePocket - Confirmer votre compte',
+      html:
+        `<html> 
                 <head style="background-color:#95E6DD;">
                     <div style="background-color:#95E6DD;"> 
                         <div style="margin:auto; padding:10px; max-width:50%; max-height:50%;">
@@ -37,22 +32,19 @@ const emailTemplate = {
                         </a>
                     </div>
                 </body>
-            </html>`
-        };
+            </html>`,
+    };
 
-        return data;
+    return data;
+  },
 
-
-    },
-
-    forgetPasswordForm: (user, link) => {
-
-        const data = {
-            from: "contact.cityinthepocket@gmail.com",
-            to: user.email,
-            subject: "CityInThePocket - Réinitialisation de votre mot de passe",
-            html:
-            `<html> 
+  forgetPasswordForm: (user, link) => {
+    const data = {
+      from: 'contact.cityinthepocket@gmail.com',
+      to: user.email,
+      subject: 'CityInThePocket - Réinitialisation de votre mot de passe',
+      html:
+        `<html> 
                 <head style="background-color:#95E6DD;">
                     <div style="background-color:#95E6DD;"> 
                         <div style="margin:auto; padding:10px; max-width:50%; max-height:50%;">
@@ -79,13 +71,10 @@ const emailTemplate = {
                         </a>
                     </div>
                 </body>
-            </html>`
-        };
-
-        return data;
-
-    }
-
+            </html>`,
+    };
+    return data;
+  },
 };
 
 module.exports = emailTemplate;

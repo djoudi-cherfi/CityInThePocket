@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 
-// import {
-//   forgotPasswordField,
-//   forgotPasswordCreate,
-//   forgotPasswordValidationInput,
-// } from 'src/lib/actions/authActions';
+import { resetForm, formInputField } from 'src/lib/actions/formActions';
+
+import { forgotPasswordSent } from 'src/lib/actions/authActions';
 
 // on importe le composant de présentation
 import ForgotPassword from 'src/components/Identity/ForgotPassword';
@@ -13,32 +11,29 @@ import ForgotPassword from 'src/components/Identity/ForgotPassword';
 // si on a besoin de lire des informations dans le state
 const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
-  forgotPassword: state.auth.forgotPassword,
-  forgotPasswordValidation: state.auth.forgotPasswordValidation,
-  forgotPasswordSent: state.auth.forgotPasswordSent,
-
-  serverForgotPasswordValidation: state.serv.serverForgotPasswordValidation,
-  serverErrorseStatus: state.serv.serverErrorseStatus,
+  forgotPassword: state.form.forgotPassword,
+  forgotPasswordSentStatus: state.auth.forgotPasswordSentStatus,
 });
 
 // === mapDispatchToProps
 // si on a besoin de dispatcher des actions vers le store (modifier le state)
 const mapDispatchToProps = (dispatch) => ({
   // nom de la prop à remplir: fonction qui dispatch l'action
-  // changeForgotPasswordField: (value, name) => {
-  //   const action = forgotPasswordField(value, name);
-  //   dispatch(action);
-  // },
+  handleResetForm: () => {
+    // console.log(`value: ${value}, name: ${name}`);
+    dispatch(resetForm());
+  },
 
-  // handleForgotPasswordCreate: () => {
-  //   const action = forgotPasswordCreate();
-  //   dispatch(action);
-  // },
+  changeInputField: (value, name) => {
+    // console.log(`value: ${value}, name: ${name}`);
+    const action = formInputField(value, name);
+    dispatch(action);
+  },
 
-  // forgotPasswordErrorMessage: (value) => {
-  //   const action = forgotPasswordValidationInput(value);
-  //   dispatch(action);
-  // },
+  handleForgotPasswordSent: () => {
+    // console.log('submit du formulaires');
+    dispatch(forgotPasswordSent());
+  },
 });
 
 // === création de l'assistant

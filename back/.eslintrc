@@ -1,0 +1,35 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "rules": {
+    "no-console": "off",
+    "camelcase": "off",
+    "brace-style": [
+      "error",
+      "stroustrup"
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-mixed-operators": [
+      "error",
+      {
+        "allowSamePrecedence": true
+      }
+    ],
+    "func-names": "off",
+    "object-shorthand": "off"
+  }
+}

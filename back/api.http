@@ -35,16 +35,16 @@ POST http://localhost:5000/v1/user/
 Content-Type: application/json
 
 {
-    "firstName": "peter",
-    "lastName": "quill",
-    "address":"5 rue la boetie",
-    "postal_code":"75008",
-    "city":"Paris",
-    "phone_number":"0123456789",
-    "email": "djoudi.cherfi@outlook.com",
-    "password": "Min8@Max10",
-    "confirmPassword": "Min8@Max10",
-    "conditions_privacy_policy": true
+  "firstName": "peter",
+  "lastName": "quill",
+  "address":"5 rue la boetie",
+  "postal_code":"75008",
+  "city":"Paris",
+  "phone_number":"0123456789",
+  "email": "djoudi.cherfi@outlook.com",
+  "password": "Min8@Max10",
+  "confirmPassword": "Min8@Max10",
+  "conditions_privacy_policy": true
 }
 
 ###
@@ -61,7 +61,7 @@ Content-Type: application/json
 }
 
 ### Supprime un utilisateur par son id 
-DELETE http://localhost:5000/v1/user/24
+DELETE http://localhost:5000/v1/user/26
 
 
 ##############################################################################################
@@ -81,10 +81,10 @@ POST http://localhost:5000/v1/product/
 Content-Type: application/json
 
 {
-    "name": "test",
-    "description": "superjg,hj,jghn,hg,hg truc bleu",
-    "price": 240,
-    "shop_id": 8
+  "name": "test",
+  "description": "superjg,hj,jghn,hg,hg truc bleu",
+  "price": 240,
+  "shop_id": 8
 }
 
 ### Supprime un produit
@@ -117,14 +117,14 @@ POST   http://localhost:5000/v1/shop/
 Content-Type: application/json
 
 {
-                    "company_name": "Toulouse Shop",
-                    "siret":"89070935500014", 
-                    "description":"Supeeeeeeeeer boutique jdcbyezbcyebcyezbcuzec",
-                    "phone_number":"0467899568",
-                    "email":"boutique@aol.com",
-                    "user_id":3,
-                    "marketplace_id":1,
-                    "category_id":2
+  "company_name": "Toulouse Shop",
+  "siret":"89070935500014", 
+  "description":"Supeeeeeeeeer boutique jdcbyezbcyebcyezbcuzec",
+  "phone_number":"0467899568",
+  "email":"boutique@aol.com",
+  "user_id":3,
+  "marketplace_id":1,
+  "category_id":2
 }
 
 
@@ -162,7 +162,7 @@ POST http://localhost:5000/v1/forget-password
 Content-Type: application/json
 
 {
-    "email": "@hotmail.fr"
+  "email": "@hotmail.fr"
 }
 
 ####
@@ -174,7 +174,7 @@ POST http://localhost:5000/v1/reset-password/4/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV
 Content-Type: application/json
 
 {
-    "password": "TestDuMDP2",
-    "passwordConfirm": "TestDuMDP2"
+  "password": "TestDuMDP2",
+  "passwordConfirm": "TestDuMDP2"
 }
 

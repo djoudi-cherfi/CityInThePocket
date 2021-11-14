@@ -70,7 +70,8 @@ const App = ({
                 '/identity/forgot-password',
                 '/identity/reset-password/:id/:slug',
                 '/account/:slug',
-                '/informations/:slug',
+                '/informations/conditions-generales',
+                '/informations/mentions-legales',
               ]}
             >
               <Header headercategory={false} headermarket headerlogo />

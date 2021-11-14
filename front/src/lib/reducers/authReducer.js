@@ -7,8 +7,9 @@ import {
   // --------------- Login
   LOGIN_USER_SAVE,
   USER_IDENTITY_SAVE,
-  // --------------- Forgot password
-  FORGOT_PASSWORD_SENT,
+  // --------------- Forgot password status
+  FORGOT_PASSWORD_SENT_STATUS_RESET,
+  FORGOT_PASSWORD_SENT_STATUS,
   // --------------- Reset password
   RESET_PASSWORD_PARAMS,
   RESET_PASSWORD_SENT,
@@ -35,8 +36,8 @@ const initialState = {
   userIdentity: {},
   userIdentityload: false,
 
-  // --------------- Forgot password
-  forgotPasswordSent: false,
+  // --------------- Forgot password status
+  forgotPasswordSentStatus: false,
 
   // --------------- Reset password
   resetPassworUserId: '',
@@ -90,13 +91,17 @@ function authReducer(state = initialState, action) {
         userIdentityload: true,
       };
 
-    // --------------- Forgot password
-    case FORGOT_PASSWORD_SENT:
+    // --------------- Forgot password status
+    case FORGOT_PASSWORD_SENT_STATUS_RESET:
       return {
         ...state,
-        forgotPasswordSent: true,
-        forgotPassword: '',
-        forgotPasswordValidation: [],
+        forgotPasswordSentStatus: false,
+      };
+
+    case FORGOT_PASSWORD_SENT_STATUS:
+      return {
+        ...state,
+        forgotPasswordSentStatus: true,
       };
 
     // --------------- Reset password

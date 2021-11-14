@@ -17,8 +17,8 @@ import {
   userIdentityGet,
   userIdentitySave,
   // --------------- Forgot password
-  FORGOT_PASSWORD_EMAIL_INPUT_CREATE,
-  forgotPasswordSent,
+  FORGOT_PASSWORD_SENT,
+  forgotPasswordSentStatus,
   // --------------- Reset password
   RESET_PASSWORD_INPUT_CREATE,
   resetPasswordSent,
@@ -116,15 +116,15 @@ const authMiddleware = (store) => (next) => (action) => {
     }
 
     // --------------- Forgot password
-    case FORGOT_PASSWORD_EMAIL_INPUT_CREATE: {
+    case FORGOT_PASSWORD_SENT: {
       axios.post(`${API_URL}/forget-password`, {
-        email: auth.forgotPassword,
+        email: form.forgotPassword,
       })
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
           if (response.status) {
             store.dispatch(serverResponseStatusSave(response.status));
-            store.dispatch(forgotPasswordSent());
+            store.dispatch(forgotPasswordSentStatus());
           }
         })
         .catch((error) => {

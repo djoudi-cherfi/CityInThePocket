@@ -103,22 +103,22 @@ const ResetPassword = ({
 
             {resetPasswordValidation.map(
               (inner) => inner.value.length === 0
-              && inner.type === 'required'
-              && inner.path === 'password' && (
-                <span key={resetPassword} className="resetpassword-form-input-alert">
-                  {inner.message}
-                </span>
-              ),
+                && inner.type === 'required'
+                && inner.path === 'password' && (
+                  <span key={resetPassword} className="resetpassword-form-input-alert">
+                    {inner.message}
+                  </span>
+                ),
             )}
 
             {resetPasswordValidation.map(
               (inner) => inner.value.length > 0
-              && inner.type === 'matches'
-              && inner.path === 'password' && (
-                <span key={resetPassword} className="resetpassword-form-input-alert">
-                  {inner.message}
-                </span>
-              ),
+                && inner.type === 'matches'
+                && inner.path === 'password' && (
+                  <span key={resetPassword} className="resetpassword-form-input-alert">
+                    {inner.message}
+                  </span>
+                ),
             )}
 
             <div className="resetpassword-form-input-wrap">
@@ -140,13 +140,13 @@ const ResetPassword = ({
 
             {resetPasswordValidation.map(
               (inner) => inner.value.length > 0
-              && inner.type === 'matches'
-              && inner.path === 'confirmPassword'
-              && (
-                <span key={resetPasswordConfirm} className="resetpassword-form-alert">
-                  {inner.message}
-                </span>
-              ),
+                && inner.type === 'matches'
+                && inner.path === 'confirmPassword'
+                && (
+                  <span key={resetPasswordConfirm} className="resetpassword-form-alert">
+                    {inner.message}
+                  </span>
+                ),
             )}
 
             <button type="submit" className="resetpassword-form-submit">

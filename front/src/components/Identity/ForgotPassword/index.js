@@ -5,49 +5,47 @@ import PropTypes from 'prop-types';
 // == Head html informations
 import { Helmet } from 'react-helmet';
 
-import { forgotPasswordSchema } from 'src/Validations/ForgotPasswordValidations';
+import { Formik, Form } from 'formik';
 
-// == Import
-import ForgotField from './ForgotField';
+import { filterValidation } from 'src/Validations/validationSchema';
+
+import FormControl from 'src/components/Form/FormControl';
 
 import './forgotpassword.scss';
 
 // == Composant
 const ForgotPassword = ({
+  // Form
   forgotPassword,
-  changeForgotPasswordField,
-  handleForgotPasswordCreate,
-  forgotPasswordErrorMessage,
-  forgotPasswordValidation,
-  forgotPasswordSent,
-  serverForgotPasswordValidation,
-  serverErrorseStatus,
+
+  // Send state
+  changeInputField,
+
+  // Send email
+  handleForgotPasswordSent,
+
+  // Reset state initialValues
+  handleResetForm,
+
+  // Status
+  forgotPasswordSentStatus,
 }) => {
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
+  // The initial values validated by Yup
+  const initialValues = {
+    forgotPassword: forgotPassword,
+  };
 
-    const formData = {
-      email: evt.target[0].value,
-    };
+  const validationSchema = filterValidation(
+    'forgotPassword',
+  );
 
-    // Si isValid est égale à true envoie du formulaire
-    const isValid = forgotPasswordSchema.isValidSync(formData);
-    if (isValid === true) {
-      handleForgotPasswordCreate();
-    }
-
-    // Fonction validate qui retourne les erreurs yup des input
-    // avec abortEarly pour avoir toutes les erreurs dans un tableau inner
-    forgotPasswordSchema
-      .validate(formData, { abortEarly: false })
-      .then(() => {
-        // Success
-      })
-      .catch((err) => {
-        // console.log(err);
-        // Récupère les erreurs yup des input (err.inner)
-        forgotPasswordErrorMessage(err.inner);
-      });
+  // Send all values to...
+  const handleSubmit = (_, { setSubmitting }) => {
+    // make async call
+    setSubmitting(true);
+    handleForgotPasswordSent();
+    handleResetForm();
+    setSubmitting(false);
   };
 
   return (
@@ -56,7 +54,7 @@ const ForgotPassword = ({
         <title>Forgot password</title>
         <meta name="description" content="Page forgot password" />
       </Helmet>
-      {forgotPasswordSent ? (
+      {forgotPasswordSentStatus ? (
         <div className="forgotpassword-message">
           <h3 className="forgotpassword-message-title">Mot de passe oublié ?</h3>
 
@@ -84,48 +82,30 @@ const ForgotPassword = ({
             </p>
           </div>
 
-          <form autoComplete="off" className="forgotpassword-form" onSubmit={handleSubmit}>
-            {serverErrorseStatus === 400 && (
-              <div className="forgotpassword-form-alert">
-                <span>{serverForgotPasswordValidation}</span>
-              </div>
-            )}
+          <div className="form">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+              enableReinitialize
+            >
+              {({ isSubmitting, isValid }) => (
+                <Form>
+                  <FormControl
+                    control="input"
+                    type="email"
+                    label="Email"
+                    name="forgotPassword"
+                    placeholder="email@email.com"
+                    value={initialValues.forgotPassword}
+                    formInputField={changeInputField}
+                  />
 
-            <div className="forgotpassword-form-input-wrap">
-              <span className="forgotpassword-form-input-label">Mot de passe</span>
-              <ForgotField
-                type="email"
-                name="forgotPassword"
-                placeholder="nom@mail.com"
-                manageChange={changeForgotPasswordField}
-                value={forgotPassword}
-              />
-            </div>
-
-            {forgotPasswordValidation.map(
-              (inner) => inner.value.length === 0
-                && inner.type === 'required'
-                && inner.path === 'email' && (
-                  <span key={forgotPassword} className="forgotpassword-form-input-alert">
-                    {inner.message}
-                  </span>
-              ),
-            )}
-
-            {forgotPasswordValidation.map(
-              (inner) => inner.value.length > 0
-                && inner.type === 'matches'
-                && inner.path === 'email' && (
-                  <span key={forgotPassword} className="forgotpassword-form-input-alert">
-                    {inner.message}
-                  </span>
-              ),
-            )}
-
-            <button type="submit" className="forgotpassword-form-submit">
-              Soumettre
-            </button>
-          </form>
+                  <button className="form-container-submit-btn" type="submit" disabled={!isValid || isSubmitting}>Submit</button>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </>
       )}
 
@@ -134,40 +114,20 @@ const ForgotPassword = ({
 };
 
 ForgotPassword.propTypes = {
-  // value for resetPassword
+  // Form
   forgotPassword: PropTypes.string.isRequired,
-  /** called when onChange event is received by an input, two parameters :
-   * - new value
-   * - name
-   */
-  changeForgotPasswordField: PropTypes.func.isRequired,
-  // called when the form is submitted
-  handleForgotPasswordCreate: PropTypes.func.isRequired,
 
-  // Fonction d'envoi de l'objet erreur des input de yup
-  forgotPasswordErrorMessage: PropTypes.func.isRequired,
+  // Send state
+  changeInputField: PropTypes.func.isRequired,
 
-  forgotPasswordValidation: PropTypes.arrayOf(
-    PropTypes.shape({
-      // Type d'erreur du shema yup
-      type: PropTypes.string,
-      // Valeur d'erreur du shema yup
-      value: PropTypes.string,
-      // Nom de l'input match avec yup
-      path: PropTypes.string,
-      // Message d'erreur de l'input avec yup
-      message: PropTypes.string,
-    }),
-  ).isRequired,
+  // Create account
+  handleForgotPasswordSent: PropTypes.func.isRequired,
 
-  // forgotPasswordSent redirection vers le compte utilisateur
-  forgotPasswordSent: PropTypes.bool.isRequired,
+  // Reset state initialValues
+  handleResetForm: PropTypes.func.isRequired,
 
-  // Réponse message d'erreur du serveur
-  serverForgotPasswordValidation: PropTypes.string.isRequired,
-
-  // Réponse du submit status 400
-  serverErrorseStatus: PropTypes.number.isRequired,
+  // Status
+  forgotPasswordSentStatus: PropTypes.bool.isRequired,
 };
 
 // == Export

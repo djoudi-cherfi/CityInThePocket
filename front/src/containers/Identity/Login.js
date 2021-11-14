@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { resetForm, formInputField } from 'src/lib/actions/formActions';
 
-import { logIn } from 'src/lib/actions/authActions';
+import { logIn, forgotPasswordSentStatusReset } from 'src/lib/actions/authActions';
 
 // on importe le composant de présentation
 import Login from 'src/components/Identity/Login';
@@ -11,9 +11,6 @@ import Login from 'src/components/Identity/Login';
 // si on a besoin de lire des informations dans le state
 const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
-  cityName: state.main.cityName,
-  logged: state.auth.logged,
-
   loginEmail: state.form.loginEmail,
   loginPassword: state.form.loginPassword,
   rememberPassword: state.form.rememberPassword,
@@ -37,6 +34,11 @@ const mapDispatchToProps = (dispatch) => ({
   handleLoginCreate: () => {
     // console.log('submit du formulaires');
     dispatch(logIn());
+  },
+
+  handleForgotPasswordSentStatusReset: () => {
+    // console.log('submit du formulaires');
+    dispatch(forgotPasswordSentStatusReset());
   },
 });
 
