@@ -33,7 +33,7 @@ const SellerProfil = ({
 
   useEffect(() => {
     if (id === undefined) {
-      <Redirect to={`/${cityName}/home`} />;
+      <Redirect to={`/${cityName.slug}/home`} />;
     }
     else {
       HandleShopIdUrl(id);
@@ -72,7 +72,7 @@ const SellerProfil = ({
                 {productsByShop.map((product) => (
                   <Link
                     key={product.id}
-                    to={`/${cityName}/product/${product.id}`}
+                    to={`/${cityName.slug}/product/${product.id}`}
                   >
                     <ProductCard key={product.id} {...product} />
                   </Link>
@@ -87,7 +87,7 @@ const SellerProfil = ({
 };
 
 SellerProfil.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   HandleShopIdUrl: PropTypes.func.isRequired,
   shopIdUrl: PropTypes.string.isRequired,
   loadShop: PropTypes.func.isRequired,

@@ -28,23 +28,23 @@ GET http://localhost:5000/v1/users
 
 
 ### Renvoi un utilisateur par son id 
-GET http://localhost:5000/v1/user/110
+GET http://localhost:5000/v1/user/149
 
 ### Créer un user
 POST http://localhost:5000/v1/user/ 
 Content-Type: application/json
 
 {
-  "firstName": "peter",
-  "lastName": "quill",
-  "address":"5 rue la boetie",
-  "postal_code":"75008",
-  "city":"Paris",
-  "phone_number":"0123456789",
-  "email": "djoudi.cherfi@outlook.com",
+  "firstName": "Peter",
+  "lastName": "Quill",
+  "email": "test.cityinthepocket@gmail.com",
   "password": "Min8@Max10",
   "confirmPassword": "Min8@Max10",
-  "conditions_privacy_policy": true
+  "phone_number":"0123456789",
+  "address": "5 rue la Boetie",
+  "city":"Paris",
+  "postal_code":"75008",
+  "policy_agree":true
 }
 
 ###
@@ -55,13 +55,13 @@ POST http://localhost:5000/v1/user/login
 Content-Type: application/json
 
 {
-    "email": "@trhtl.com",
-    "password": ""
+  "email": "",
+  "password": "!"
     
 }
 
 ### Supprime un utilisateur par son id 
-DELETE http://localhost:5000/v1/user/26
+DELETE http://localhost:5000/v1/user/145
 
 
 ##############################################################################################
@@ -74,17 +74,17 @@ DELETE http://localhost:5000/v1/user/26
 GET http://localhost:5000/v1/product/3
 
 ###  Renvoi les 5 derniers products
-GET http://localhost:5000/v1/product/last
+GET http://localhost:5000/v1/marketplace/1/product/last
 
 ### Ajoute un produit
 POST http://localhost:5000/v1/product/ 
 Content-Type: application/json
 
 {
-  "name": "test",
-  "description": "superjg,hj,jghn,hg,hg truc bleu",
+  "name": "test 1",
+  "description": "super truc bleu blablablablablabla blabla",
   "price": 240,
-  "shop_id": 8
+  "shop_id": 1
 }
 
 ### Supprime un produit
@@ -99,7 +99,7 @@ DELETE http://localhost:5000/v1/product/3
 
 
 ### Renvoi les shops par categorie (2 = categoryId)
-GET http://localhost:5000/v1/category/2/shops
+GET http://localhost:5000/v1/marketplace/1/category/1/shops
 
 ###Renvoi un shop par son id 
 GET http://localhost:5000/v1/shop/22
@@ -117,19 +117,19 @@ POST   http://localhost:5000/v1/shop/
 Content-Type: application/json
 
 {
-  "company_name": "Toulouse Shop",
+  "company_name": "Shop 1",
   "siret":"89070935500014", 
   "description":"Supeeeeeeeeer boutique jdcbyezbcyebcyezbcuzec",
   "phone_number":"0467899568",
   "email":"boutique@aol.com",
-  "user_id":3,
-  "marketplace_id":1,
-  "category_id":2
+  "user_id": 1,
+  "marketplace_id": 1,
+  "category_id": 4
 }
 
 
 ### Renvoi les 5 derniers shops
-GET http://localhost:5000/v1/shop/last
+GET http://localhost:5000/v1/marketplace/1/shop/last
 
 
 ##############################################################################################
@@ -139,10 +139,10 @@ GET http://localhost:5000/v1/shop/last
 ##############################################
 
 ###Renvoi toutes les category
-GET http://localhost:5000/v1/category
+GET http://localhost:5000/v1/marketplace/1/category
 
 ###Renvoi une categorie par son id
-GET http://localhost:5000/v1/category/1
+GET http://localhost:5000/v1/marketplace/1/category/1
 
 ###Supprime une categorie
 DELETE http://localhost:5000/v1/category/1
@@ -157,12 +157,12 @@ DELETE http://localhost:5000/v1/category/1
 ###Test Mail
 POST  http://localhost:5000/v1/email
 
-### demande du mail pour reinitialiser le password
+### demande de reinitialiser le password
 POST http://localhost:5000/v1/forget-password
 Content-Type: application/json
 
 {
-  "email": "@hotmail.fr"
+  "email": ""
 }
 
 ####
@@ -170,7 +170,7 @@ GET http://localhost:5000/v1/forget-password/:id/:token
 
 
 ### Envoi formulaire avec new password
-POST http://localhost:5000/v1/reset-password/4/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTYzMTY1MDg1MywiZXhwIjoxNjMxNjUyMzUzfQ.6hn4DPwXS_RnTpK2MUeullYzVaMsugTjS2l7gDLxfA4
+POST http://www.localhost:5000/v1/reset-password/146/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0NiwiZW1haWwiOiJhdWRyaWMuZmVsaXhAaG90bWFpbC5jb20iLCJpYXQiOjE2MzcwNjg1NTQsImV4cCI6MTYzNzA3MDA1NH0.XHi1Z8CD7f0ErltPvhy1WqcdE1ccfU_qtMrlSL66kUk
 Content-Type: application/json
 
 {

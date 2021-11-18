@@ -1,11 +1,18 @@
 // == Import
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // Prop type
 import PropTypes from 'prop-types';
 
 // == Router
-import { Route, Switch } from 'react-router-dom';
+import {
+  Route, Switch, Redirect, useParams,
+} from 'react-router-dom';
+
+import { getCityBySlug } from 'src/utils';
+
+// == Loader animation
+import Loader from 'src/components/Loader/LoaderCircle';
 
 // == Import header
 import Header from 'src/containers/Header';
@@ -29,40 +36,72 @@ import './city.scss';
 
 // == Composant
 const City = ({
+  cities,
+  HandleCityNameUrl,
+  cityNameLoaded,
   cityName,
-}) => (
-  <div className="city">
-    <Switch>
-      <Route exact path={`/${cityName}/home`}>
-        <Home />
-      </Route>
+}) => {
+  const { city } = useParams();
 
-      <Route exact path="/:city/category/:slug">
-        <Category />
-      </Route>
+  const cityNameUrl = getCityBySlug(cities, city);
 
-      <Route exact path={`/${cityName}/list/:slug`}>
-        <List />
-      </Route>
+  let redirect = false;
 
-      <Route exact path={`/${cityName}/sellerprofil/:id`}>
-        <SellerProfil />
-      </Route>
+  if (cityNameUrl === undefined) {
+    redirect = true;
+  }
+  else {
+    useEffect(() => {
+      HandleCityNameUrl(cityNameUrl);
+    }, [city]);
+  }
 
-      <Route exact path={`/${cityName}/product/:id`}>
-        <Product />
-      </Route>
+  return (
+    <div className="city">
+      {redirect && <Redirect to="/" />}
+      {cityNameLoaded ? (
+        <Switch>
+          <Route exact path={`/${cityName.slug}/home`}>
+            <Home />
+          </Route>
 
-      <Route path="*">
-        <Header headercategory headermarket headerlogo />
-        <ErrorPage />
-      </Route>
-    </Switch>
-  </div>
-);
+          <Route exact path="/:city/category/:slug">
+            <Category />
+          </Route>
+
+          <Route exact path={`/${cityName.slug}/list/:slug`}>
+            <List />
+          </Route>
+
+          <Route exact path={`/${cityName.slug}/sellerprofil/:id`}>
+            <SellerProfil />
+          </Route>
+
+          <Route exact path={`/${cityName.slug}/product/:id`}>
+            <Product />
+          </Route>
+
+          <Route path="*">
+            <Header headercategory headermarket headerlogo />
+            <ErrorPage />
+          </Route>
+        </Switch>
+      ) : (
+        <Loader />
+      )}
+    </div>
+  );
+};
 
 City.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cities: PropTypes.arrayOf(
+    PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  HandleCityNameUrl: PropTypes.func.isRequired,
+  cityNameLoaded: PropTypes.bool.isRequired,
+  cityName: PropTypes.object.isRequired,
 };
 
 // == Export

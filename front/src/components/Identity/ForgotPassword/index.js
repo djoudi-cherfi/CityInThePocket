@@ -120,7 +120,7 @@ ForgotPassword.propTypes = {
   // Send state
   changeInputField: PropTypes.func.isRequired,
 
-  // Create account
+  // Send email
   handleForgotPasswordSent: PropTypes.func.isRequired,
 
   // Reset state initialValues

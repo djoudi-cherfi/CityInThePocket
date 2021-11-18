@@ -18,10 +18,10 @@ import './header.scss';
 
 // == Composant
 const Header = ({
+  cityName,
   headercategory,
   headermarket,
   headerlogo,
-  cityName,
   handelHeaderHeight,
 }) => {
   const ref = useRef(null);
@@ -40,14 +40,25 @@ const Header = ({
       )}
 
       {headerlogo && (
-        <Link to={`/${cityName}/home`} className="header-logo-cityinthepocket">
-          <img
-            src={logo}
-            srcSet={`${logo} 177w`}
-            sizes="(max-width: 273px) 177px,"
-            alt="logo city in the pocket"
-          />
-        </Link>
+        cityName ? (
+          <Link to={`/${cityName.slug}/home`} className="header-logo-cityinthepocket">
+            <img
+              src={logo}
+              srcSet={`${logo} 177w`}
+              sizes="(max-width: 273px) 177px,"
+              alt="logo city in the pocket"
+            />
+          </Link>
+        ) : (
+          <div className="header-logo-cityinthepocket">
+            <img
+              src={logo}
+              srcSet={`${logo} 177w`}
+              sizes="(max-width: 273px) 177px,"
+              alt="logo city in the pocket"
+            />
+          </div>
+        )
       )}
 
       <div className="navidentity">
@@ -59,7 +70,7 @@ const Header = ({
 };
 
 Header.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   headercategory: PropTypes.bool.isRequired,
   headermarket: PropTypes.bool.isRequired,
   headerlogo: PropTypes.bool.isRequired,

@@ -1,5 +1,6 @@
 import {
-  CITY_NAME,
+  CITIES_SAVE,
+  CITY_NAME_SAVE,
   CITY_NAME_RESET,
   TOGGLE_NAVCATEGORIES_OPEN,
   TOGGLE_NAVCATEGORIES_OPEN_RESET,
@@ -26,23 +27,17 @@ const initialState = {
   legalNoticeData: [],
   legalNoticeDataLoaded: false,
   infosRefs: [],
-  infosName: 'termsAndConditions',
+  infosName: '',
+  infosNameLoaded: false,
   toggleSidebarTgOpen: false,
 
-  // City name
-  cityName: '',
-
   // Cities
-  cities: [
-    {
-      id: 1,
-      name: 'Paris',
-    },
-    {
-      id: 2,
-      name: 'Lyon',
-    },
-  ],
+  cities: [],
+  citiesLoaded: false,
+
+  // City name
+  cityName: {},
+  cityNameLoaded: false,
 
   // futurcCities
   futurcCities: [
@@ -101,6 +96,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         infosName: action.infosName,
+        infosNameLoaded: true,
       };
 
     case TOGGLE_SIDEBAR_TG_OPEN:
@@ -113,16 +109,25 @@ function rootReducer(state = initialState, action) {
       };
 
     // City name
-    case CITY_NAME:
+    case CITIES_SAVE:
+      return {
+        ...state,
+        cities: action.cities,
+        citiesLoaded: true,
+      };
+
+    case CITY_NAME_SAVE:
       return {
         ...state,
         cityName: action.cityName,
+        cityNameLoaded: true,
       };
 
     case CITY_NAME_RESET:
       return {
         ...state,
-        cityName: '',
+        cityName: {},
+        cityNameLoaded: false,
       };
 
     case TOGGLE_NAVCATEGORIES_OPEN:

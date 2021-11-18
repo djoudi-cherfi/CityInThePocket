@@ -1,12 +1,8 @@
 import { connect } from 'react-redux';
 
-// import {
-//   resetPasswordParams,
-//   resetPasswordInputField,
-//   resetPasswordInputCreate,
-//   resetPasswordValidationInput,
-//   resetPasswordValidationConfirmPasswordInput,
-// } from 'src/lib/actions/authActions';
+import { resetForm, formInputField } from 'src/lib/actions/formActions';
+
+import { resetPasswordSent } from 'src/lib/actions/authActions';
 
 // on importe le composant de présentation
 import ResetPassword from 'src/components/Identity/ResetPassword';
@@ -15,44 +11,31 @@ import ResetPassword from 'src/components/Identity/ResetPassword';
 // si on a besoin de lire des informations dans le state
 const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
-  resetPassword: state.auth.resetPassword,
-  resetPasswordConfirm: state.auth.resetPasswordConfirm,
-
-  resetPasswordValidation: state.auth.resetPasswordValidation,
-  resetPasswordValidationConfirmPassword: state.auth.resetPasswordValidationConfirmPassword,
-  resetPasswordSent: state.auth.resetPasswordSent,
-
-  serverResetPasswordValidation: state.serv.serverResetPasswordValidation,
-  serverErrorseStatus: state.serv.serverErrorseStatus,
+  resetPassword: state.form.resetPassword,
+  confirmResetPassword: state.form.confirmResetPassword,
+  resetPasswordSentStatus: state.auth.resetPasswordSentStatus,
 });
 
 // === mapDispatchToProps
 // si on a besoin de dispatcher des actions vers le store (modifier le state)
 const mapDispatchToProps = (dispatch) => ({
-  // handleResetPasswordParams: (id, slug) => {
-  //   const action = resetPasswordParams(id, slug);
-  //   dispatch(action);
-  // },
+  // nom de la prop à remplir: fonction qui dispatch l'action
+  handleResetForm: () => {
+    // console.log(`value: ${value}, name: ${name}`);
+    dispatch(resetForm());
+  },
 
-  // changeResetPasswordField: (value, name) => {
-  //   // console.log(`value: ${value}, name: ${name}`);
-  //   const action = resetPasswordInputField(value, name);
-  //   dispatch(action);
-  // },
+  changeInputField: (value, name) => {
+    // console.log(`value: ${value}, name: ${name}`);
+    const action = formInputField(value, name);
+    dispatch(action);
+  },
 
-  // handleResetPasswordCreate: () => {
-  //   dispatch(resetPasswordInputCreate());
-  // },
-
-  // resetPasswordErrorMessage: (value) => {
-  //   const action = resetPasswordValidationInput(value);
-  //   dispatch(action);
-  // },
-
-  // isValidResetPassword: (value) => {
-  //   const action = resetPasswordValidationConfirmPasswordInput(value);
-  //   dispatch(action);
-  // },
+  handleResetPasswordSent: (id, slug) => {
+    // console.log('submit du formulaires');
+    const action = resetPasswordSent(id, slug);
+    dispatch(action);
+  },
 });
 
 // === création de l'assistant

@@ -8,6 +8,7 @@ import { persistStore } from 'redux-persist';
 import rootReducer from 'src/lib/reducers';
 
 // combine dev tools avec les middlewares
+import mainMiddleware from 'src/lib/middlewares/mainMiddleware';
 import authMiddleware from 'src/lib/middlewares/authMiddleware';
 import productMiddleware from 'src/lib/middlewares/productMiddleware';
 import shopMiddleware from 'src/lib/middlewares/shopMiddleware';
@@ -16,6 +17,7 @@ import shopMiddleware from 'src/lib/middlewares/shopMiddleware';
 const enhancers = composeWithDevTools(
   applyMiddleware(
     // les middlewares
+    mainMiddleware,
     authMiddleware,
     productMiddleware,
     shopMiddleware,

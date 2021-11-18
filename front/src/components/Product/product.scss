@@ -25,15 +25,65 @@
       width: 100%;
       vertical-align: middle;
     }
-    
+
     .thumbnail-giant {
+      cursor: pointer;
       display: none;
-      opacity: 0;
+      background-color: vars.$color-black;
       transition: vars.$animation-duration-small ease-in-out;
-      
+
       &.active {
         display: block;
         opacity: 1;
+      }
+      
+      .thumbnail-giant-img:hover {
+        background-color: vars.$color-black;
+        opacity: 0.5;
+      }
+    }
+
+    .thumbnail-small2 {
+      cursor: pointer;
+      background-color: vars.$color-black;
+      transition: vars.$animation-duration-small ease-in-out;
+      
+      .thumbnail-small-img:hover {
+        background-color: vars.$color-black;
+        opacity: 0.5;
+      }
+    }
+
+    .thumbnail-small3 {
+      cursor: pointer;
+      background-color: vars.$color-black;
+      transition: vars.$animation-duration-small ease-in-out;
+
+      .thumbnail-small-img:hover {
+        background-color: vars.$color-black;
+        opacity: 0.5;
+      }
+    }
+
+    .thumbnail-small4 {
+      cursor: pointer;
+      background-color: vars.$color-black;
+      transition: vars.$animation-duration-small ease-in-out;
+
+      .thumbnail-small-img:hover {
+        background-color: vars.$color-black;
+        opacity: 0.5;
+      }
+    }
+
+    .thumbnail-small5 {
+      cursor: pointer;
+      background-color: vars.$color-black;
+      transition: vars.$animation-duration-small ease-in-out;
+
+      .thumbnail-small-img:hover {
+        background-color: vars.$color-black;
+        opacity: 0.5;
       }
     }
   }
@@ -168,14 +218,6 @@
       .thumbnail-giant {
         grid-column: 1/5;
         grid-row: 1/5;
-        display: none;
-        opacity: 0;
-        transition: vars.$animation-duration-small ease-in-out;
-        
-        &.active {
-          display: block;
-          opacity: 1;
-        }
       }
     }
   }

@@ -23,17 +23,19 @@ const userController = {
 
   addOne: async (req, res) => {
     const userForm = req.body;
+    console.log(userForm);
 
     if (
-      !req.body.lastName
-      || !req.body.firstName
+      !req.body.firstName
+      || !req.body.lastName
       || !req.body.email
       || !req.body.password
       || !req.body.confirmPassword
       || !req.body.phone_number
       || !req.body.address
       || !req.body.city
-      || !req.body.postal_code || !req.body.conditions_privacy_policy
+      || !req.body.postal_code
+      || !req.body.policy_agree
     ) {
       res.status(400).json({ error: 'Il manque des informations dans le formulaire' });
     }
@@ -59,7 +61,7 @@ const userController = {
         },
       );
 
-      const link = `${process.env.BASE_URL}/email-validation/${newUser.id}/${token}`;
+      const link = `${process.env.URL_BACK}/email-validation/${newUser.id}/${token}`;
 
       transporter.sendMail(
         emailTemplate.validationEmailData(
@@ -216,7 +218,6 @@ const userController = {
     response.json({ info: 'Vous avez été déconnecté' });
   },
 
-  // Need refacto
   refreshToken: async (req, res) => {
     try {
       const { refresh_token, access_token } = req.cookies;
@@ -301,7 +302,7 @@ const userController = {
           },
         );
 
-        const link = `${process.env.BASE_URL}/identity/reset-password/${user.id}/${token}`;
+        const link = `${process.env.URL_FRONT}/identity/reset-password/${user.id}/${token}`;
 
         transporter.sendMail(
           emailTemplate.forgetPasswordForm(
@@ -335,7 +336,9 @@ const userController = {
 
     const user = await User.findOne(id);
 
-    // Si le produit est trouvé on l'affiche
+    console.log('user', user);
+
+    // Si le user est trouvé on l'affiche
     if (user.id !== parseInt(id, 10)) {
       res.json({ error: 'Invalid User Id' });
       return;
@@ -349,7 +352,7 @@ const userController = {
         secret,
       );
 
-      if (payload === true) {
+      if (payload) {
         res.json({
           email: user.email,
         });
@@ -371,18 +374,16 @@ const userController = {
   newPassword: async (req, res) => {
     const { id, token } = req.params;
 
-    const { password, passwordConfirm } = req.body;
+    const { password, confirmPassword } = req.body;
 
     const user = await User.findOne(id);
-    console.log('pass1', user.password);
 
-    // Si le produit est trouvé on l'affiche
+    // Si user est trouvé on l'affiche
     if (user.id !== parseInt(id, 10)) {
       res.json({ error: 'Invalid User Id' });
-      return;
     }
 
-    const secret = process.env.TOKEN_SECRET;
+    const secret = process.env.TOKEN_SECRET + user.password;
 
     try {
       const payload = jwt.verify(
@@ -390,8 +391,8 @@ const userController = {
         secret,
       );
 
-      if (payload === true) {
-        if (password === passwordConfirm) {
+      if (payload) {
+        if (password === confirmPassword) {
           user.password = bcrypt.hashSync(
             password,
             10,
@@ -412,7 +413,6 @@ const userController = {
       }
     }
     catch (error) {
-      console.error(error);
       res.status(500).json({
         error: error.message,
       });
@@ -426,7 +426,6 @@ const userController = {
     const user = await User.findOne(id);
     if (user.id !== parseInt(id, 10)) {
       res.json({ error: 'Invalid User Id' });
-      return;
     }
 
     const secret = process.env.TOKEN_SECRET + user.id;

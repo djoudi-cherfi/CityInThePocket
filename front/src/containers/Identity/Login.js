@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { resetForm, formInputField } from 'src/lib/actions/formActions';
 
-import { logIn, forgotPasswordSentStatusReset } from 'src/lib/actions/authActions';
+import { logIn, forgotPasswordSentStatusReset, resetPasswordSentStatusReset } from 'src/lib/actions/authActions';
 
 // on importe le composant de présentation
 import Login from 'src/components/Identity/Login';
@@ -14,6 +14,7 @@ const mapStateToProps = (state) => ({
   loginEmail: state.form.loginEmail,
   loginPassword: state.form.loginPassword,
   rememberPassword: state.form.rememberPassword,
+  logged: state.auth.logged,
 });
 
 // === mapDispatchToProps
@@ -39,6 +40,10 @@ const mapDispatchToProps = (dispatch) => ({
   handleForgotPasswordSentStatusReset: () => {
     // console.log('submit du formulaires');
     dispatch(forgotPasswordSentStatusReset());
+  },
+  handleResetPasswordSentStatusReset: () => {
+    // console.log('submit du formulaires');
+    dispatch(resetPasswordSentStatusReset());
   },
 });
 

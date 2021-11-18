@@ -41,7 +41,18 @@ class Shop {
    */
 
   static async findAll() {
-    const { rows } = await db.query('SELECT shop.*, shop_has_img.img,  category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id;');
+    const { rows } = await db.query(
+      'SELECT shop.*, shop_has_img.img,  category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id;',
+    );
+
+    return rows.map((row) => new Shop(row));
+  }
+
+  static async findAllByMarketPlaceId(marketplace_id) {
+    const { rows } = await db.query(
+      'SELECT shop.*, shop_has_img.img,  category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id WHERE shop.marketplace_id = $1',
+      [marketplace_id],
+    );
 
     return rows.map((row) => new Shop(row));
   }
@@ -86,16 +97,19 @@ class Shop {
     return rows.map((row) => new Product(row));
   }
 
-  static async findLastest() {
-    const { rows } = await db.query('SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id ORDER BY shop.id DESC LIMIT 5;');
+  static async findLastest(marketplaceId) {
+    const { rows } = await db.query(
+      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id WHERE shop.marketplace_id = $1 ORDER BY shop.id DESC LIMIT 5;',
+      [marketplaceId],
+    );
 
     return rows.map((row) => new Product(row));
   }
 
-  static async findShopFromCategory(categoryId) {
+  static async findShopFromCategory(categoryId, marketplaceId) {
     const { rows } = await db.query(
-      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id JOIN shop_has_img ON shop.id = shop_has_img.shop_id WHERE category.id = $1;',
-      [categoryId],
+      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id JOIN shop_has_img ON shop.id = shop_has_img.shop_id WHERE category.id = $1 and shop.marketplace_id = $2;',
+      [categoryId, marketplaceId],
     );
 
     return rows.map((row) => new Shop(row));
@@ -154,21 +168,21 @@ class Shop {
 
         this.id = rows[0].id;
 
-        // const categories = await db.query(
-        //   'INSERT INTO shop_has_category (shop_id, category_id) VALUES ($1, $2);',
-        //   [
-        //     this.id,
-        //     this.category_id,
-        //   ],
-        // );
+        await db.query(
+          'INSERT INTO shop_has_category (shop_id, category_id) VALUES ($1, $2);',
+          [
+            this.id,
+            this.category_id,
+          ],
+        );
 
-        // const img = await db.query(
-        //   'INSERT INTO shop_has_img (img, shop_id) VALUES ($1, $2);',
-        //   [
-        //     null,
-        //     this.id,
-        //   ],
-        // );
+        await db.query(
+          'INSERT INTO shop_has_img (img, shop_id) VALUES ($1, $2);',
+          [
+            null,
+            this.id,
+          ],
+        );
 
         return this.id;
       }

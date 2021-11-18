@@ -11,8 +11,8 @@ import {
   FORGOT_PASSWORD_SENT_STATUS_RESET,
   FORGOT_PASSWORD_SENT_STATUS,
   // --------------- Reset password
-  RESET_PASSWORD_PARAMS,
-  RESET_PASSWORD_SENT,
+  RESET_PASSWORD_SENT_STATUS_RESET,
+  RESET_PASSWORD_SENT_STATUS,
   // --------------- Logout
   LOGOUT_USER_SAVE,
 } from 'src/lib/actions/authActions';
@@ -40,9 +40,7 @@ const initialState = {
   forgotPasswordSentStatus: false,
 
   // --------------- Reset password
-  resetPassworUserId: '',
-  resetPassworToken: '',
-  resetPasswordSent: false,
+  resetPasswordSentStatus: false,
 
   // --------------- Logout
   respLogout: null,
@@ -105,23 +103,16 @@ function authReducer(state = initialState, action) {
       };
 
     // --------------- Reset password
-    case RESET_PASSWORD_PARAMS:
+    case RESET_PASSWORD_SENT_STATUS_RESET:
       return {
         ...state,
-        resetPassworUserId: action.id,
-        resetPassworToken: action.slug,
+        resetPasswordSentStatus: false,
       };
 
-    case RESET_PASSWORD_SENT:
+    case RESET_PASSWORD_SENT_STATUS:
       return {
         ...state,
-        resetPasswordSent: true,
-        resetPassworUserId: '',
-        resetPassworToken: '',
-        resetPassword: '',
-        resetPasswordConfirm: '',
-        resetPasswordValidation: [],
-        resetPasswordValidationConfirmPassword: false,
+        resetPasswordSentStatus: true,
       };
 
     // --------------- Logout

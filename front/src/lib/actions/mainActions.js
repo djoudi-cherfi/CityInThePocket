@@ -11,8 +11,13 @@ export const INFOS_REFS_SAVE = 'INFOS_REFS_SAVE';
 export const INFOS_NAME_SAVE = 'INFOS_NAME_SAVE';
 export const TOGGLE_SIDEBAR_TG_OPEN = 'TOGGLE_SIDEBAR_TG_OPEN';
 
-// City name
-export const CITY_NAME = 'CITY_NAME';
+// Cities
+export const CITIES_GET = 'CITIES_GET';
+export const CITIES_SAVE = 'CITIES_SAVE';
+
+// City
+export const CITY_NAME_GET = 'CITY_NAME_GET';
+export const CITY_NAME_SAVE = 'CITY_NAME_SAVE';
 export const CITY_NAME_RESET = 'CITY_NAME_RESET';
 
 // Menu Category
@@ -59,9 +64,24 @@ export const toggleSidebarTgOpen = () => ({
   type: TOGGLE_SIDEBAR_TG_OPEN,
 });
 
-// City name
+// Cities
+export const citiesGet = () => ({
+  type: CITIES_GET,
+});
+
+export const citiesSave = (cities) => ({
+  type: CITIES_SAVE,
+  cities,
+});
+
+// City
+export const cityNameGet = (id) => ({
+  type: CITY_NAME_GET,
+  id,
+});
+
 export const cityNameSave = (cityName) => ({
-  type: CITY_NAME,
+  type: CITY_NAME_SAVE,
   cityName,
 });
 

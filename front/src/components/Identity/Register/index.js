@@ -182,9 +182,6 @@ const Register = ({
 };
 
 Register.propTypes = {
-  // Registred redirection vers le compte utilisateur
-  registred: PropTypes.bool.isRequired,
-
   // Form
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,

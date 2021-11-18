@@ -3,6 +3,6 @@
 BEGIN;
 
 ALTER TABLE "user"
-ALTER COLUMN phone_number TYPE integer;
+ALTER COLUMN phone_number  TYPE integer USING (phone_number::integer);
 
 COMMIT;

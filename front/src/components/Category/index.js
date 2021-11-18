@@ -50,8 +50,8 @@ const Category = ({
 
   return (
     <>
-      {redirect && (<Redirect to={`/${cityName}/category/`} />)}
-      {city !== cityName && (<Redirect to={`/${cityName}/category/`} />)}
+      {redirect && (<Redirect to={`/${cityName.slug}/category/`} />)}
+      {city !== cityName.slug && (<Redirect to={`/${cityName.slug}/category/`} />)}
       {shopsByCategoryLoaded ? (
         <div className="category">
           <Helmet>
@@ -60,13 +60,13 @@ const Category = ({
           </Helmet>
 
           <div className="category-container">
-            <Route exact path={`/${cityName}/category/:slug`}>
+            <Route exact path={`/${cityName.slug}/category/:slug`}>
               <div className="category-shop">
                 {shopsByCategory.map((shop) => (
                   <Link
                     key={shop.id}
                     className="category-shop-link"
-                    to={`/${cityName}/sellerprofil/${shop.id}`}
+                    to={`/${cityName.slug}/sellerprofil/${shop.id}`}
                   >
                     <ShopCard key={shop.id} {...shop} />
                   </Link>
@@ -83,7 +83,7 @@ const Category = ({
 };
 
 Category.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   HandleCategoryId: PropTypes.func.isRequired,
   categoryNames: PropTypes.arrayOf(
     PropTypes.shape({

@@ -13,13 +13,11 @@ const tokenService = {
     };
 
     const jwtOptions = {
-
       audience: 'http://localhost:5000',
       algorithm: 'HS256',
       expiresIn: '900000',
       subject: userId.toString(),
       issuer: 'http://localhost:8080',
-
     };
 
     const access_token = jwt.sign(
@@ -35,19 +33,19 @@ const tokenService = {
     if (!userRefreshToken) {
       const refreshToBdd2 = await new Token({
         token: refreshToken,
-        expire_at: Date.now() + 900000,
+        expire_at: new Date(Date.now() + 900000),
         user_id: userId,
       });
-      const saveRefreshToBdd2 = await refreshToBdd2.save();
+      await refreshToBdd2.save();
     }
     else {
       const refreshToBdd = await new Token({
         id: userRefreshToken.id,
         token: refreshToken,
-        expire_at: Date.now() + 900000,
+        expire_at: new Date(Date.now() + 900000),
         user_id: userId,
       });
-      const saveRefreshToBdd = await refreshToBdd.save();
+      await refreshToBdd.save();
     }
 
     const tokens = {

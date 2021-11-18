@@ -32,9 +32,9 @@ export const FORGOT_PASSWORD_SENT_STATUS = 'FORGOT_PASSWORD_SENT_STATUS';
 
 // --------------- Reset password
 // page /identity/reset-password/:id/:slug
-export const RESET_PASSWORD_PARAMS = 'RESET_PASSWORD_PARAMS';
-export const RESET_PASSWORD_INPUT_CREATE = 'RESET_PASSWORD_INPUT_CREATE';
 export const RESET_PASSWORD_SENT = 'RESET_PASSWORD_SENT';
+export const RESET_PASSWORD_SENT_STATUS_RESET = 'RESET_PASSWORD_SENT_STATUS_RESET';
+export const RESET_PASSWORD_SENT_STATUS = 'RESET_PASSWORD_SENT_STATUS';
 
 // --------------- Logout
 // page /identity/logout
@@ -129,18 +129,18 @@ export const forgotPasswordSentStatus = () => ({
 
 // --------------- Reset Password
 // page /identity/reset-password/:id/:slug
-export const resetPasswordParams = (id, slug) => ({
-  type: RESET_PASSWORD_PARAMS,
+export const resetPasswordSent = (id, slug) => ({
+  type: RESET_PASSWORD_SENT,
   id,
   slug,
 });
 
-export const resetPasswordInputCreate = () => ({
-  type: RESET_PASSWORD_INPUT_CREATE,
+export const resetPasswordSentStatusReset = () => ({
+  type: RESET_PASSWORD_SENT_STATUS_RESET,
 });
 
-export const resetPasswordSent = () => ({
-  type: RESET_PASSWORD_SENT,
+export const resetPasswordSentStatus = () => ({
+  type: RESET_PASSWORD_SENT_STATUS,
 });
 
 // --------------- Logout

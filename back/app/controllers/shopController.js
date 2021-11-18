@@ -95,7 +95,7 @@ const shopController = {
         {
           method: 'GET',
           headers: {
-            Authorization: 'Bearer 2e691039-9ef8-39b7-9970-7d6db667ccee',
+            Authorization: process.env.INSEE_HEADER,
           },
         },
       );
@@ -186,8 +186,10 @@ const shopController = {
   },
 
   getLastestShop: async (req, res, next) => {
+    const { marketplaceId } = req.params;
+
     try {
-      const shops = await Shop.findLastest();
+      const shops = await Shop.findLastest(marketplaceId);
 
       if (shops) {
         res.json(shops);
@@ -205,9 +207,9 @@ const shopController = {
 
   getShopFromCategory: async (req, res, next) => {
     try {
-      const { categoryId } = req.params;
+      const { categoryId, marketplaceId } = req.params;
 
-      const shop = await Shop.findShopFromCategory(categoryId);
+      const shop = await Shop.findShopFromCategory(categoryId, marketplaceId);
 
       if (shop) {
         res.json(shop);

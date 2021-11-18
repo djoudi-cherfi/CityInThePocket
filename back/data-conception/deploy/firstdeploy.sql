@@ -8,9 +8,9 @@ CREATE TABLE marketplace (
     
     id INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     city TEXT NOT NULL,
+    slug TEXT NOT NULL,
     postal_code INT NOT NULL,
     create_date TIMESTAMPTZ DEFAULT now()
-
 );
 
 /* User  */ 
@@ -33,7 +33,7 @@ CREATE TABLE "user" (
 CREATE TABLE shop (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     company_name TEXT NOT NULL,
-    siret INT NOT NULL,
+    siret BIGINT NOT NULL,
     description TEXT NOT NULL,
     phone_number INT NOT NULL,
     address TEXT NOT NULL,
@@ -41,7 +41,6 @@ CREATE TABLE shop (
     email TEXT NOT NULL,
     user_id INT REFERENCES "user"(id), 
     marketplace_id INT REFERENCES marketplace(id)
-    
 );
 
 /* Product  */ 
@@ -52,7 +51,6 @@ CREATE TABLE product (
     description TEXT  NOT NULL,
     price DECIMAL NOT NULL,
     shop_id INT REFERENCES shop(id)
-    
 );
 
 /* Category  */ 
@@ -60,7 +58,6 @@ CREATE TABLE product (
 CREATE TABLE category (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     label TEXT NOT NULL
-    
 );
 
 /* Shop has category */ 
@@ -69,7 +66,6 @@ CREATE TABLE shop_has_category (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     category_id INT REFERENCES category(id),
     shop_id INT REFERENCES shop(id)
-    
 );
 
 COMMIT;

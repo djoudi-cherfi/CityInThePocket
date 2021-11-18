@@ -3,6 +3,6 @@
 BEGIN;
 
 ALTER TABLE "user"
-DELETE COLUMN "password";
+DROP COLUMN "password";
 
 COMMIT;

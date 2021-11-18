@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 import { Route, Switch } from 'react-router-dom';
 
-import infosData from 'src/data/informations.json';
-
 // == Loader animation and scroll to top
 import Loader from 'src/components/Loader/LoaderCircle';
 import ScrollToTop from 'src/utils/ScrollToTop';
+
+import infosData from 'src/data/informations.json';
 
 // == Import header and footer
 import Header from 'src/containers/Header';
@@ -26,8 +26,6 @@ import Pages from 'src/containers/Pages';
 // Error page
 import ErrorPage from 'src/components/ErrorPage';
 
-import Form from 'src/containers/Form/FormContainer';
-
 // == Import
 import Slider from 'src/containers/Product/Slider';
 
@@ -35,6 +33,8 @@ import './styles.scss';
 
 // == Composant
 const App = ({
+  loadCities,
+  citiesLoaded,
   loadCategoriesNames,
   categoryNamesLoaded,
   handleInfosData,
@@ -43,6 +43,7 @@ const App = ({
   const { TermsAndConditionsData, LegalNoticeData } = infosData;
 
   useEffect(() => {
+    loadCities();
     loadCategoriesNames();
     handleInfosData(TermsAndConditionsData, LegalNoticeData);
   }, []);
@@ -53,25 +54,22 @@ const App = ({
         <>
           <ScrollToTop />
           <Switch>
-            <Route exact path="/form">
-              <Form />
-            </Route>
-
-            <Route exact path="/">
-              <Header headercategory={false} headermarket={false} headerlogo={false} />
-              <FindCity />
-              <Footer />
-            </Route>
+            {citiesLoaded && (
+              <Route exact path="/">
+                <Header headercategory={false} headermarket={false} headerlogo={false} />
+                <FindCity />
+                <Footer />
+              </Route>
+            )}
 
             <Route
               exact
               path={[
+                '/informations/:article',
+                '/account/:section',
                 '/identity/login-register',
                 '/identity/forgot-password',
                 '/identity/reset-password/:id/:slug',
-                '/account/:slug',
-                '/informations/conditions-generales',
-                '/informations/mentions-legales',
               ]}
             >
               <Header headercategory={false} headermarket headerlogo />
@@ -107,6 +105,8 @@ const App = ({
 };
 
 App.propTypes = {
+  loadCities: PropTypes.func.isRequired,
+  citiesLoaded: PropTypes.bool.isRequired,
   loadCategoriesNames: PropTypes.func.isRequired,
   categoryNamesLoaded: PropTypes.bool.isRequired,
   handleInfosData: PropTypes.func.isRequired,

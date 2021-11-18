@@ -3,7 +3,12 @@ import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Route, Switch, useParams } from 'react-router-dom';
+import {
+  Switch, Route, Redirect, useParams,
+} from 'react-router-dom';
+
+// == Loader animation
+import Loader from 'src/components/Loader/LoaderCircle';
 
 import { Helmet } from 'react-helmet';
 
@@ -17,42 +22,61 @@ import LegalNotice from 'src/containers/Informations/LegalNotice';
 import './informations.scss';
 
 // == Composant
-const Informations = ({ termsAndConditionsData, legalNoticeData, handleInfosName }) => {
-  const { slug } = useParams();
+const Informations = ({
+  termsAndConditionsData, legalNoticeData, handleInfosName, infosNameLoaded,
+}) => {
+  const { article } = useParams();
 
-  useEffect(() => {
-    handleInfosName(slug);
-  }, [slug]);
+  let redirect = false;
+
+  if (article === undefined) {
+    redirect = true;
+  }
+  else {
+    useEffect(() => {
+      handleInfosName(article);
+    }, [article]);
+  }
 
   return (
     <div className="informations">
       <Sidebar />
-      <Route exact path="/informations/conditions-generales">
-        <Helmet>
-          <title>Conditions generales</title>
-          <meta name="description" content="Page des conditions generales" />
-        </Helmet>
+      {redirect && <Redirect to="/" />}
+      {infosNameLoaded ? (
+        <>
+          <Switch>
+            <Route exact path="/informations/conditions-generales">
+              <Helmet>
+                <title>Conditions generales</title>
+                <meta name="description" content="Page des conditions generales" />
+              </Helmet>
 
-        <TermsAndConditions data={termsAndConditionsData} />
-      </Route>
+              <TermsAndConditions data={termsAndConditionsData} />
+            </Route>
 
-      <Route exact path="/informations/mentions-legales">
-        <Helmet>
-          <title>Mentions legales</title>
-          <meta name="description" content="Page des mentions legales" />
-        </Helmet>
+            <Route exact path="/informations/mentions-legales">
+              <Helmet>
+                <title>Mentions legales</title>
+                <meta name="description" content="Page des mentions legales" />
+              </Helmet>
 
-        <LegalNotice data={legalNoticeData} />
-      </Route>
-      <SidebarButton />
+              <LegalNotice data={legalNoticeData} />
+            </Route>
+          </Switch>
+          <SidebarButton />
+        </>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };
 
 Informations.propTypes = {
+  handleInfosName: PropTypes.func.isRequired,
+  infosNameLoaded: PropTypes.bool.isRequired,
   termsAndConditionsData: PropTypes.array.isRequired,
   legalNoticeData: PropTypes.array.isRequired,
-  handleInfosName: PropTypes.func.isRequired,
 };
 
 // == Export

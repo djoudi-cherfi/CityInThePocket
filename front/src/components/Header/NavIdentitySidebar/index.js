@@ -108,7 +108,7 @@ const NavIdentitySidebar = ({
               <span>Vous êtes connecté en tant que :</span>
               <span className="navidentity-sidebar-message-link-name">
                 <NavLink
-                  to={`/${cityName}/sellerprofil`}
+                  to={`/${cityName.slug}/sellerprofil`}
                   className="navidentity-sidebar-message-link"
                   onClick={() => {
                     HandleToggleIdentityOpen();
@@ -214,7 +214,7 @@ const NavIdentitySidebar = ({
               <span>Vous êtes connecté en tant que :</span>
               <span className="navidentity-sidebar-message-link-name">
                 <NavLink
-                  to={`/${cityName}/sellerprofil`}
+                  to={`/${cityName.slug}/sellerprofil`}
                   className="navidentity-sidebar-message-link"
                 >
                   {loggedMessage}
@@ -264,7 +264,7 @@ const NavIdentitySidebar = ({
 };
 
 NavIdentitySidebar.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   headermarket: PropTypes.bool.isRequired,
   HandleToggleIdentityOpen: PropTypes.func.isRequired,
   HandleToggleIdentityOpenReset: PropTypes.func.isRequired,

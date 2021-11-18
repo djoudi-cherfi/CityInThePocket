@@ -49,7 +49,7 @@ class Product {
 
   static async findOne(id) {
     const { rows } = await db.query(
-      'SELECT * FROM product WHERE id = $1;',
+      'SELECT * FROM view_product_shop WHERE id = $1;',
       [id],
     );
 
@@ -59,8 +59,11 @@ class Product {
     return null;
   }
 
-  static async findLastest() {
-    const { rows } = await db.query('SELECT * FROM product ORDER BY id DESC LIMIT 5;');
+  static async findLastest(marketplaceId) {
+    const { rows } = await db.query(
+      'SELECT product.*, shop.marketplace_id FROM product JOIN shop ON product.shop_id = shop.id and shop.marketplace_id = $1 ORDER BY product.id DESC LIMIT 5;',
+      [marketplaceId],
+    );
 
     return rows.map((row) => new Product(row));
   }

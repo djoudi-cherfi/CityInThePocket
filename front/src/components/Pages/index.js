@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // == Router
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 // == Import header
 import Header from 'src/containers/Header';
@@ -32,27 +32,40 @@ const Pages = ({
 }) => (
   <div className="pages">
     <Switch>
-      <Route exact path="/identity/login-register">
-        <Identity />
-      </Route>
-
-      <Route exact path="/identity/forgot-password">
-        <ForgotPassword />
-      </Route>
-
-      <Route exact path="/identity/reset-password/:id/:slug">
-        <ResetPassword />
-      </Route>
-
-      {logged && (
-        <Route exact path="/account/:slug">
-          <Account />
-        </Route>
-      )}
-
-      <Route exact path="/informations/:slug">
+      <Route exact path="/informations/:article">
         <Informations />
       </Route>
+
+      {logged ? (
+        <Route
+          exact
+          path={[
+            '/account/dashboard',
+            '/account/a-propos-de-vous',
+            '/account/ma-boutique',
+            '/account/mot-de-passe',
+            '/account/email',
+          ]}
+        >
+          <Account />
+        </Route>
+      ) : (
+        <>
+          <Redirect to="/identity/login-register" />
+
+          <Route exact path="/identity/login-register">
+            <Identity />
+          </Route>
+
+          <Route exact path="/identity/forgot-password">
+            <ForgotPassword />
+          </Route>
+
+          <Route exact path="/identity/reset-password/:id/:slug">
+            <ResetPassword />
+          </Route>
+        </>
+      )}
 
       <Route path="*">
         <Header headercategory={false} headermarket headerlogo />

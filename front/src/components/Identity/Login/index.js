@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
 
@@ -27,11 +27,15 @@ const Login = ({
   // Reset state initialValues
   handleResetForm,
 
+  // is logged
+  logged,
+
   // Reset status forgotPasswordSentStatus
   handleForgotPasswordSentStatusReset,
-}) => {
-  const history = useHistory();
 
+  // Reset status resetPasswordSentStatus
+  handleResetPasswordSentStatusReset,
+}) => {
   // The initial values validated by Yup
   const initialValues = {
     loginEmail: loginEmail,
@@ -49,7 +53,6 @@ const Login = ({
     setSubmitting(true);
     handleLoginCreate();
     handleResetForm();
-    history.goBack();
     setSubmitting(false);
   };
 
@@ -90,10 +93,11 @@ const Login = ({
       <NavLink
         to="/identity/forgot-password"
         className="login-forgot-password"
-        onClick={handleForgotPasswordSentStatusReset}
+        onClick={handleForgotPasswordSentStatusReset, handleResetPasswordSentStatusReset}
       >
         Mot passe oublié ?
       </NavLink>
+      {logged && <Redirect to="/account/dashboard" />}
     </div>
   );
 };
@@ -112,8 +116,14 @@ Login.propTypes = {
   // Reset state initialValues
   handleResetForm: PropTypes.func.isRequired,
 
+  // is logged
+  logged: PropTypes.bool.isRequired,
+
   // Reset status forgotPasswordSentStatus
   handleForgotPasswordSentStatusReset: PropTypes.func.isRequired,
+
+  // Reset status resetPasswordSentStatus
+  handleResetPasswordSentStatusReset: PropTypes.func.isRequired,
 };
 
 // == Export

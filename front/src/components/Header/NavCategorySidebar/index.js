@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
 
-import { slugifyCategoryName } from 'src/utils';
+import { slugifyName } from 'src/utils';
 
 import classNames from 'classnames';
 
@@ -45,7 +45,7 @@ const NavCategorySidebar = ({
               <li key={categoryName.id} className="navcategory-sidebar-list-item">
                 <NavLink
                   key={categoryName.id}
-                  to={`/${cityName}/category/${slugifyCategoryName(categoryName.label)}`}
+                  to={`/${cityName.slug}/category/${slugifyName(categoryName.label)}`}
                   className="navcategory-sidebar-list-item-link"
                   activeClassName="current"
                   onClick={() => {
@@ -68,7 +68,7 @@ const NavCategorySidebar = ({
               <li key={categoryName.id} className="navcategory-sidebar-list-item">
                 <NavLink
                   key={categoryName.id}
-                  to={`/${cityName}/category/${slugifyCategoryName(categoryName.label)}`}
+                  to={`/${cityName.slug}/category/${slugifyName(categoryName.label)}`}
                   className="navcategory-sidebar-list-item-link"
                   activeClassName="current"
                   onClick={() => {
@@ -87,7 +87,7 @@ const NavCategorySidebar = ({
 };
 
 NavCategorySidebar.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   HandleToggleNavCategoryOpen: PropTypes.func.isRequired,
   HandleToggleNavCategoryOpenReset: PropTypes.func.isRequired,
   toggleNavCategoryOpen: PropTypes.bool.isRequired,

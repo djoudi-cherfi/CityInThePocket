@@ -84,7 +84,7 @@ class User {
       // UPDATE
       try {
         const { rows } = await db.query(
-          'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11 conditions_privacy_policy = $12 WHERE id = $13 RETURNING id;',
+          'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11, policy_agree = $12 WHERE id = $13 RETURNING id;',
           [
             this.firstname,
             this.lastname,
@@ -97,7 +97,7 @@ class User {
             this.create_date,
             this.password,
             this.verified,
-            this.conditions_privacy_policy,
+            this.policy_agree,
             this.id,
           ],
         );
@@ -119,7 +119,7 @@ class User {
         );
 
         const { rows } = await db.query(
-          'INSERT INTO "user" (firstName, lastName, address, city, postal_code, email, phone_number, conditions_privacy_policy, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;',
+          'INSERT INTO "user" (firstName, lastName, address, city, postal_code, email, phone_number, policy_agree, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;',
           [
             this.firstName,
             this.lastName,
@@ -128,7 +128,7 @@ class User {
             this.postal_code,
             this.email,
             this.phone_number,
-            this.conditions_privacy_policy,
+            this.policy_agree,
             encryptPassword,
           ],
         );

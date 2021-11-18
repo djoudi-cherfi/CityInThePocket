@@ -21,6 +21,9 @@ const productsMiddleware = (store) => (next) => (action) => {
   const { products } = store.getState();
   const { shops } = store.getState();
   const { auth } = store.getState();
+  const { main } = store.getState();
+
+  const city = main.cityName.id;
 
   const instance = axios.create({
     // Inclure des cookies et des en-têtes d'authentification
@@ -39,7 +42,7 @@ const productsMiddleware = (store) => (next) => (action) => {
     // --------------- Product last
     case PRODUCT_LAST_ADD_GET: {
       // console.log('authMiddleware va traiter une action Listproducts');
-      axios.get(`${API_URL}/product/last`)
+      axios.get(`${API_URL}/marketplace/${city}/product/last`)
         .then((response) => {
           // console.log('response api for last product', response);
           // veut stocker response.data dans le state

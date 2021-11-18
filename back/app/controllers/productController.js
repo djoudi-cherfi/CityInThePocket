@@ -25,8 +25,10 @@ const productController = {
   },
 
   getLastestProduct: async (req, res, next) => {
+    const { marketplaceId } = req.params;
+
     try {
-      const products = await Product.findLastest();
+      const products = await Product.findLastest(marketplaceId);
 
       if (products) {
         res.json(products);

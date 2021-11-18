@@ -29,7 +29,7 @@ const ProductDetail = ({
 
   useEffect(() => {
     if (id === undefined) {
-      <Redirect to={`/${cityName}/home`} />;
+      <Redirect to={`/${cityName.slug}/home`} />;
     }
     else {
       HandleProductIdUrl(id);
@@ -61,7 +61,7 @@ const ProductDetail = ({
                     >
                       {index === currentSlide && (
                         <img
-                          className="thumbnail-giant-fullscreen"
+                          className="thumbnail-giant-img"
                           src={`${URL_PUBLIC}${slide.image}`}
                           width="100%"
                           alt="identité visuelle du produit"
@@ -71,16 +71,20 @@ const ProductDetail = ({
                   ))}
 
                   {slidesData.filter((_, index) => index > 0).map((slide, index) => (
-                    <img
+                    <div
                       key={slide.id}
-                      className={index === currentSlide ? 'thumbnail-small active' : 'thumbnail-small'}
-                      src={`${URL_PUBLIC}${slide.image}`}
-                      width="100%"
-                      alt="identité visuelle du produit"
+                      className={`thumbnail-small${slide.id}`}
                       onClick={() => {
                         openSlide(index + 1);
                       }}
-                    />
+                    >
+                      <img
+                        className="thumbnail-small-img"
+                        src={`${URL_PUBLIC}${slide.image}`}
+                        width="100%"
+                        alt="identité visuelle du produit"
+                      />
+                    </div>
                   ))}
                 </div>
                 <div className="product-info">
@@ -104,7 +108,7 @@ const ProductDetail = ({
 };
 
 ProductDetail.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   HandleProductIdUrl: PropTypes.func.isRequired,
   productIdUrl: PropTypes.string.isRequired,
   loadProduct: PropTypes.func.isRequired,

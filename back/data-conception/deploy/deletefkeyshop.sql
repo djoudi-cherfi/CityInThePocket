@@ -4,6 +4,7 @@ BEGIN;
 
 -- Deploy cityinthepocket:deleteshophascategory to pg
 
+
 ALTER TABLE shop
 DROP CONSTRAINT shop_user_id_fkey;
 
@@ -12,5 +13,7 @@ ADD CONSTRAINT shop_user_id_fkey
     FOREIGN KEY (user_id)
     REFERENCES "user"(id)
     ON DELETE CASCADE;
+
+
 
 COMMIT;

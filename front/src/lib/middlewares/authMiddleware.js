@@ -20,8 +20,8 @@ import {
   FORGOT_PASSWORD_SENT,
   forgotPasswordSentStatus,
   // --------------- Reset password
-  RESET_PASSWORD_INPUT_CREATE,
-  resetPasswordSent,
+  RESET_PASSWORD_SENT,
+  resetPasswordSentStatus,
   // --------------- Validation register
   serverValidationInput,
   // --------------- Logout
@@ -70,7 +70,7 @@ const authMiddleware = (store) => (next) => (action) => {
         email: form.email,
         password: form.password,
         confirmPassword: form.confirmPassword,
-        conditions_privacy_policy: form.conditionsPrivacyPolicy,
+        policy_agree: form.conditionsPrivacyPolicy,
       })
         .then((response) => {
           // console.log('la réponse du serveur USER_IDENTITY_CREATE :', response.status);
@@ -97,15 +97,7 @@ const authMiddleware = (store) => (next) => (action) => {
           // console.log('la réponse du serveur LOGIN :', response);
           store.dispatch(serverResponseStatusSave(response.status));
 
-          const actionLoginUserSave = loginUserSave(
-            response.data.userId,
-            response.data.logged,
-            response.data.verified,
-            response.data.xsrfToken,
-            response.data.accessTokenExpiresIn,
-            response.data.refreshTokenExpiresIn,
-          );
-          store.dispatch(actionLoginUserSave);
+          store.dispatch(loginUserSave(response.data));
           store.dispatch(userIdentityGet());
         })
         .catch((error) => {
@@ -135,18 +127,16 @@ const authMiddleware = (store) => (next) => (action) => {
     }
 
     // --------------- Reset password
-    case RESET_PASSWORD_INPUT_CREATE: {
-      const { resetPassworUserId, resetPassworToken } = auth;
-
-      if (resetPassworUserId && resetPassworToken) {
-        axios.post(`${API_URL}/reset-password/${resetPassworUserId}/${resetPassworToken}`, {
-          resetPassword: auth.resetPassword,
-          resetPasswordConfirm: auth.resetPasswordConfirm,
+    case RESET_PASSWORD_SENT: {
+      if (action.id && action.slug) {
+        axios.post(`${API_URL}/reset-password/${action.id}/${action.slug}`, {
+          password: form.resetPassword,
+          confirmPassword: form.confirmResetPassword,
         })
           .then((response) => {
             // console.log('la réponse du serveur LOGIN :', response);
             store.dispatch(serverResponseStatusSave(response.status));
-            store.dispatch(resetPasswordSent());
+            store.dispatch(resetPasswordSentStatus());
           })
           .catch((error) => {
             store.dispatch(serverValidationInput(error.response.data.error));
@@ -166,9 +156,8 @@ const authMiddleware = (store) => (next) => (action) => {
           .then((response) => {
             // console.log('la réponse du serveur USER_IDENTITY_GET :', response);
 
-            const actionSaveUserId = userIdentitySave(response.data);
-            store.dispatch(actionSaveUserId);
-            store.dispatch(shopUserIdGet());
+            store.dispatch(userIdentitySave(response.data));
+            // store.dispatch(shopUserIdGet());
           })
           .catch((error) => {
             console.log("l'erreur du serveur :", error.response.data.error);

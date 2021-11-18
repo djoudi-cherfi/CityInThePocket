@@ -3,6 +3,7 @@ const { Router } = require('express');
 const apiRouter = Router();
 
 const emailSchema = require('../schema/email');
+const resetPasswordSchema = require('../schema/resetPassword');
 const userSchema = require('../schema/user');
 const shopSchema = require('../schema/shop');
 const productSchema = require('../schema/product');
@@ -38,14 +39,14 @@ apiRouter.post('/user', validateBody(userSchema), userController.addOne); // Cr�
 apiRouter.delete('/user/:id', userController.deleteOneById); // Supprimer un utilisateur par son id
 
 // Route Product
-apiRouter.get('/product/last', productController.getLastestProduct); // Renvoi un produit par son id
+apiRouter.get('/marketplace/:marketplaceId/product/last', productController.getLastestProduct); // Renvoi un produit par son id
 apiRouter.get('/product/:id', productController.getOneById); // Renvoi un produit par son id
 apiRouter.post('/product', validateBody(productSchema), productController.addOne); // Créer un produit
 // apiRouter.patch('/product/:id', productController.updateOneById); // Modifier un produit par son id
 apiRouter.delete('/product/:id', productController.deleteOneById); // Supprimer un produit par son id
 
 // Route Shop
-apiRouter.get('/shop/last', shopController.getLastestShop); // Renvoi un produit par son id
+apiRouter.get('/marketplace/:marketplaceId/shop/last', shopController.getLastestShop); // Renvoi un produit par son id
 apiRouter.get('/shop/:id', shopController.getOneById); // Renvoi un shop par son id
 apiRouter.get('/shop/:id/products', shopController.getAllProduct); // Renvoi tout les produits d'un shop
 apiRouter.post('/shop', validateBody(shopSchema), shopController.addOne); // Créer un shop
@@ -54,15 +55,15 @@ apiRouter.delete('/shop/:id', shopController.deleteOneById); // Supprimer un sho
 apiRouter.get('/shop/user/:id', shopController.getOneByUser); // Renvoi un shop par son id
 
 // Route Category
-apiRouter.get('/category/:id', categoryController.getOneById);// Renvoi une categorie
-apiRouter.get('/category', categoryController.getAll);// Renvoi plusieurs categorie
-apiRouter.get('/category/:categoryId/shops', shopController.getShopFromCategory); // Renvoi les shops d'une categorie
+apiRouter.get('/marketplace/:marketplaceId/category/:id', categoryController.getOneById);// Renvoi une categorie
+apiRouter.get('/marketplace/:marketplaceId/category', categoryController.getAll);// Renvoi plusieurs categorie
+apiRouter.get('/marketplace/:marketplaceId/category/:categoryId/shops', shopController.getShopFromCategory); // Renvoi les shops d'une categorie
 apiRouter.delete('/category/:id', categoryController.deleteOneById); // Supprimer une categorie par son id
 
 // Test forgot password
 apiRouter.post('/forget-password', userController.forgetPassword);
 apiRouter.get('/reset-password/:id/:token', userController.checkForNewPassword);
-apiRouter.post('/reset-password/:id/:token', userController.newPassword);
+apiRouter.post('/reset-password/:id/:token', validateBody(resetPasswordSchema), userController.newPassword);
 apiRouter.get('/email-validation/:id/:token', userController.validateAccount);
 
 apiRouter.use((request, response) => {

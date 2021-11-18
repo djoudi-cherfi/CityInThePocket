@@ -37,17 +37,17 @@ const Home = ({
       {productsLastAddLoaded && shopsLastAddLoaded
         ? (
           <div className="home">
-              <Helmet>
-                <title>Home</title>
-                <meta name="description" content="Page home" />
-              </Helmet>
+            <Helmet>
+              <title>Home</title>
+              <meta name="description" content="Page home" />
+            </Helmet>
             <div className="home-list">
               <h2 className="list-title-product">Nouveaux produits</h2>
               <div className="list-product">
                 {productsLastAdd.map((product) => (
                   <Link
                     key={product.id}
-                    to={`/${cityName}/product/${product.id}`}
+                    to={`/${cityName.slug}/product/${product.id}`}
                   >
                     <ProductCard key={product.id} {...product} />
                   </Link>
@@ -59,7 +59,7 @@ const Home = ({
                 {shopsLastAdd.map((shop) => (
                   <Link
                     key={shop.id}
-                    to={`/${cityName}/sellerprofil/${shop.id}`}
+                    to={`/${cityName.slug}/sellerprofil/${shop.id}`}
                   >
                     <ShopCard key={shop.id} {...shop} />
                   </Link>
@@ -73,7 +73,7 @@ const Home = ({
 };
 
 Home.propTypes = {
-  cityName: PropTypes.string.isRequired,
+  cityName: PropTypes.object.isRequired,
   loadproductsLastAdd: PropTypes.func.isRequired,
   productsLastAddLoaded: PropTypes.bool.isRequired,
   productsLastAdd: PropTypes.arrayOf(

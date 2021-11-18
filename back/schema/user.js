@@ -11,7 +11,7 @@ const schema = Joi.object({
   address: Joi.string().pattern(/^(?=.*[a-zA-Z])[a-zA-Z '0-9]{1,}$/).required(),
   city: Joi.string().required(),
   postal_code: Joi.string().pattern(/^\d{5}$/).length(5).required(),
-  conditions_privacy_policy: Joi.boolean().valid(true).required(),
+  policy_agree: Joi.boolean().valid(true).required(),
 });
 
 module.exports = schema;

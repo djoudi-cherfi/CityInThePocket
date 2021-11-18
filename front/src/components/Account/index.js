@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // == Router
-import { Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 // == Head html informations
 import { Helmet } from 'react-helmet';
@@ -28,25 +28,27 @@ const Account = () => (
     <MediaQuery maxWidth={breakpoint.laptopMax}>
       <Redirect to="/account/a-propos-de-vous" />
 
-      <Route exact path="/account/a-propos-de-vous">
-        <AboutYou />
-      </Route>
+      <Switch>
+        <Route exact path="/account/a-propos-de-vous">
+          <AboutYou />
+        </Route>
 
-      <Route exact path="/account/ma-boutique">
-        <MyShop />
-      </Route>
+        <Route exact path="/account/ma-boutique">
+          <MyShop />
+        </Route>
 
-      <Route exact path="/account/mot-de-passe">
-        <Password />
-      </Route>
+        <Route exact path="/account/mot-de-passe">
+          <Password />
+        </Route>
 
-      <Route exact path="/account/email">
-        <Email />
-      </Route>
+        <Route exact path="/account/email">
+          <Email />
+        </Route>
 
-      <Route exact path="/account/fermer-le-compte">
-        <CloseAccount />
-      </Route>
+        <Route exact path="/account/fermer-le-compte">
+          <CloseAccount />
+        </Route>
+      </Switch>
     </MediaQuery>
 
     <MediaQuery minWidth={breakpoint.laptopMin}>

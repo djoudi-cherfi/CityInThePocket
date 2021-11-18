@@ -168,7 +168,7 @@ const properties = {
     .string()
     .required('Veuillez confirmer votre mot de passe')
     .oneOf([Yup
-      .ref('updatePassword'), null], 'Les mots de passe ne correspondent pas')
+      .ref('resetPassword'), null], 'Les mots de passe ne correspondent pas')
     .required('Veuillez confirmer votre mot de passe'),
 
   // Template

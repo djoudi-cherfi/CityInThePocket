@@ -5,13 +5,11 @@ import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
 
-import { slugifyCategoryName } from 'src/utils';
-
 import logo from 'src/assets/images/logo/logo-city-in-the-pocket-color.svg';
 
 import './findcity.scss';
 
-const Findcity = ({ cities, futurcCities, HandleCity }) => (
+const Findcity = ({ cities, futurcCities }) => (
   <div className="findcity">
     <div className="findcity-wrap">
 
@@ -29,14 +27,11 @@ const Findcity = ({ cities, futurcCities, HandleCity }) => (
             <NavLink
               key={`${city.id}/home`}
               exact
-              to={`/${slugifyCategoryName(city.name)}/home`}
+              to={`/${city.slug}/home`}
               className="cities-name"
               activeClassName="cities-name-active"
-              onClick={() => {
-                HandleCity(slugifyCategoryName(city.name));
-              }}
             >
-              {city.name}
+              {city.city}
             </NavLink>
           ))}
         </h2>
@@ -58,7 +53,7 @@ Findcity.propTypes = {
   cities: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
   futurcCities: PropTypes.arrayOf(
@@ -67,7 +62,6 @@ Findcity.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  HandleCity: PropTypes.func.isRequired,
 };
 
 export default Findcity;
