@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // == Router
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 // == Import header
 import Header from 'src/containers/Header';
@@ -36,23 +36,14 @@ const Pages = ({
         <Informations />
       </Route>
 
-      {logged ? (
-        <Route
-          exact
-          path={[
-            '/account/dashboard',
-            '/account/a-propos-de-vous',
-            '/account/ma-boutique',
-            '/account/mot-de-passe',
-            '/account/email',
-          ]}
-        >
+      {logged && (
+        <Route exact path="/account/:service">
           <Account />
         </Route>
-      ) : (
-        <>
-          <Redirect to="/identity/login-register" />
+      )}
 
+      {!logged && (
+        <>
           <Route exact path="/identity/login-register">
             <Identity />
           </Route>

@@ -14,7 +14,6 @@ const mapStateToProps = (state) => ({
   loginEmail: state.form.loginEmail,
   loginPassword: state.form.loginPassword,
   rememberPassword: state.form.rememberPassword,
-  logged: state.auth.logged,
 });
 
 // === mapDispatchToProps

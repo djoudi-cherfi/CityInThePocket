@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
 
@@ -27,9 +27,6 @@ const Login = ({
   // Reset state initialValues
   handleResetForm,
 
-  // is logged
-  logged,
-
   // Reset status forgotPasswordSentStatus
   handleForgotPasswordSentStatusReset,
 
@@ -47,6 +44,8 @@ const Login = ({
     'loginPassword',
   );
 
+  const history = useHistory();
+
   // Send all values to...
   const handleSubmit = (_, { setSubmitting }) => {
     // make async call
@@ -54,6 +53,7 @@ const Login = ({
     handleLoginCreate();
     handleResetForm();
     setSubmitting(false);
+    history.goBack();
   };
 
   return (
@@ -93,11 +93,13 @@ const Login = ({
       <NavLink
         to="/identity/forgot-password"
         className="login-forgot-password"
-        onClick={handleForgotPasswordSentStatusReset, handleResetPasswordSentStatusReset}
+        onClick={() => {
+          handleForgotPasswordSentStatusReset();
+          handleResetPasswordSentStatusReset();
+        }}
       >
         Mot passe oublié ?
       </NavLink>
-      {logged && <Redirect to="/account/dashboard" />}
     </div>
   );
 };
@@ -115,9 +117,6 @@ Login.propTypes = {
 
   // Reset state initialValues
   handleResetForm: PropTypes.func.isRequired,
-
-  // is logged
-  logged: PropTypes.bool.isRequired,
 
   // Reset status forgotPasswordSentStatus
   handleForgotPasswordSentStatusReset: PropTypes.func.isRequired,

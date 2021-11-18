@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // == Router
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 // == Head html informations
 import { Helmet } from 'react-helmet';
@@ -26,8 +26,6 @@ import './account.scss';
 const Account = () => (
   <div className="account">
     <MediaQuery maxWidth={breakpoint.laptopMax}>
-      <Redirect to="/account/a-propos-de-vous" />
-
       <Switch>
         <Route exact path="/account/a-propos-de-vous">
           <AboutYou />
@@ -52,8 +50,6 @@ const Account = () => (
     </MediaQuery>
 
     <MediaQuery minWidth={breakpoint.laptopMin}>
-      <Redirect to="/account/dashboard" />
-
       <Route exact path="/account/dashboard">
         <Helmet>
           <title>Gestion de compte</title>

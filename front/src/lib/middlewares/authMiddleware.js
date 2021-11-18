@@ -96,8 +96,17 @@ const authMiddleware = (store) => (next) => (action) => {
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
           store.dispatch(serverResponseStatusSave(response.status));
+          console.log(response.data);
 
-          store.dispatch(loginUserSave(response.data));
+          const actionLoginUserSave = loginUserSave(
+            response.data.userId,
+            response.data.logged,
+            response.data.verified,
+            response.data.xsrfToken,
+            response.data.accessTokenExpiresIn,
+            response.data.refreshTokenExpiresIn,
+          );
+          store.dispatch(actionLoginUserSave);
           store.dispatch(userIdentityGet());
         })
         .catch((error) => {

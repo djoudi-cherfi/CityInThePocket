@@ -55,8 +55,8 @@ POST http://localhost:5000/v1/user/login
 Content-Type: application/json
 
 {
-  "email": "",
-  "password": "!"
+  "email": "test.cityinthepocket@gmail.com",
+  "password": "Min8@Max10"
     
 }
 
