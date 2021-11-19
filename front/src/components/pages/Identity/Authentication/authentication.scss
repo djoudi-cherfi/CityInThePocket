@@ -1,0 +1,75 @@
+@use 'src/styles/vars';
+
+.authentication {
+  height: 100%;
+  padding: vars.$padding-header-footer-small 0;
+  background-color: vars.$color-primary;
+  
+  .authentication-container {
+    display: grid;
+    grid-template-areas:
+      'button'
+      'form';
+    grid-template-columns: minmax(100px, 80%);
+    grid-template-rows: auto 1fr;
+    gap: vars.$gutter-small;
+    justify-content: center;
+  
+    
+    // Button switch
+    .authentication-container-button {
+      grid-area: button;
+      justify-self: center;
+  
+      max-width: 220px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      border-radius: 5rem;
+      background-color: vars.$color-white;
+        
+      .authentication-container-button-login,
+      .authentication-container-button-register {
+        max-width: 110px;
+        padding: 0.5rem 1rem;
+        font-size: vars.$font-medium;
+        text-align: center;
+      }
+    
+      .authentication-container-button-login {
+        border-radius: 5rem;
+        color: vars.$color-white;
+        background-color: vars.$color-purple;
+       
+        &.switch {
+          border-radius: 5rem;
+          color: vars.$color-gray-dark;
+          background-color: vars.$color-white;
+        }
+      }
+    
+      .authentication-container-button-register {
+        border-radius: 5rem;
+        color: vars.$color-gray-dark;
+        background-color: vars.$color-white;
+    
+        &.switch {
+          border-radius: 5rem;
+          color: vars.$color-white;
+          background-color: vars.$color-purple;
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint mobile
+@media screen and (min-width: vars.$breakpoint-mobile-min) {
+  .authentication {
+
+    .authentication-container {
+      grid-template-columns: minmax(100px, 390px);
+    }
+  }
+}
