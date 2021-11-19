@@ -4,8 +4,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  Routes,
   Route,
-  Redirect,
+  Navigate,
   Link,
   useParams,
 } from 'react-router-dom';
@@ -50,8 +51,8 @@ const Category = ({
 
   return (
     <>
-      {redirect && (<Redirect to={`/${cityName.slug}/category/`} />)}
-      {city !== cityName.slug && (<Redirect to={`/${cityName.slug}/category/`} />)}
+      {redirect && (<Navigate to={`/${cityName.slug}/category/`} />)}
+      {city !== cityName.slug && (<Navigate to={`/${cityName.slug}/category/`} />)}
       {shopsByCategoryLoaded ? (
         <div className="category">
           <Helmet>
@@ -60,19 +61,25 @@ const Category = ({
           </Helmet>
 
           <div className="category-container">
-            <Route exact path={`/${cityName.slug}/category/:slug`}>
-              <div className="category-shop">
-                {shopsByCategory.map((shop) => (
-                  <Link
-                    key={shop.id}
-                    className="category-shop-link"
-                    to={`/${cityName.slug}/sellerprofil/${shop.id}`}
-                  >
-                    <ShopCard key={shop.id} {...shop} />
-                  </Link>
-                ))}
-              </div>
-            </Route>
+            <Routes>
+              <Route
+                exact
+                path={`/category/${slug}`}
+                element={(
+                  <div className="category-shop">
+                    {shopsByCategory.map((shop) => (
+                      <Link
+                        key={shop.id}
+                        className="category-shop-link"
+                        to={`/${cityName.slug}/sellerprofil/${shop.id}`}
+                      >
+                        <ShopCard key={shop.id} {...shop} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              />
+            </Routes>
           </div>
         </div>
       ) : (

@@ -47,7 +47,6 @@ const NavCategorySidebar = ({
                   key={categoryName.id}
                   to={`/${cityName.slug}/category/${slugifyName(categoryName.label)}`}
                   className="navcategory-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleCategoryId(categoryName.id);
                     HandleToggleNavCategoryOpen();
@@ -70,7 +69,6 @@ const NavCategorySidebar = ({
                   key={categoryName.id}
                   to={`/${cityName.slug}/category/${slugifyName(categoryName.label)}`}
                   className="navcategory-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleCategoryId(categoryName.id);
                   }}

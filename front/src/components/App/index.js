@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Route, Switch } from 'react-router-dom';
+import { Routes, Route, useRoutes } from 'react-router-dom';
 
 // == Loader animation and scroll to top
 import Loader from 'src/components/Loader/LoaderCircle';
@@ -52,33 +52,38 @@ const App = ({
     <div className="app">
       {categoryNamesLoaded ? (
         <>
-          <ScrollToTop />
-          <Switch>
+          {/* <ScrollToTop /> */}
+          <Routes>
             {citiesLoaded && (
-              <Route exact path="/">
-                <Header headercategory={false} headermarket={false} headerlogo={false} />
-                <FindCity />
-                <Footer />
-              </Route>
+              <Route
+                exact
+                path="/"
+                element={(
+                  <>
+                    <Header headercategory={false} headermarket={false} headerlogo={false} />
+                    <FindCity />
+                    <Footer />
+                  </>
+                )}
+              />
             )}
 
             <Route
               exact
-              path={[
-                '/informations/:article',
-                '/account/:section',
-                '/identity/login-register',
-                '/identity/forgot-password',
-                '/identity/reset-password/:id/:slug',
-              ]}
-            >
-              <Header headercategory={false} headermarket headerlogo />
-              <Pages />
-              <Footer />
-            </Route>
+              path="/identity/*"
+              element={(
+                <>
+                  <Header headercategory={false} headermarket headerlogo />
+                  <Pages />
+                  <Footer />
+                </>
+              )}
+            />
 
-            <Route exact path="/:city/*">
-              {toggleSlideProductOpen ? (
+            {/* <Route
+              exact
+              path="/:city/*"
+              element={toggleSlideProductOpen ? (
                 <Slider />
               ) : (
                 <>
@@ -87,15 +92,19 @@ const App = ({
                   <Footer />
                 </>
               )}
-            </Route>
+            /> */}
 
-            <Route path="*">
-              <Header headercategory={false} headermarket headerlogo />
-              <ErrorPage />
-              <Footer />
-            </Route>
-
-          </Switch>
+            <Route
+              path="*"
+              element={(
+                <>
+                  <Header headercategory={false} headermarket headerlogo />
+                  <ErrorPage />
+                  <Footer />
+                </>
+              )}
+            />
+          </Routes>
         </>
       ) : (
         <Loader />

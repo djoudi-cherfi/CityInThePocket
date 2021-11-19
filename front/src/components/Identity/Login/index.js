@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
 
@@ -44,7 +44,7 @@ const Login = ({
     'loginPassword',
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Send all values to...
   const handleSubmit = (_, { setSubmitting }) => {
@@ -53,7 +53,7 @@ const Login = ({
     handleLoginCreate();
     handleResetForm();
     setSubmitting(false);
-    history.goBack();
+    navigate(-1);
   };
 
   return (

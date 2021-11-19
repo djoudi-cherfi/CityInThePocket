@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Switch, Route, Redirect, useParams,
+  Routes, Route, Navigate, useParams,
 } from 'react-router-dom';
 
 // == Loader animation
@@ -41,28 +41,40 @@ const Informations = ({
   return (
     <div className="informations">
       <Sidebar />
-      {redirect && <Redirect to="/" />}
+      {redirect && <Navigate to="/" />}
       {infosNameLoaded ? (
         <>
-          <Switch>
-            <Route exact path="/informations/conditions-generales">
-              <Helmet>
-                <title>Conditions generales</title>
-                <meta name="description" content="Page des conditions generales" />
-              </Helmet>
+          <Routes>
+            <Route
+              exact
+              path="/informations/conditions-generales"
+              element={(
+                <>
+                  <Helmet>
+                    <title>Conditions generales</title>
+                    <meta name="description" content="Page des conditions generales" />
+                  </Helmet>
 
-              <TermsAndConditions data={termsAndConditionsData} />
-            </Route>
+                  <TermsAndConditions data={termsAndConditionsData} />
+                </>
+              )}
+            />
 
-            <Route exact path="/informations/mentions-legales">
-              <Helmet>
-                <title>Mentions legales</title>
-                <meta name="description" content="Page des mentions legales" />
-              </Helmet>
+            <Route
+              exact
+              path="/informations/mentions-legales"
+              element={(
+                <>
+                  <Helmet>
+                    <title>Mentions legales</title>
+                    <meta name="description" content="Page des mentions legales" />
+                  </Helmet>
 
-              <LegalNotice data={legalNoticeData} />
-            </Route>
-          </Switch>
+                  <LegalNotice data={legalNoticeData} />
+                </>
+              )}
+            />
+          </Routes>
           <SidebarButton />
         </>
       ) : (

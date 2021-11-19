@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // == Router
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 // == Import header
 import Header from 'src/containers/Header';
@@ -27,42 +27,58 @@ import ErrorPage from 'src/components/ErrorPage';
 import './pages.scss';
 
 // == Composant
-const Pages = ({
+const Pages = ({ood
+  
   logged,
 }) => (
   <div className="pages">
-    <Switch>
-      <Route exact path="/informations/:article">
-        <Informations />
-      </Route>
+    <Routes>
+      <Route
+        exact
+        path="/:article"
+        element={<Informations />}
+      />
 
       {logged && (
-        <Route exact path="/account/:service">
-          <Account />
-        </Route>
+        <Route
+          exact
+          path="/:service"
+          element={<Account />}
+        />
       )}
 
       {!logged && (
         <>
-          <Route exact path="/identity/login-register">
-            <Identity />
-          </Route>
+          <Route
+            exact
+            path="/login-register"
+            element={<Identity />}
+          />
 
-          <Route exact path="/identity/forgot-password">
-            <ForgotPassword />
-          </Route>
+          <Route
+            exact
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
 
-          <Route exact path="/identity/reset-password/:id/:slug">
-            <ResetPassword />
-          </Route>
+          <Route
+            exact
+            path="/reset-password/:id/:slug"
+            element={<ResetPassword />}
+          />
         </>
       )}
 
-      <Route path="*">
-        <Header headercategory={false} headermarket headerlogo />
-        <ErrorPage />
-      </Route>
-    </Switch>
+      <Route
+        path="*"
+        element={(
+          <>
+            <Header headercategory={false} headermarket headerlogo />
+            <ErrorPage />
+          </>
+        )}
+      />
+    </Routes>
   </div>
 );
 

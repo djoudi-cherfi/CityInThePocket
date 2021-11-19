@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 // == Router
 import {
-  Route, Switch, Redirect, useParams,
+  Routes, Route, Navigate, useParams,
 } from 'react-router-dom';
 
 import { getCityBySlug } from 'src/utils';
@@ -58,34 +58,49 @@ const City = ({
 
   return (
     <div className="city">
-      {redirect && <Redirect to="/" />}
+      {redirect && <Navigate to="/" />}
       {cityNameLoaded ? (
-        <Switch>
-          <Route exact path={`/${cityName.slug}/home`}>
-            <Home />
-          </Route>
+        <Routes>
+          <Route
+            exact
+            path="/home"
+            element={<Home />}
+          />
 
-          <Route exact path="/:city/category/:slug">
-            <Category />
-          </Route>
+          <Route
+            exact
+            path="/category/:slug"
+            element={<Category />}
+          />
 
-          <Route exact path={`/${cityName.slug}/list/:slug`}>
-            <List />
-          </Route>
+          <Route
+            exact
+            path="/list/:slug"
+            element={<List />}
+          />
 
-          <Route exact path={`/${cityName.slug}/sellerprofil/:id`}>
-            <SellerProfil />
-          </Route>
+          <Route
+            exact
+            path="/sellerprofil/:id"
+            element={<SellerProfil />}
+          />
 
-          <Route exact path={`/${cityName.slug}/product/:id`}>
-            <Product />
-          </Route>
+          <Route
+            exact
+            path="/product/:id"
+            element={<Product />}
+          />
 
-          <Route path="*">
-            <Header headercategory headermarket headerlogo />
-            <ErrorPage />
-          </Route>
-        </Switch>
+          <Route
+            path="*"
+            element={(
+              <>
+                <Header headercategory headermarket headerlogo />
+                <ErrorPage />
+              </>
+            )}
+          />
+        </Routes>
       ) : (
         <Loader />
       )}

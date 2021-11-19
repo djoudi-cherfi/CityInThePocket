@@ -58,7 +58,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/identity/login-register"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -88,7 +87,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/identity/login-register"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -124,7 +122,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/account/a-propos-de-vous"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -136,7 +133,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/account/ma-boutique"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -148,7 +144,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/account/mot-de-passe"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -160,7 +155,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/account/email"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -172,7 +166,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/account/fermer-le-compte"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                   onClick={() => {
                     HandleToggleIdentityOpen();
                   }}
@@ -238,7 +231,6 @@ const NavIdentitySidebar = ({
                 <NavLink
                   to="/account/dashboard"
                   className="navidentity-sidebar-list-item-link"
-                  activeClassName="current"
                 >
                   Mon compte
                 </NavLink>

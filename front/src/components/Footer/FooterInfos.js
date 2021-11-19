@@ -11,8 +11,6 @@ const FooterInfos = () => (
     <ul>
       <li className="footer-infos-link">
         <NavLink
-          exact
-          activeClassName="current"
           to="/informations/conditions-generales"
         >
           Conditions Generales
@@ -20,8 +18,6 @@ const FooterInfos = () => (
       </li>
       <li className="footer-infos-link">
         <NavLink
-          exact
-          activeClassName="current"
           to="/informations/mentions-legales"
         >
           Mentions Légales

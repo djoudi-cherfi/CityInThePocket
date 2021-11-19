@@ -26,10 +26,8 @@ const Findcity = ({ cities, futurcCities }) => (
           {cities.map((city) => (
             <NavLink
               key={`${city.id}/home`}
-              exact
               to={`/${city.slug}/home`}
               className="cities-name"
-              activeClassName="cities-name-active"
             >
               {city.city}
             </NavLink>

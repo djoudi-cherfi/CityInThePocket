@@ -2,7 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
 
@@ -35,7 +35,7 @@ const Register = ({
   // Reset state initialValues
   handleResetForm,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // The initial values validated by Yup
   const initialValues = {
@@ -70,8 +70,8 @@ const Register = ({
     setSubmitting(true);
     handleRegisterCreate();
     handleResetForm();
-    history.goBack();
     setSubmitting(false);
+    navigate(-1);
   };
 
   return (

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet';
 
@@ -29,7 +29,7 @@ const ProductDetail = ({
 
   useEffect(() => {
     if (id === undefined) {
-      <Redirect to={`/${cityName.slug}/home`} />;
+      <Navigate to={`/${cityName.slug}/home`} />;
     }
     else {
       HandleProductIdUrl(id);
