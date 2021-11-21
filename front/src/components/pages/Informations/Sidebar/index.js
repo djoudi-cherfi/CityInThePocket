@@ -3,13 +3,15 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-import classNames from 'classnames';
+import { useLocation } from 'react-router-dom';
 
 import { HashLink } from 'react-router-hash-link';
 
-import MediaQuery from 'react-responsive';
+import classNames from 'classnames';
 
 import slugify from 'slugify';
+
+import MediaQuery from 'react-responsive';
 
 import { breakpoint } from 'src/utils/mediaQuery';
 
@@ -21,8 +23,9 @@ const Sidebar = ({
   infosRefs,
   handleToggleSidebarTgOpen,
   toggleSidebarTgOpen,
-  infosName,
 }) => {
+  const { pathname } = useLocation();
+
   const scrollWithOffset = (tag) => {
     const mobile = -105;
     const desktop = -180;
@@ -42,14 +45,14 @@ const Sidebar = ({
           <li key={refs} className="sidebar-item">
             <HashLink
               key={refs}
-              to={`/informations/conditions-generales#${index + 1}`}
+              to={`${pathname}#${index + 1}`}
               className="sidebar-item-link"
-              scroll={tag => scrollWithOffset(tag)}
+              scroll={(tag) => scrollWithOffset(tag)}
               onClick={() => {
                 handleToggleSidebarTgOpen();
               }}
             >
-              {infosName === 'conditions-generales' && (
+              {pathname === '/informations/conditions-generales' && (
                 <>
                   <MediaQuery maxWidth={breakpoint.laptopMax}>
                     {refs.match(/^[a-zA-Z].+:/g) && (
@@ -73,7 +76,7 @@ const Sidebar = ({
                 </>
               )}
 
-              {infosName === 'mentions-legales' && (
+              {pathname === '/informations/mentions-legales' && (
                 <>
                   <MediaQuery maxWidth={breakpoint.laptopMax}>
                     {refs.match(/(\d+\.)+\d*/g) && (
@@ -108,7 +111,6 @@ const Sidebar = ({
 Sidebar.propTypes = {
   headerHeight: PropTypes.number.isRequired,
   infosRefs: PropTypes.array.isRequired,
-  infosName: PropTypes.string.isRequired,
   handleToggleSidebarTgOpen: PropTypes.func.isRequired,
   toggleSidebarTgOpen: PropTypes.bool.isRequired,
 };

@@ -27,8 +27,6 @@ const initialState = {
   legalNoticeData: [],
   legalNoticeDataLoaded: false,
   infosRefs: [],
-  infosName: '',
-  infosNameLoaded: false,
   toggleSidebarTgOpen: false,
 
   // Cities
@@ -90,13 +88,6 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         infosRefs: action.infosRefs,
-      };
-
-    case INFOS_NAME_SAVE:
-      return {
-        ...state,
-        infosName: action.infosName,
-        infosNameLoaded: true,
       };
 
     case TOGGLE_SIDEBAR_TG_OPEN:

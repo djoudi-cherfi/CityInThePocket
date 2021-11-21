@@ -4,8 +4,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Routes,
-  Route,
   Navigate,
   Link,
   useParams,
@@ -16,10 +14,10 @@ import { Helmet } from 'react-helmet';
 import { getCategoryBySlug } from 'src/utils';
 
 // == Loader animation
-import Loader from 'src/components/Loader/LoaderCircle';
+import Loader from 'src/components/templates/Loader/LoaderCircle';
 
 // == Import
-import ShopCard from 'src/components/Cards/ShopCard';
+import ShopCard from 'src/components/templates/Cards/ShopCard';
 
 import './category.scss';
 
@@ -32,7 +30,7 @@ const Category = ({
   shopsByCategoryLoaded,
   shopsByCategory,
 }) => {
-  const { slug, city } = useParams();
+  const { slug } = useParams();
 
   const category = getCategoryBySlug(categoryNames, slug);
 
@@ -51,8 +49,7 @@ const Category = ({
 
   return (
     <>
-      {redirect && (<Navigate to={`/${cityName.slug}/category/`} />)}
-      {city !== cityName.slug && (<Navigate to={`/${cityName.slug}/category/`} />)}
+      {redirect && (<Navigate to={`/${cityName.slug}/home/`} />)}
       {shopsByCategoryLoaded ? (
         <div className="category">
           <Helmet>
@@ -61,25 +58,17 @@ const Category = ({
           </Helmet>
 
           <div className="category-container">
-            <Routes>
-              <Route
-                exact
-                path={`/category/${slug}`}
-                element={(
-                  <div className="category-shop">
-                    {shopsByCategory.map((shop) => (
-                      <Link
-                        key={shop.id}
-                        className="category-shop-link"
-                        to={`/${cityName.slug}/sellerprofil/${shop.id}`}
-                      >
-                        <ShopCard key={shop.id} {...shop} />
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              />
-            </Routes>
+            <div className="category-shop">
+              {shopsByCategory.map((shop) => (
+                <Link
+                  key={shop.id}
+                  className="category-shop-link"
+                  to={`/${cityName.slug}/sellerprofil/${shop.id}`}
+                >
+                  <ShopCard key={shop.id} {...shop} />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       ) : (

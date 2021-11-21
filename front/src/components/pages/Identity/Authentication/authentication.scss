@@ -1,6 +1,7 @@
 @use 'src/styles/vars';
 
 .authentication {
+  grid-area: main;
   height: 100%;
   padding: vars.$padding-header-footer-small 0;
   background-color: vars.$color-primary;

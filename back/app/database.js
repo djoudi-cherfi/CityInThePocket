@@ -16,13 +16,21 @@ const checkEnvironment = () => {
   }
 };
 
+// check ssl mode
+const ssl = () => {
+  if (process.env.NODE_ENV === process.env.LOCALHOST) {
+    return false;
+  }
+  if (process.env.NODE_ENV === process.env.HEROKU) {
+    return { rejectUnauthorized: false };
+  }
+};
+
 // Pool est un équivalent de Client pour la connexion a la DB.
 const database = new Pool({
   connectionString: DATABASE[checkEnvironment()],
-  ssl: false,
-  // ssl: {
-  //   rejectUnauthorized: false,
-  // },
+
+  ssl: ssl(),
 });
 
 console.log('Database is running on', checkEnvironment());

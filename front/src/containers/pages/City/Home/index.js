@@ -5,7 +5,7 @@ import { productgetlast } from 'src/lib/actions/productActions';
 import { shopsLastAddGet } from 'src/lib/actions/shopActions';
 
 // on importe le composant de présentation
-import Home from 'src/components/Home';
+import Home from 'src/components/pages/City/Home';
 
 // === mapStateToProps
 // si on a besoin de lire des informations dans le state

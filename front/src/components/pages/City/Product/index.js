@@ -8,7 +8,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 // == Loader animation
-import Loader from 'src/components/Loader/LoaderCircle';
+import Loader from 'src/components/templates/Loader/LoaderCircle';
 
 import './product.scss';
 

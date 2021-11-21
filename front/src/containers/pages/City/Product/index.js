@@ -5,7 +5,7 @@ import { productIdUrlSave, productGet } from 'src/lib/actions/productActions';
 import { currentSlideCount, toggleSlideProductOpen } from 'src/lib/actions/mainActions';
 
 // on importe le composant de présentation
-import Product from 'src/components/Product';
+import Product from 'src/components/pages/City/Product';
 
 // === mapStateToProps
 // si on a besoin de lire des informations dans le state

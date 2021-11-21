@@ -52,8 +52,8 @@ const Login = ({
     setSubmitting(true);
     handleLoginCreate();
     handleResetForm();
-    setSubmitting(false);
     navigate(-1);
+    setSubmitting(false);
   };
 
   return (

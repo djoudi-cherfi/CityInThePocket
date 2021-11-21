@@ -55,11 +55,6 @@ export const infosRefsSave = (infosRefs) => ({
   infosRefs,
 });
 
-export const infosNameSave = (infosName) => ({
-  type: INFOS_NAME_SAVE,
-  infosName,
-});
-
 export const toggleSidebarTgOpen = () => ({
   type: TOGGLE_SIDEBAR_TG_OPEN,
 });

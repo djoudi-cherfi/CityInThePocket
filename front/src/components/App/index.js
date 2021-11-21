@@ -3,10 +3,9 @@ import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
 
-// == Loader animation and scroll to top
-import Loader from 'src/components/templates/Loader/LoaderCircle';
+// == Scroll to top
 import ScrollToTop from 'src/utils/ScrollToTop';
 
 // == Media query pour les composants react
@@ -15,11 +14,7 @@ import { breakpoint } from 'src/utils/mediaQuery';
 
 import infosData from 'src/data/informations.json';
 
-// == Import header and footer
-import Header from 'src/containers/templates/Header';
-import Footer from 'src/components/templates/Footer';
-
-// ==  Import pages
+// == Import pages
 // FindCity page
 import FindCity from 'src/containers/pages/FindCity';
 
@@ -32,13 +27,9 @@ import Email from 'src/containers/pages/Account/Email';
 import CloseAccount from 'src/containers/pages/Account/CloseAccount';
 import Dashboard from 'src/containers/pages/Account/Dashboard';
 
-// Identity route
+// Identity page
 import Identity from 'src/components/pages/Identity';
-
-// Authentication login and register page
 import Authentication from 'src/containers/pages/Identity/Authentication';
-
-// Identity other page
 import ForgotPassword from 'src/containers/pages/Identity/ForgotPassword';
 import ResetPassword from 'src/containers/pages/Identity/ResetPassword';
 
@@ -47,34 +38,26 @@ import Informations from 'src/components/pages/Informations';
 import TermsAndConditions from 'src/containers/pages/Informations/TermsAndConditions';
 import LegalNotice from 'src/containers/pages/Informations/LegalNotice';
 
-// // City page
-// import City from 'src/containers/City';
+// City page
+import City from 'src/containers/pages/City';
+import Home from 'src/containers/pages/City/Home';
+import Category from 'src/containers/pages/City/Category';
+import List from 'src/components/pages/City/List';
+import SellerProfil from 'src/containers/pages/City/SellerProfil';
+import Product from 'src/containers/pages/City/Product';
 
 // Error page
-import ErrorPage from 'src/components/templates/ErrorPage';
-
-// // == Import
-// import Slider from 'src/containers/Product/Slider';
+import NotFound from 'src/components/pages/NotFound';
 
 import './styles.scss';
 
 // == Composant
 const App = ({
   logged,
-
   loadCities,
-  citiesLoaded,
-
   loadCategoriesNames,
-  categoryNamesLoaded,
-
   handleInfosData,
-
-  // toggleSlideProductOpen,
 }) => {
-  const laptopMax = useMediaQuery({ maxWidth: breakpoint.laptopMax });
-  const laptopMin = useMediaQuery({ minWidth: breakpoint.laptopMin });
-
   const { TermsAndConditionsData, LegalNoticeData } = infosData;
 
   useEffect(() => {
@@ -83,174 +66,113 @@ const App = ({
     handleInfosData(TermsAndConditionsData, LegalNoticeData);
   }, []);
 
+  const routesSchema = [
+    // FindCity
+    {
+      path: '/',
+      element: <FindCity />,
+    },
+
+    // Informations
+    {
+      path: '/informations',
+      element: <Informations />,
+      children: [
+        { path: '/informations/conditions-generales', element: <TermsAndConditions /> },
+        { path: '/informations/mentions-legales', element: <LegalNotice /> },
+      ],
+    },
+
+    // Identity
+    {
+      path: '/identity',
+      element:
+      logged
+        ? <Navigate to="/account/dashboard" />
+        : <Identity />,
+      children: [
+        { path: '/identity/login-register', element: <Authentication /> },
+        { path: '/identity/forgot-password', element: <ForgotPassword /> },
+        { path: '/identity/reset-password/:id/:slug', element: <ResetPassword /> },
+      ],
+    },
+
+    // Account
+    {
+      path: '/account',
+      element:
+      logged
+        ? <Account />
+        : <Navigate to="/identity/login-register" />,
+      children: [
+        {
+          path: '/account/a-propos-de-vous',
+          element: useMediaQuery({ maxWidth: breakpoint.laptopMax })
+            ? <AboutYou /> : <Navigate to="/account/dashboard" />,
+        },
+        {
+          path: '/account/ma-boutique',
+          element: useMediaQuery({ maxWidth: breakpoint.laptopMax })
+            ? <MyShop /> : <Navigate to="/account/dashboard" />,
+        },
+        {
+          path: '/account/mot-de-passe',
+          element: useMediaQuery({ maxWidth: breakpoint.laptopMax })
+            ? <Password /> : <Navigate to="/account/dashboard" />,
+        },
+        {
+          path: '/account/email',
+          element: useMediaQuery({ maxWidth: breakpoint.laptopMax })
+            ? <Email /> : <Navigate to="/account/dashboard" />,
+        },
+        {
+          path: '/account/fermer-le-compte',
+          element: useMediaQuery({ maxWidth: breakpoint.laptopMax })
+            ? <CloseAccount /> : <Navigate to="/account/dashboard" />,
+        },
+        {
+          path: '/account/dashboard',
+          element: useMediaQuery({ minWidth: breakpoint.laptopMin })
+            ? <Dashboard /> : <Navigate to="/account/a-propos-de-vous" />,
+        },
+      ],
+    },
+
+    // City
+    {
+      path: '/:city',
+      element: <City />,
+      children: [
+        { path: '/:city/home', element: <Home /> },
+        { path: '/:city/category/:slug', element: <Category /> },
+        { path: '/:city/list/:slug', element: <List /> },
+        { path: '/:city/sellerprofil/:id', element: <SellerProfil /> },
+        { path: '/:city/product/:id', element: <Product /> },
+      ],
+    },
+
+    // NotFound
+    {
+      path: '*',
+      element: <NotFound />,
+    },
+  ];
+
+  const routes = useRoutes(routesSchema);
+
   return (
     <div className="app">
-      {categoryNamesLoaded ? (
-        <>
-          <ScrollToTop />
-          <Routes>
-            {citiesLoaded && (
-              <Route
-                path="/"
-                element={(
-                  <>
-                    <Header headercategory={false} headermarket={false} headerlogo={false} />
-                    <FindCity />
-                    <Footer />
-                  </>
-                )}
-              />
-            )}
-
-            <Route
-              path="/informations"
-              element={(
-                <>
-                  <Header headercategory={false} headermarket headerlogo />
-                  <Informations />
-                  <Footer />
-                </>
-              )}
-            >
-              <Route path="/informations/conditions-generales" element={<TermsAndConditions />} />
-              <Route path="/informations/mentions-legales" element={<LegalNotice />} />
-            </Route>
-
-            {logged && (
-              <Route
-                path="/account"
-                element={(
-                  <>
-                    <Header headercategory={false} headermarket headerlogo />
-                    <Account />
-                    <Footer />
-                  </>
-              )}
-              >
-                <Route
-                  path="/account/a-propos-de-vous"
-                  element={(
-                    <>
-                      <AboutYou />
-                      {laptopMin && (<Navigate to="/account/dashboard" />)}
-                    </>
-                )}
-                />
-                <Route
-                  path="/account/ma-boutique"
-                  element={(
-                    <>
-                      <MyShop />
-                      {laptopMin && (<Navigate to="/account/dashboard" />)}
-                    </>
-                )}
-                />
-                <Route
-                  path="/account/mot-de-passe"
-                  element={(
-                    <>
-                      <Password />
-                      {laptopMin && (<Navigate to="/account/dashboard" />)}
-                    </>
-                )}
-                />
-                <Route
-                  path="/account/email"
-                  element={(
-                    <>
-                      <Email />
-                      {laptopMin && (<Navigate to="/account/dashboard" />)}
-                    </>
-                )}
-                />
-                <Route
-                  path="/account/fermer-le-compte"
-                  element={(
-                    <>
-                      <CloseAccount />
-                      {laptopMin && (<Navigate to="/account/dashboard" />)}
-                    </>
-                )}
-                />
-
-                <Route
-                  path="/account/dashboard"
-                  element={(
-                    <>
-                      <Dashboard />
-                      {laptopMax && (<Navigate to="/account/a-propos-de-vous" />)}
-                    </>
-                  )}
-                />
-
-              </Route>
-            )}
-
-            {/* <MediaQuery maxWidth={breakpoint.laptopMax}>
-    </MediaQuery> */}
-
-            {/* <MediaQuery minWidth={breakpoint.laptopMin}>
-    </MediaQuery> */}
-
-            <Route
-              path="/identity"
-              element={(
-                <>
-                  <Header headercategory={false} headermarket headerlogo />
-                  <Identity />
-                  <Footer />
-                </>
-            )}
-            >
-              <Route path="/identity/login-register" element={<Authentication />} />
-              <Route path="/identity/forgot-password" element={<ForgotPassword />} />
-              <Route path="/identity/reset-password/:id/:slug" element={<ResetPassword />} />
-            </Route>
-
-            {/* <Route
-              path="/:city/*"
-              element={toggleSlideProductOpen ? (
-                <Slider />
-              ) : (
-                <>
-                  <Header headercategory headermarket headerlogo />
-                  <City />
-                  <Footer />
-                </>
-              )}
-            /> */}
-
-            <Route
-              path="*"
-              element={(
-                <>
-                  <Header headercategory={false} headermarket headerlogo />
-                  <ErrorPage />
-                  <Footer />
-                </>
-              )}
-            />
-          </Routes>
-        </>
-      ) : (
-        <Loader />
-      )}
+      <ScrollToTop />
+      {routes}
     </div>
   );
 };
 
 App.propTypes = {
   logged: PropTypes.bool.isRequired,
-
   loadCities: PropTypes.func.isRequired,
-  citiesLoaded: PropTypes.bool.isRequired,
-
   loadCategoriesNames: PropTypes.func.isRequired,
-  categoryNamesLoaded: PropTypes.bool.isRequired,
-
   handleInfosData: PropTypes.func.isRequired,
-
-  // toggleSlideProductOpen: PropTypes.bool.isRequired,
 };
 
 // == Export

@@ -5,7 +5,7 @@ import { productsByShopGet } from 'src/lib/actions/productActions';
 import { shopIdUrlSave, shopGet } from 'src/lib/actions/shopActions';
 
 // on importe le composant de présentation
-import SellerProfil from 'src/components/SellerProfil';
+import SellerProfil from 'src/components/pages/City/SellerProfil';
 
 // === mapStateToProps
 // si on a besoin de lire des informations dans le state

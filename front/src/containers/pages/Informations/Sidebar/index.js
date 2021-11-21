@@ -11,7 +11,6 @@ const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
   headerHeight: state.main.headerHeight,
   infosRefs: state.main.infosRefs,
-  infosName: state.main.infosName,
   toggleSidebarTgOpen: state.main.toggleSidebarTgOpen,
 });
 

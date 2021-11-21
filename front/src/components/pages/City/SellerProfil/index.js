@@ -8,11 +8,11 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 // == Loader animation
-import Loader from 'src/components/Loader/LoaderCircle';
+import Loader from 'src/components/templates/Loader/LoaderCircle';
 
 // == Import
-import ProductCard from 'src/components/Cards/ProductCard';
-import Map from 'src/components/Map';
+import ProductCard from 'src/components/templates/Cards/ProductCard';
+import Map from 'src/components/templates/Map';
 import Contact from './Contact';
 
 import './sellerprofil.scss';

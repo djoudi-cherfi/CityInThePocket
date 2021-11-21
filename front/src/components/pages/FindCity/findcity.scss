@@ -1,16 +1,20 @@
 @use 'src/styles/vars';
 
 .findcity {
-  grid-area: main;
+  height: 100vh;
   display: grid;
-  grid-template-areas: 'container';
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+
   grid-template-columns: 1fr;
-  // grid-template-rows: auto;
-  // gap: vars.$gutter-small;
+  grid-template-rows: 80px 1fr 150px;
+  // gap: vars.$gutter-medium;
 
   
   .findcity-wrap {
-    grid-area: container;
+    grid-area: main;
     padding: vars.$padding-header-footer-medium 0;
     display: grid;
     grid-template-areas:
@@ -137,7 +141,11 @@
 }
 
 // Breakpoint laptop
-@media screen and (min-width: vars.$breakpoint-laptop-min) {}
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .findcity {
+    grid-template-rows: 150px 1fr 150px;
+  }
+}
 
 // Breakpoint desktop
 @media screen and (min-width: vars.$breakpoint-desktop-min) {}

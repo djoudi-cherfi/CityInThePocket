@@ -1,6 +1,6 @@
 @use 'src/styles/vars';
 
-.account {
+.notfound {
   height: 100vh;
   display: grid;
   grid-template-areas:
@@ -12,14 +12,19 @@
   grid-template-rows: 80px 1fr 150px;
   // gap: vars.$gutter-medium;
 
-  .account-content {
+  .notfound-content {
     grid-area: main;
+  height: 100%;
+
+  background-image: url('src/assets/images/bg-404/photo-error-404-desktop-1920.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   }
 }
 
 // Breakpoint laptop
 @media screen and (min-width: vars.$breakpoint-laptop-min) {
-  .account {
+  .notfound {
     grid-template-rows: 150px 1fr 150px;
   }
 }

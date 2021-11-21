@@ -11,12 +11,6 @@ import App from 'src/components/App';
 const mapStateToProps = (state) => ({
   // nom de la prop à remplir: élément à récupérer dans le state
   logged: state.auth.logged,
-
-  citiesLoaded: state.main.citiesLoaded,
-
-  categoryNamesLoaded: state.shops.categoryNamesLoaded,
-
-  toggleSlideProductOpen: state.main.toggleSlideProductOpen,
 });
 
 // === mapDispatchToProps

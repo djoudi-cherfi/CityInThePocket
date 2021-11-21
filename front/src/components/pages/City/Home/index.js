@@ -9,11 +9,11 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 // == Loader animation
-import Loader from 'src/components/Loader/LoaderCircle';
+import Loader from 'src/components/templates/Loader/LoaderCircle';
 
 // == Import
-import ProductCard from 'src/components/Cards/ProductCard';
-import ShopCard from 'src/components/Cards/ShopCard';
+import ProductCard from 'src/components/templates/Cards/ProductCard';
+import ShopCard from 'src/components/templates/Cards/ShopCard';
 
 import './home.scss';
 
@@ -28,15 +28,17 @@ const Home = ({
   shopsLastAdd,
 }) => {
   useEffect(() => {
+    // TODO!: faire un reset
+    // TODO!: async 2 fetch
     loadproductsLastAdd();
     loadShopsLastAdd();
-  }, []);
+  }, [cityName]);
 
   return (
-    <>
+    <div className="home">
       {productsLastAddLoaded && shopsLastAddLoaded
         ? (
-          <div className="home">
+          <>
             <Helmet>
               <title>Home</title>
               <meta name="description" content="Page home" />
@@ -66,9 +68,9 @@ const Home = ({
                 ))}
               </div>
             </div>
-          </div>
+          </>
         ) : (<Loader />)}
-    </>
+    </div>
   );
 };
 

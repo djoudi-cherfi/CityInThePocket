@@ -1,6 +1,6 @@
 @use 'src/styles/vars';
 
-.account {
+.city {
   height: 100vh;
   display: grid;
   grid-template-areas:
@@ -11,15 +11,11 @@
   grid-template-columns: 1fr;
   grid-template-rows: 80px 1fr 150px;
   // gap: vars.$gutter-medium;
-
-  .account-content {
-    grid-area: main;
-  }
 }
 
 // Breakpoint laptop
 @media screen and (min-width: vars.$breakpoint-laptop-min) {
-  .account {
+  .city {
     grid-template-rows: 150px 1fr 150px;
   }
 }
