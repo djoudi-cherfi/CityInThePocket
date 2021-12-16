@@ -148,6 +148,7 @@ const shopController = {
           const newShop = await new Shop(result);
 
           const shop = await newShop.save();
+          console.log(Shop);
 
           res.json({
             shop_id: shop,

@@ -22,3 +22,4 @@ tokenUserFK 2021-09-25T15:21:58Z Etudiant O'clock <student@teleporter> # fix del
 userBooleanPolicy 2021-10-11T14:02:42Z Etudiant O'clock <student@teleporter> # ajout d'une colonne policy_agree de type boolean pour le user
 addLowercaseSlugMarketplace 2021-11-17T18:05:47Z System Administrator <root@imac-de-djoudi.home> # ajout constraint marketplace_slug_lowercase_ck à la colonne slug
 addViewProductShop 2021-11-18T15:37:11Z System Administrator <root@imac-de-djoudi.home> # ajout view addViewProductShop
+addHasShop 2021-12-12T16:48:45Z System Administrator <root@imac-de-djoudi.home> # ajout de la colonne has_shop à la table user

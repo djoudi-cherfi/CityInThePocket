@@ -1,36 +1,38 @@
+@version = v1
+@heroku = https://app-cityinthepocket.herokuapp.com
+
+
+
 ##############################################
 #########   Test Route Market Place 
 ##############################################
 
-
 ### Renvoi un market place par son id
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1
+GET {{heroku}}{{version}}/marketplace/1
 
 ### Retourne tous les marketplaces
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace
+GET {{heroku}}{{version}}/marketplaces
 
 ### Renvoi tous les shops d’un marketplace
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1/shops
+GET {{heroku}}{{version}}/marketplace/1/shops
 ###
-DELETE https://app-cityinthepocket.herokuapp.com/v1/marketplace/1
+DELETE {{heroku}}{{version}}/marketplace/1
 
 
-##############################################################################################
 
 ##############################################
 ######### Test Route User
 ##############################################
 
-
 ### Renvoi tous les users 
-GET https://app-cityinthepocket.herokuapp.com/v1/users
+GET {{heroku}}{{version}}/users
 
 
 ### Renvoi un utilisateur par son id 
-GET https://app-cityinthepocket.herokuapp.com/v1/user/1
+GET {{heroku}}{{version}}/user/1
 
 ### Créer un user
-POST https://app-cityinthepocket.herokuapp.com/v1/user/ 
+POST {{heroku}}{{version}}/user/ 
 Content-Type: application/json
 
 {
@@ -48,7 +50,7 @@ Content-Type: application/json
 
 
 ### Test Login User
-POST https://app-cityinthepocket.herokuapp.com/v1/user/login 
+POST {{heroku}}{{version}}/login 
 Content-Type: application/json
 
 {
@@ -57,23 +59,22 @@ Content-Type: application/json
 }
 
 ### Supprime un utilisateur par son id 
-DELETE https://app-cityinthepocket.herokuapp.com/v1/user/2
+DELETE {{heroku}}{{version}}/user/2
 
 
-##############################################################################################
 
 ##############################################
 ######### Test Route Product
 ##############################################
 
 ### Renvoi un product par son id 
-GET https://app-cityinthepocket.herokuapp.com/v1/product/1
+GET {{heroku}}{{version}}/product/1
 
 ###  Renvoi les 5 derniers products
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1/product/last
+GET {{heroku}}{{version}}/marketplace/1/product/last
 
 ### Ajoute un produit
-POST https://app-cityinthepocket.herokuapp.com/v1/product/ 
+POST {{heroku}}{{version}}/product/ 
 Content-Type: application/json
 
 {
@@ -84,34 +85,32 @@ Content-Type: application/json
 }
 
 ### Supprime un produit
-DELETE https://app-cityinthepocket.herokuapp.com/v1/product/3
+DELETE {{heroku}}{{version}}/product/3
 
 
-##############################################################################################
 
 ##############################################
 ######### Test Route Shop
 ##############################################
 
-
 ### Renvoi les shops par categorie (2 = categoryId)
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1/category/2/shops
+GET {{heroku}}{{version}}/marketplace/1/category/2/shops
 
 ###Renvoi un shop par son id 
-GET https://app-cityinthepocket.herokuapp.com/v1/shop/30/
+GET {{heroku}}{{version}}/shop/30/
 
 
 ### Renvoi un shop par le userId
-GET https://app-cityinthepocket.herokuapp.com/v1/shop/user/3
+GET {{heroku}}{{version}}/shop/user/3
 
 ###Renvoi les produits d’un shop
-GET https://app-cityinthepocket.herokuapp.com/v1/shop/8/products
+GET {{heroku}}{{version}}/shop/8/products
 
 ### Supprime un shop
-DELETE https://app-cityinthepocket.herokuapp.com/v1/shop/2
+DELETE {{heroku}}{{version}}/shop/2
 
 ### Créer un shop 
-POST  https://app-cityinthepocket.herokuapp.com/v1/shop/
+POST  {{heroku}}{{version}}/shop/
 Content-Type: application/json
 
 {
@@ -130,20 +129,19 @@ Content-Type: application/json
 
 
 ### Renvoi les 5 derniers shops
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1/shop/last
+GET {{heroku}}{{version}}/marketplace/1/shop/last
 
 
-##############################################################################################
 
 ##############################################
 ######### Test Route Category
 ##############################################
 
 ###Renvoi toutes les category
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1/category
+GET {{heroku}}{{version}}/marketplace/1/category
 
 ###Renvoi une categorie par son id
-GET https://app-cityinthepocket.herokuapp.com/v1/marketplace/1/category/1
+GET {{heroku}}{{version}}/marketplace/1/category/1
 
 ###
-DELETE https://app-cityinthepocket.herokuapp.com/v1/category/5
+DELETE {{heroku}}{{version}}/category/5

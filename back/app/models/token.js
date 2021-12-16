@@ -33,7 +33,7 @@ class Token {
 
   async save() {
     // si id, UPDATE, sinon, INSERT
-    if (this.id) {
+    if (this.user_id) {
       // UPDATE
       try {
         const { rows } = await db.query(

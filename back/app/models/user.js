@@ -84,7 +84,7 @@ class User {
       // UPDATE
       try {
         const { rows } = await db.query(
-          'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11, policy_agree = $12 WHERE id = $13 RETURNING id;',
+          'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11, has_shop = $12, policy_agree = $13 WHERE id = $14 RETURNING id;',
           [
             this.firstname,
             this.lastname,
@@ -97,12 +97,15 @@ class User {
             this.create_date,
             this.password,
             this.verified,
+            this.has_shop,
             this.policy_agree,
             this.id,
           ],
         );
 
-        return rows;
+        this.id = rows[0].id;
+
+        return this.id;
       }
       catch (err) {
         // Lance une erreur sql précise

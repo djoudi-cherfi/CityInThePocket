@@ -169,6 +169,14 @@ class Shop {
         this.id = rows[0].id;
 
         await db.query(
+          'UPDATE "user" SET has_shop = $2 WHERE id = $1;',
+          [
+            this.user_id,
+            true,
+          ],
+        );
+
+        await db.query(
           'INSERT INTO shop_has_category (shop_id, category_id) VALUES ($1, $2);',
           [
             this.id,

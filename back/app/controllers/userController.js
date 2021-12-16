@@ -1,29 +1,54 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const tokenService = require('../services/token');
+const tokenService = require('../services/configToken');
 const transporter = require('../services/email');
 const emailTemplate = require('../templates/emailTemplate');
 
+const { audience, algorithm, issuer } = tokenService.config;
+
 const userController = {
 
-  // Need refacto
-  validEmail: async (req, res) => {
-    const user = await User.findOneEmail(req.body.email);
+  getAll: async (req, res, next) => {
+    try {
+      const users = await User.findAll();
 
-    if (user) {
-      // Si l'email est déjà utilisé
-      res.json({ isUnique: false });
+      if (users) {
+        res.json(users);
+      }
+      else {
+        // Sinon on passe a la page 404 car non trouvé
+
+        next();
+      }
     }
-    else {
-      // Si l'email n'est pas déjà utilisé
-      res.json({ isUnique: true });
+    catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getOneById: async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+
+      const user = await User.findOne(userId);
+
+      // Si le produit est trouvé on l'affiche
+      if (user) {
+        res.json(user);
+      }
+      else {
+        // Sinon on passe a la page 404 car non trouvé
+        next();
+      }
+    }
+    catch (error) {
+      res.status(500).json({ error: error.message });
     }
   },
 
   addOne: async (req, res) => {
     const userForm = req.body;
-    console.log(userForm);
 
     if (
       !req.body.firstName
@@ -47,21 +72,17 @@ const userController = {
 
       const user = await newUser.save();
 
-      const jwtContent = {
-        userId: newUser.id,
-        email: newUser.email,
-      };
-      const secret = process.env.TOKEN_SECRET + user;
+      const id = user.toString();
 
       const token = jwt.sign(
-        jwtContent,
-        secret,
+        { userId: id },
+        process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: '25m',
+          audience, algorithm, expiresIn: '5m', subject: id, issuer,
         },
       );
 
-      const link = `${process.env.URL_BACK}/email-validation/${newUser.id}/${token}`;
+      const link = `${process.env.URL_FRONT}/identity/email-validation/${id}/${token}`;
 
       transporter.sendMail(
         emailTemplate.validationEmailData(
@@ -83,48 +104,56 @@ const userController = {
     }
   },
 
-  getAll: async (req, res, next) => {
-    try {
-      const users = await User.findAll();
+  // Need refacto
+  validEmail: async (req, res) => {
+    const user = await User.findOneEmail(req.body.email);
 
-      if (users) {
-        res.json(users);
-      }
-      else {
-        // Sinon on passe a la page 404 car non trouvé
-
-        next();
-      }
+    if (user) {
+      // Si l'email est déjà utilisé
+      res.json({ isUnique: false });
     }
-    catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: error.message,
-      });
+    else {
+      // Si l'email n'est pas déjà utilisé
+      res.json({ isUnique: true });
     }
   },
 
-  getOneById: async (req, res, next) => {
+  // Need refacto
+  validateAccount: async (req, res) => {
     try {
-      const userId = req.params.id;
+      const { id, token } = req.params;
 
-      const user = await User.findOne(userId);
+      const user = await User.findOne(id);
 
-      // Si le produit est trouvé on l'affiche
-      if (user) {
-        res.json(user);
+      if (user.id !== parseInt(id, 10)) {
+        res.json({ error: 'Invalid User Id' });
       }
-      else {
-        // Sinon on passe a la page 404 car non trouvé
 
-        next();
-      }
+      jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        { algorithm: algorithm },
+        async (error, response) => {
+          if (error) {
+            console.log(error.message);
+            return res.status(401).json({ error: error.message });
+          }
+
+          if (response) {
+            user.verified = true;
+
+            const verifiedUser = new User(user);
+
+            const saveVerifiedUser = await verifiedUser.save();
+
+            res.status(200).json({ userId: saveVerifiedUser, message: 'utilisateur validé' });
+          }
+          return null;
+        },
+      );
     }
     catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: error.message,
-      });
+      res.status(500).json({ error: error.message });
     }
   },
 
@@ -145,40 +174,31 @@ const userController = {
         );
 
         if (validatorPassword) {
-          const askToken = await tokenService.generateToken(user.id);
+          const id = user.id.toString();
 
-          /* On créer le cookie contenant le JWT */
+          const token = await tokenService.generateToken(id);
+
+          // On crée le cookie contenant le refresh token
           res.cookie(
-            'access_token',
-            askToken.access_token,
+            'refresh-token',
+            token.refresh_token,
             {
               httpOnly: true,
               secure: true,
-              maxAge: 3600000,
-              // sameSite: 'none',
-            },
-          );
-
-          /* On créer le cookie contenant le refresh token */
-          res.cookie(
-            'refresh_token',
-            askToken.refreshToken,
-            {
-              httpOnly: true,
-              secure: true,
-              maxAge: 3600000,
+              maxAge: tokenService.refreshTokenExpires,
               path: '/',
-              // sameSite: 'none'
+              // sameSite: 'strict',
             },
           );
 
+          // On crée les informations de connexion et l'access token
           res.json({
-            logged: true,
             userId: user.id,
+            firstname: user.firstname,
+            logged: true,
             verified: user.verified,
-            refreshTokenExpiresIn: 900000,
-            accessTokenExpiresIn: 900000,
-            xsrfToken: askToken.xsrfToken,
+            hasShop: user.has_shop,
+            accessToken: token.access_token,
           });
         }
         else {
@@ -191,93 +211,85 @@ const userController = {
     }
   },
 
-  deleteOneById: async (request, response, next) => {
+  refreshToken: async (req, res) => {
     try {
-      const { id } = request.params;
+      const { cookies } = req;
+
+      // On vérifie que le refresh-token est présent dans les cookies de la requête
+      if (!cookies || !cookies['refresh-token']) {
+        return res.status(401).json({ message: 'Refresh token manquant dans le cookie' });
+      }
+
+      const refreshToken = cookies['refresh-token'];
+
+      // On vérifie et décode le JWT à l'aide du secret
+      // et de l'algorithme utilisé pour le générer
+      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, {
+        algorithm: algorithm,
+      }, async (error, user) => {
+        if (error) {
+          return res.status(401).json({ error: error.message });
+        }
+
+        // On vérifie que l'utilisateur existe bien dans notre base de données
+        const userFound = await User.findOne(user.userId);
+
+        if (!userFound) {
+          return res.status(401).json({ message: `L'utilisateur id : ${userFound} n'existe pas` });
+        }
+
+        const token = await tokenService.generateToken(user.userId);
+
+        // On crée le cookie contenant le refresh token
+        res.cookie(
+          'refresh-token',
+          token.refresh_token,
+          {
+            httpOnly: true,
+            secure: true,
+            maxAge: tokenService.refreshTokenExpires,
+            path: '/',
+            // sameSite: 'strict',
+          },
+        );
+
+        // On crée les informations de connexion et l'access token
+        res.json({
+          accessToken: token.access_token,
+        });
+
+        return user;
+      });
+    }
+    catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+
+    return null;
+  },
+
+  deleteOneById: async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
       const result = await User.findOne(id);
       if (result) {
         result.delete(id);
-        response.json(result);
+        res.json(result);
       }
       else {
         next();
       }
     }
     catch (error) {
-      console.error(error);
-      response.status(500).json({
-        error: error.message,
-      });
+      res.status(500).json({ error: error.message });
     }
   },
 
-  logout: (request, response) => {
-    response.clearCookie('access_token');
-    response.clearCookie('refresh_token');
-    response.json({ info: 'Vous avez été déconnecté' });
-  },
-
-  refreshToken: async (req, res) => {
-    try {
-      const { refresh_token, access_token } = req.cookies;
-
-      if (refresh_token) {
-        const decodedToken = jwt.verify(
-          access_token,
-          process.env.TOKEN_SECRET,
-        );
-
-        res.clearCookie('access_token');
-        res.clearCookie('refresh_token');
-
-        const askToken = await tokenService.generateToken(decodedToken.userId);
-
-        /* On créer le cookie contenant le JWT */
-        res.cookie(
-          'access_token',
-          askToken.access_token,
-          {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600000,
-            // sameSite: 'none',
-          },
-        );
-
-        /* On créer le cookie contenant le refresh token */
-        res.cookie(
-          'refresh_token',
-          askToken.refreshToken,
-          {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600000,
-            path: '/',
-            // sameSite: 'none',
-          },
-        );
-
-        res.json({
-          // tokenType: "Bearer",
-          logged: true,
-          userId: decodedToken.userId,
-          // access_token: access_token,
-          refreshTokenExpiresIn: 900000,
-          accessTokenExpiresIn: 900000,
-          xsrfToken: askToken.xsrfToken,
-        });
-      }
-      else {
-        res.status(403).json({ error: 'Vous devez vous reconnecter' });
-      }
-    }
-    catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: error.message,
-      });
-    }
+  logout: (req, res) => {
+    res.clearCookie('access_token');
+    res.clearCookie('refresh_token');
+    res.json({ info: 'Vous avez été déconnecté' });
   },
 
   forgetPassword: async (req, res) => {
@@ -287,22 +299,17 @@ const userController = {
       const user = await User.findOneEmail(email);
 
       if (user) {
-        const jwtContent = {
-          userId: user.id,
-          email: user.email,
-        };
-
-        const secret = process.env.TOKEN_SECRET + user.password;
+        const id = user.id.toString();
 
         const token = jwt.sign(
-          jwtContent,
-          secret,
+          { userId: id },
+          process.env.ACCESS_TOKEN_SECRET,
           {
-            expiresIn: '25m',
+            audience, algorithm, expiresIn: '10m', subject: id, issuer,
           },
         );
 
-        const link = `${process.env.URL_FRONT}/identity/reset-password/${user.id}/${token}`;
+        const link = `${process.env.URL_FRONT}/identity/reset-password/${id}/${token}`;
 
         transporter.sendMail(
           emailTemplate.forgetPasswordForm(
@@ -324,137 +331,88 @@ const userController = {
       }
     }
     catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: error.message,
-      });
+      res.status(500).json({ error: error.message });
     }
   },
 
   checkForNewPassword: async (req, res) => {
-    const { id, token } = req.params;
-
-    const user = await User.findOne(id);
-
-    console.log('user', user);
-
-    // Si le user est trouvé on l'affiche
-    if (user.id !== parseInt(id, 10)) {
-      res.json({ error: 'Invalid User Id' });
-      return;
-    }
-
-    const secret = process.env.TOKEN_SECRET + user.password;
-
     try {
-      const payload = jwt.verify(
-        token,
-        secret,
-      );
+      const { id, token } = req.params;
 
-      if (payload) {
-        res.json({
-          email: user.email,
-        });
+      const user = await User.findOne(id);
+
+      // Si le user est trouvé on l'affiche
+      if (user.id !== parseInt(id, 10)) {
+        res.json({ error: 'Invalid User Id' });
+        return;
       }
-      else {
-        res.status(403).json({
-          error: 'payload invalide',
-        });
-      }
+
+      jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        { algorithm: algorithm },
+        async (error, response) => {
+          if (error) {
+            console.log(error.message);
+            return res.status(401).json({ error: error.message });
+          }
+
+          res.json({ email: user.email });
+
+          return response;
+        },
+      );
     }
     catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: error.message,
-      });
+      res.status(500).json({ error: error.message });
     }
   },
 
   newPassword: async (req, res) => {
-    const { id, token } = req.params;
-
-    const { password, confirmPassword } = req.body;
-
-    const user = await User.findOne(id);
-
-    // Si user est trouvé on l'affiche
-    if (user.id !== parseInt(id, 10)) {
-      res.json({ error: 'Invalid User Id' });
-    }
-
-    const secret = process.env.TOKEN_SECRET + user.password;
-
     try {
-      const payload = jwt.verify(
+      const { id, token } = req.params;
+
+      const { password, confirmPassword } = req.body;
+
+      const user = await User.findOne(id);
+
+      // Si user est trouvé on l'affiche
+      if (user.id !== parseInt(id, 10)) {
+        res.json({ error: 'Invalid User Id' });
+      }
+
+      jwt.verify(
         token,
-        secret,
+        process.env.ACCESS_TOKEN_SECRET,
+        { algorithm: algorithm },
+        async (error, response) => {
+          if (error) {
+            console.log(error.message);
+            return res.status(401).json({ error: error.message });
+          }
+
+          if (password === confirmPassword) {
+            user.password = bcrypt.hashSync(
+              password,
+              10,
+            );
+
+            const newPass = new User(user);
+
+            const saveNewPass = await newPass.save();
+
+            res.json(saveNewPass);
+          }
+          else {
+            res.json({ error: 'Les mots de passe ne correspondent pas' });
+          }
+
+          return response;
+        },
       );
-
-      if (payload) {
-        if (password === confirmPassword) {
-          user.password = bcrypt.hashSync(
-            password,
-            10,
-          );
-
-          const newPass = new User(user);
-
-          const saveNewPass = await newPass.save();
-
-          res.json(saveNewPass);
-        }
-        else {
-          res.json({ error: 'Les mots de passe ne correspondent pas' });
-        }
-      }
-      else {
-        res.status(403).json({ error: 'payload invalide' });
-      }
     }
     catch (error) {
-      res.status(500).json({
-        error: error.message,
-      });
-    }
-  },
-
-  // Need refacto
-  validateAccount: async (req, res) => {
-    const { id, token } = req.params;
-
-    const user = await User.findOne(id);
-    if (user.id !== parseInt(id, 10)) {
-      res.json({ error: 'Invalid User Id' });
-    }
-
-    const secret = process.env.TOKEN_SECRET + user.id;
-
-    try {
-      const payload = jwt.verify(
-        token,
-        secret,
-      );
-
-      if (payload === true) {
-        user.verified = true;
-        const verifiedUser = new User(user);
-
-        const saveVerifiedUser = await verifiedUser.save();
-
-        res.json(saveVerifiedUser);
-      }
-      else {
-        res.status(403).json({ error: 'invalid payload' });
-      }
-    }
-    catch (error) {
-      console.error(error);
-
-      // eslint-disable-next-line no-magic-numbers
-      res.status(500).json({
-        error: error.message,
-      });
+      res.status(500).json({ error: error.message });
     }
   },
 };
