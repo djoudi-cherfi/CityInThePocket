@@ -30,6 +30,10 @@ logs
 
 # docs
 docs/
+=======
+# Ignore IDE specific files
+.vscode/
+
 
 #---------------------------------------#
 # OSX Ignores                           #
