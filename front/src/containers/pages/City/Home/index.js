@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // / import saveProduct
-import { productgetlast } from 'src/lib/actions/productActions';
+import { productLastAddGet } from 'src/lib/actions/productActions';
 import { shopsLastAddGet } from 'src/lib/actions/shopActions';
 
 // on importe le composant de présentation
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   // nom de la prop à remplir: fonction qui dispatch l'action
   loadproductsLastAdd: () => {
-    dispatch(productgetlast());
+    dispatch(productLastAddGet());
   },
 
   loadShopsLastAdd: () => {

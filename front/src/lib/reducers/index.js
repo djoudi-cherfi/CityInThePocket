@@ -28,7 +28,13 @@ const rootReducer = combineReducers({
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['main', 'auth', 'form', 'shops', 'products'],
+  whitelist: [
+    'main',
+    'auth',
+    'form',
+    'shops',
+    'products',
+  ],
   transforms: [
     encryptTransform({
       secretKey: 'my-super-secret-key',

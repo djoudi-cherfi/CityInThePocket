@@ -13,9 +13,10 @@
       'list-title-shop'
       'list-shop';
     grid-template-columns: minmax(100px, 80%);
-    grid-template-rows: auto 1fr auto 1fr;
+    grid-template-rows: auto auto auto 1fr;
     gap: vars.$gutter-medium;
     justify-content: center;
+    align-items: start;
 
     .list-title-product {
       grid-area: list-title-product;

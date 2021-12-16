@@ -16,7 +16,7 @@ const initialState = {
   serverResetPasswordValidation: '',
 };
 
-function authReducer(state = initialState, action) {
+function authReducer(state = initialState, action = {}) {
   switch (action.type) {
     // --------------- Serveur
     case SERVER_RESPONSE_STATUS_SAVE:

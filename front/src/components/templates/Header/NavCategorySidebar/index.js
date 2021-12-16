@@ -38,7 +38,6 @@ const NavCategorySidebar = ({
   return (
     <>
       <MediaQuery maxWidth={breakpoint.laptopMax} onChange={handleMediaQueryChange}>
-
         <div className={categoriesOpen}>
           <ul className="navcategory-sidebar-list">
             {categoryNames.map((categoryName) => (

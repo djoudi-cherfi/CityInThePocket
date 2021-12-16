@@ -7,12 +7,17 @@ import {
   // --------------- Login
   LOGIN_USER_SAVE,
   USER_IDENTITY_SAVE,
-  // --------------- Forgot password status
-  FORGOT_PASSWORD_SENT_STATUS_RESET,
+  // --------------- Refresh token
+  REFRESH_TOKEN_SAVE,
+  // --------------- Email validation
+  VALIDATION_EMAIL_STATUS,
+  VALIDATION_EMAIL_STATUS_RESET,
+  // --------------- Forgot password
   FORGOT_PASSWORD_SENT_STATUS,
+  FORGOT_PASSWORD_SENT_STATUS_RESET,
   // --------------- Reset password
-  RESET_PASSWORD_SENT_STATUS_RESET,
   RESET_PASSWORD_SENT_STATUS,
+  RESET_PASSWORD_SENT_STATUS_RESET,
   // --------------- Logout
   LOGOUT_USER_SAVE,
 } from 'src/lib/actions/authActions';
@@ -26,17 +31,21 @@ const initialState = {
 
   // --------------- Login
   userId: null,
+  firstname: '',
   verified: false,
-  xsrfToken: null,
-  accessTokenExpiresIn: null,
-  refreshTokenExpiresIn: null,
+  hasShop: false,
+  accessToken: null,
 
   logged: false,
 
   userIdentity: {},
   userIdentityload: false,
 
-  // --------------- Forgot password status
+  // --------------- Email validation
+  validationEmailStatus: false,
+  emailStatus: false,
+
+  // --------------- Forgot password
   forgotPasswordSentStatus: false,
 
   // --------------- Reset password
@@ -46,7 +55,7 @@ const initialState = {
   respLogout: null,
 };
 
-function authReducer(state = initialState, action) {
+function authReducer(state = initialState, action = {}) {
   switch (action.type) {
     // --------------- Toggle login register
     case TOGGLE_LOGIN:
@@ -75,11 +84,18 @@ function authReducer(state = initialState, action) {
       return {
         ...state,
         userId: action.userId,
+        firstname: action.firstname,
         logged: action.logged,
         verified: action.verified,
-        xsrfToken: action.xsrfToken,
-        accessTokenExpiresIn: action.accessTokenExpiresIn,
-        refreshTokenExpiresIn: action.refreshTokenExpiresIn,
+        hasShop: action.hasShop,
+        accessToken: action.accessToken,
+      };
+
+    // --------------- Refresh token
+    case REFRESH_TOKEN_SAVE:
+      return {
+        ...state,
+        accessToken: action.accessToken,
       };
 
     case USER_IDENTITY_SAVE:
@@ -89,30 +105,43 @@ function authReducer(state = initialState, action) {
         userIdentityload: true,
       };
 
-    // --------------- Forgot password status
-    case FORGOT_PASSWORD_SENT_STATUS_RESET:
+    // --------------- Email validation
+    case VALIDATION_EMAIL_STATUS:
       return {
         ...state,
-        forgotPasswordSentStatus: false,
+        validationEmailStatus: true,
       };
 
+    case VALIDATION_EMAIL_STATUS_RESET:
+      return {
+        ...state,
+        validationEmailStatus: false,
+      };
+
+    // --------------- Forgot password status
     case FORGOT_PASSWORD_SENT_STATUS:
       return {
         ...state,
         forgotPasswordSentStatus: true,
       };
 
-    // --------------- Reset password
-    case RESET_PASSWORD_SENT_STATUS_RESET:
+    case FORGOT_PASSWORD_SENT_STATUS_RESET:
       return {
         ...state,
-        resetPasswordSentStatus: false,
+        forgotPasswordSentStatus: false,
       };
 
+    // --------------- Reset password
     case RESET_PASSWORD_SENT_STATUS:
       return {
         ...state,
         resetPasswordSentStatus: true,
+      };
+
+    case RESET_PASSWORD_SENT_STATUS_RESET:
+      return {
+        ...state,
+        resetPasswordSentStatus: false,
       };
 
     // --------------- Logout
@@ -122,11 +151,11 @@ function authReducer(state = initialState, action) {
         respLogout: action.respLogout,
         // --------------- Login
         userId: null,
+        firstname: '',
         logged: false,
         verified: false,
-        xsrfToken: null,
-        accessTokenExpiresIn: null,
-        refreshTokenExpiresIn: null,
+        hasShop: false,
+        accessToken: null,
         // rest des champs
         loginEmail: '',
         loginPassword: '',

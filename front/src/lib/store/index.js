@@ -12,6 +12,7 @@ import mainMiddleware from 'src/lib/middlewares/mainMiddleware';
 import authMiddleware from 'src/lib/middlewares/authMiddleware';
 import productMiddleware from 'src/lib/middlewares/productMiddleware';
 import shopMiddleware from 'src/lib/middlewares/shopMiddleware';
+import axiosMiddleware from 'src/lib/middlewares/axiosMiddleware';
 
 // on combine devTools avec les middlewares
 const enhancers = composeWithDevTools(
@@ -21,6 +22,7 @@ const enhancers = composeWithDevTools(
     authMiddleware,
     productMiddleware,
     shopMiddleware,
+    axiosMiddleware,
   ),
 );
 

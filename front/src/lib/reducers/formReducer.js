@@ -76,7 +76,7 @@ const initialState = {
   date: null,
 };
 
-function rootReducer(state = initialState, action) {
+function rootReducer(state = initialState, action = {}) {
   switch (action.type) {
     // --------------- Form
     case FORM_INPUT_FIELD:

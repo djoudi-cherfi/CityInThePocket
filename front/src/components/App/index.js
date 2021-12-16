@@ -19,7 +19,7 @@ import infosData from 'src/data/informations.json';
 import FindCity from 'src/containers/pages/FindCity';
 
 // Account dashboard page
-import Account from 'src/components/pages/Account';
+import Account from 'src/containers/pages/Account';
 import AboutYou from 'src/containers/pages/Account/AboutYou';
 import MyShop from 'src/containers/pages/Account/MyShop';
 import Password from 'src/containers/pages/Account/Password';
@@ -30,6 +30,7 @@ import Dashboard from 'src/containers/pages/Account/Dashboard';
 // Identity page
 import Identity from 'src/components/pages/Identity';
 import Authentication from 'src/containers/pages/Identity/Authentication';
+import ValidationEmail from 'src/containers/pages/Identity/ValidationEmail';
 import ForgotPassword from 'src/containers/pages/Identity/ForgotPassword';
 import ResetPassword from 'src/containers/pages/Identity/ResetPassword';
 
@@ -91,9 +92,17 @@ const App = ({
         ? <Navigate to="/account/dashboard" />
         : <Identity />,
       children: [
-        { path: '/identity/login-register', element: <Authentication /> },
+        {
+          path: '/identity/login-register/',
+          element: <Authentication />,
+          children: [
+            { path: '/identity/login-register/login', element: '' },
+            { path: '/identity/login-register/register', element: '' },
+          ],
+        },
         { path: '/identity/forgot-password', element: <ForgotPassword /> },
         { path: '/identity/reset-password/:id/:slug', element: <ResetPassword /> },
+        { path: '/identity/email-validation/:id/:slug', element: <ValidationEmail /> },
       ],
     },
 
@@ -103,7 +112,7 @@ const App = ({
       element:
       logged
         ? <Account />
-        : <Navigate to="/identity/login-register" />,
+        : <Navigate to="/identity/login-register/login" />,
       children: [
         {
           path: '/account/a-propos-de-vous',
@@ -154,6 +163,10 @@ const App = ({
     // NotFound
     {
       path: '*',
+      element: <Navigate to="/not-found" />,
+    },
+    {
+      path: '/not-found',
       element: <NotFound />,
     },
   ];

@@ -22,7 +22,9 @@ const NavIdentitySidebar = ({
   HandleToggleIdentityOpenReset,
   toggleIdentityOpen,
   logged,
-  loggedMessage,
+  firstname,
+  hasShop,
+  shopUserId,
   handleLogout,
 }) => {
   const identityOpen = classNames('navidentity-sidebar', {
@@ -56,7 +58,7 @@ const NavIdentitySidebar = ({
               )}
               <li className="navidentity-sidebar-list-item">
                 <NavLink
-                  to="/identity/login-register"
+                  to="/identity/login-register/login"
                   className="navidentity-sidebar-list-item-link"
                   onClick={() => {
                     HandleToggleIdentityOpen();
@@ -85,7 +87,7 @@ const NavIdentitySidebar = ({
               )}
               <li className="navidentity-sidebar-list-item">
                 <NavLink
-                  to="/identity/login-register"
+                  to="/identity/login-register/login"
                   className="navidentity-sidebar-list-item-link"
                   onClick={() => {
                     HandleToggleIdentityOpen();
@@ -104,16 +106,20 @@ const NavIdentitySidebar = ({
           <MediaQuery maxWidth={breakpoint.laptopMax} onChange={handleMediaQueryChange}>
             <div className="navidentity-sidebar-message">
               <span>Vous êtes connecté en tant que :</span>
-              <span className="navidentity-sidebar-message-link-name">
-                <NavLink
-                  to={`/${cityName.slug}/sellerprofil`}
-                  className="navidentity-sidebar-message-link"
-                  onClick={() => {
-                    HandleToggleIdentityOpen();
-                  }}
-                >
-                  {loggedMessage}
-                </NavLink>
+              <span className="navidentity-sidebar-message-name">
+                {hasShop ? (
+                  <NavLink
+                    to={`/${cityName.slug}/sellerprofil/${shopUserId.id}`}
+                    className="navidentity-sidebar-message-name-link"
+                    onClick={() => {
+                      HandleToggleIdentityOpen();
+                    }}
+                  >
+                    {firstname}
+                  </NavLink>
+                ) : (
+                  firstname
+                )}
               </span>
             </div>
 
@@ -205,13 +211,17 @@ const NavIdentitySidebar = ({
           <MediaQuery minWidth={breakpoint.laptopMin}>
             <div className="navidentity-sidebar-message">
               <span>Vous êtes connecté en tant que :</span>
-              <span className="navidentity-sidebar-message-link-name">
-                <NavLink
-                  to={`/${cityName.slug}/sellerprofil`}
-                  className="navidentity-sidebar-message-link"
-                >
-                  {loggedMessage}
-                </NavLink>
+              <span className="navidentity-sidebar-message-name">
+                {hasShop ? (
+                  <NavLink
+                    to={`/${cityName.slug}/sellerprofil/${shopUserId.id}`}
+                    className="navidentity-sidebar-message-name-link"
+                  >
+                    {firstname}
+                  </NavLink>
+                ) : (
+                  firstname
+                )}
               </span>
             </div>
 
@@ -262,14 +272,17 @@ NavIdentitySidebar.propTypes = {
   HandleToggleIdentityOpenReset: PropTypes.func.isRequired,
   toggleIdentityOpen: PropTypes.bool.isRequired,
   logged: PropTypes.bool.isRequired,
-  /** message displayed when "connected" */
-  loggedMessage: PropTypes.string,
+  firstname: PropTypes.string.isRequired,
+  hasShop: PropTypes.bool.isRequired,
+  shopUserId: PropTypes.shape({
+    id: PropTypes.number,
+  }),
   /** called when the "Déconnexion" button is clicked */
   handleLogout: PropTypes.func.isRequired,
 };
 
 NavIdentitySidebar.defaultProps = {
-  loggedMessage: 'Connecté',
+  shopUserId: {},
 };
 
 // == Export

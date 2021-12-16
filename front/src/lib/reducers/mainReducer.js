@@ -66,7 +66,7 @@ const initialState = {
   toggleSlideProductOpen: false,
 };
 
-function rootReducer(state = initialState, action) {
+function rootReducer(state = initialState, action = {}) {
   switch (action.type) {
     case HEADER_HEIGHT_SAVE:
       return {

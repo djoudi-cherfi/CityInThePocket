@@ -114,19 +114,19 @@ const Register = ({
             <FormControl
               control="input"
               type="text"
-              label="Code postal"
-              name="postalCode"
-              placeholder="75008"
-              value={initialValues.postalCode}
+              label="Ville"
+              name="city"
+              placeholder="Paris"
+              value={initialValues.city}
               formInputField={changeInputField}
             />
             <FormControl
               control="input"
               type="text"
-              label="Ville"
-              name="city"
-              placeholder="Paris"
-              value={initialValues.city}
+              label="Code postal"
+              name="postalCode"
+              placeholder="75008"
+              value={initialValues.postalCode}
               formInputField={changeInputField}
             />
             <FormControl

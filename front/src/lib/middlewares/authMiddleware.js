@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
   // --------------- Serveur
   serverResponseStatusSave,
@@ -13,9 +11,9 @@ import {
   // --------------- Login
   LOGIN,
   loginUserSave,
-  USER_IDENTITY_GET,
-  userIdentityGet,
-  userIdentitySave,
+  // --------------- Email validation
+  VALIDATION_EMAIL_SENT,
+  validationEmailStatus,
   // --------------- Forgot password
   FORGOT_PASSWORD_SENT,
   forgotPasswordSentStatus,
@@ -31,36 +29,24 @@ import {
 
 import {
   // --------------- Account shop user
-  SHOP_USER_ID_GET,
   shopUserIdGet,
-  shopUserIdSave,
 } from 'src/lib/actions/shopActions';
+
+import { axiosApi } from 'src/lib/axios/axiosConfig';
 
 const authMiddleware = (store) => (next) => (action) => {
   // Gestion des requêtes vers l'api back avec axios
   // Dispatch des actions get et save, du status response et erreur
 
   // On récupére le tiroir du state
-  const { auth } = store.getState();
   const { form } = store.getState();
 
-  const instance = axios.create({
-    // Inclure des cookies et des en-têtes d'authentification
-    withCredentials: true,
-
-    // Variable d'environnement url serveur
-    // eslint-disable-next-line no-undef
-    baseURL: API_URL,
-
-    headers: {
-      'x-xsrf-token': `${auth.xsrfToken}`,
-    },
-  });
+  const instanceApi = axiosApi();
 
   switch (action.type) {
     // --------------- Register
     case USER_IDENTITY_CREATE: {
-      axios.post(`${API_URL}/user/`, {
+      instanceApi.post('/user/', {
         firstName: form.firstName,
         lastName: form.lastName,
         address: form.address,
@@ -88,26 +74,29 @@ const authMiddleware = (store) => (next) => (action) => {
 
     // --------------- Login
     case LOGIN: {
-      instance
-        .post('/user/login', {
+      console.log(form.loginEmail, form.loginPassword);
+      instanceApi
+        .post('/login', {
           email: form.loginEmail,
           password: form.loginPassword,
         })
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
-          store.dispatch(serverResponseStatusSave(response.status));
-          console.log(response.data);
+          // store.dispatch(serverResponseStatusSave(response.status));
 
           const actionLoginUserSave = loginUserSave(
             response.data.userId,
+            response.data.firstname,
             response.data.logged,
             response.data.verified,
-            response.data.xsrfToken,
-            response.data.accessTokenExpiresIn,
-            response.data.refreshTokenExpiresIn,
+            response.data.hasShop,
+            response.data.accessToken,
           );
           store.dispatch(actionLoginUserSave);
-          store.dispatch(userIdentityGet());
+
+          if (response.data.hasShop === true) {
+            store.dispatch(shopUserIdGet());
+          }
         })
         .catch((error) => {
           store.dispatch(serverValidationInput(error.response.data.error));
@@ -116,9 +105,27 @@ const authMiddleware = (store) => (next) => (action) => {
       break;
     }
 
+    // --------------- Email validation
+    case VALIDATION_EMAIL_SENT: {
+      if (action.id && action.slug) {
+        instanceApi.get(`/email-validation/${action.id}/${action.slug}`)
+          .then((response) => {
+            // console.log('la réponse du serveur VALIDATION_EMAIL_SENT :', response);
+            if (response.status === 200) {
+              store.dispatch(validationEmailStatus());
+            }
+          })
+          .catch((error) => {
+            store.dispatch(serverValidationInput(error.response.data.error));
+            store.dispatch(serverErrorseStatusSave(error.response.status));
+          });
+      }
+      break;
+    }
+
     // --------------- Forgot password
     case FORGOT_PASSWORD_SENT: {
-      axios.post(`${API_URL}/forget-password`, {
+      instanceApi.post('/forget-password', {
         email: form.forgotPassword,
       })
         .then((response) => {
@@ -138,7 +145,7 @@ const authMiddleware = (store) => (next) => (action) => {
     // --------------- Reset password
     case RESET_PASSWORD_SENT: {
       if (action.id && action.slug) {
-        axios.post(`${API_URL}/reset-password/${action.id}/${action.slug}`, {
+        instanceApi.post(`/reset-password/${action.id}/${action.slug}`, {
           password: form.resetPassword,
           confirmPassword: form.confirmResetPassword,
         })
@@ -156,47 +163,9 @@ const authMiddleware = (store) => (next) => (action) => {
       break;
     }
 
-    case USER_IDENTITY_GET: {
-      const { userId } = auth;
-
-      if (userId) {
-        // const id = userId.toString();
-        instance.get(`/user/${userId}`)
-          .then((response) => {
-            // console.log('la réponse du serveur USER_IDENTITY_GET :', response);
-
-            store.dispatch(userIdentitySave(response.data));
-            // store.dispatch(shopUserIdGet());
-          })
-          .catch((error) => {
-            console.log("l'erreur du serveur :", error.response.data.error);
-          });
-      }
-      break;
-    }
-
-    // --------------- Account shop user
-    case SHOP_USER_ID_GET: {
-      const userID = auth.userIdentity.id;
-
-      if (userID) {
-        const id = userID.toString(10);
-        instance.get(`/shop/user/${id}`)
-          // console.log('la réponse du serveur SHOP_USER_ID_GET :', response);
-          .then((response) => {
-            // console.log('response api for shop userID', response);
-            store.dispatch(shopUserIdSave(response.data));
-          })
-          .catch((error) => {
-            console.log(error.response.data.error);
-          });
-      }
-      break;
-    }
-
     // --------------- Login
     case LOGOUT: {
-      axios.get(`${API_URL}/user/logout`)
+      instanceApi.get('/logout')
         .then((response) => {
           // console.log('la réponse du serveur LOGIN :', response);
           store.dispatch(serverResponseStatusSave(response.status));

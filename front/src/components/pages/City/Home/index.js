@@ -30,9 +30,9 @@ const Home = ({
   useEffect(() => {
     // TODO!: faire un reset
     // TODO!: async 2 fetch
-    loadproductsLastAdd();
     loadShopsLastAdd();
-  }, [cityName]);
+    loadproductsLastAdd();
+  }, [!shopsLastAddLoaded || !productsLastAddLoaded, cityName]);
 
   return (
     <div className="home">

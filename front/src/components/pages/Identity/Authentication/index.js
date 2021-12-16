@@ -1,9 +1,11 @@
 // == Import
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { NavLink } from 'react-router-dom';
+import {
+  NavLink, useLocation,
+} from 'react-router-dom';
 
 import { Helmet } from 'react-helmet';
 
@@ -20,6 +22,17 @@ const Authentication = ({
   handleToggleLogin,
   handleToggleRegister,
 }) => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname === '/identity/login-register/login') {
+      handleToggleLogin();
+    }
+    else if (pathname === '/identity/login-register/register') {
+      handleToggleRegister();
+    }
+  }, [pathname]);
+
   const colorBtnLogin = classNames('authentication-container-button-login', {
     switch: toggleLoginRegister,
   });
@@ -38,7 +51,7 @@ const Authentication = ({
       <div className="authentication-container">
         <div className="authentication-container-button">
           <NavLink
-            to="/identity/login-register"
+            to="/identity/login-register/login"
             className={colorBtnLogin}
             onClick={() => {
               handleToggleLogin();
@@ -48,7 +61,7 @@ const Authentication = ({
           </NavLink>
 
           <NavLink
-            to="/identity/login-register"
+            to="/identity/login-register/register"
             className={colorBtnRegister}
             onClick={() => {
               handleToggleRegister();

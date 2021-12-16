@@ -13,7 +13,9 @@ const mapStateToProps = (state) => ({
   cityName: state.main.cityName,
   toggleIdentityOpen: state.main.toggleIdentityOpen,
   logged: state.auth.logged,
-  loggedMessage: state.auth.userIdentity.firstname,
+  firstname: state.auth.firstname,
+  hasShop: state.auth.hasShop,
+  shopUserId: state.shops.shopUserId,
 });
 
 // === mapDispatchToProps
@@ -28,7 +30,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
 
   handleLogout: () => {
-    // console.log('on se déconnecte');
     dispatch(logOut());
   },
 });

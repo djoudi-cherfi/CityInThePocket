@@ -29,17 +29,17 @@
     padding: 2rem 0;
     border-bottom: 0.1rem solid vars.$color-gray;
 
-    .navidentity-sidebar-message-link-name{
+    .navidentity-sidebar-message-name {
       display: block;
       margin-top: 0.5rem;
       font-weight: vars.$font-bold;
           
-      .navidentity-sidebar-message-link{
+      .navidentity-sidebar-message-name-link {
         position: relative;
         padding-bottom: 0.5rem;
         color: vars.$color-purple;
             
-        &.navidentity-sidebar-message-link::before {
+        &.navidentity-sidebar-message-name-link::before {
           content: '';
           position: absolute;
           left: 0;
@@ -51,12 +51,12 @@
           transition: vars.$animation-duration-small ease-out;
         }
   
-        &.navidentity-sidebar-message-link:hover::before {
+        &.navidentity-sidebar-message-name-link:hover::before {
           width: 100%;
           opacity: 1;
         }
   
-        &.navidentity-sidebar-message-link::before {
+        &.navidentity-sidebar-message-name-link::before {
           left: 50%;
           transform: translateX(-50%);
         }
@@ -134,7 +134,7 @@
       border-bottom: initial;
       margin-bottom: 0.4rem;
 
-      .navidentity-sidebar-message-link-name{
+      .navidentity-sidebar-message-name {
         display: initial;
         margin-top: initial;
         margin-left: 0.5rem;

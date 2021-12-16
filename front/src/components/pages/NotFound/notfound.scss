@@ -12,13 +12,49 @@
   grid-template-rows: 80px 1fr 150px;
   // gap: vars.$gutter-medium;
 
-  .notfound-content {
+  .notfound-container {
     grid-area: main;
-  height: 100%;
 
-  background-image: url('src/assets/images/bg-404/photo-error-404-desktop-1920.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+    padding: vars.$padding-header-footer-medium 0;
+    display: grid;
+    grid-template-areas:
+      'content';
+      
+    grid-template-columns: minmax(100px, 75%);
+    grid-template-rows: auto auto;
+    gap: clamp(1.5rem, 1.3571rem + 0.7143vw, 2rem);
+    justify-content: center;
+    background-color: vars.$color-beige;
+
+    .notfound-container-content {
+      grid-area: content;
+      align-self: end;
+      text-align: center;
+
+      .notfound-container-content-title {
+        font-size: clamp(5rem, 3.0000rem + 10.0000vw, 15rem);
+        font-weight: vars.$font-bold;
+        color: vars.$color-primary-light;
+      }
+      
+      .notfound-container-content-subtitle {
+        margin: 0.5rem 0 2rem;
+        font-size: clamp(2rem, 1.6000rem + 2.0000vw, 4rem);
+        font-weight: vars.$font-bold;
+        color: vars.$color-black;
+      }
+  
+      .notfound-container-content-btn-goback{
+        padding: 0.8rem 1rem;
+        font-size: clamp(1rem, 0.9400rem + 0.3000vw, 1.3rem);
+        font-weight: vars.$font-bold;
+        color: vars.$color-black;
+  
+        border-radius: 2rem;
+        border: none;
+        background-color: vars.$color-white;
+      }
+    }
   }
 }
 
@@ -26,5 +62,15 @@
 @media screen and (min-width: vars.$breakpoint-laptop-min) {
   .notfound {
     grid-template-rows: 150px 1fr 150px;
+
+    .notfound-container {
+
+      .notfound-container-content {
+        .notfound-container-content-btn-goback{
+          padding: 1rem 2rem;
+        }
+      }
+    }
   }
 }
+

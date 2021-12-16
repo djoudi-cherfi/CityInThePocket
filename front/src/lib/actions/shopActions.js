@@ -16,6 +16,7 @@ export const CATEGORY_NAMES_SAVE = 'CATEGORY_NAMES_SAVE';
 // page => /home
 export const SHOPS_LAST_ADD_GET = 'SHOPS_LAST_ADD_GET';
 export const SHOPS_LAST_ADD_SAVE = 'SHOPS_LAST_ADD_SAVE';
+export const SHOPS_LAST_ADD_RESET = 'SHOPS_LAST_ADD_RESET';
 
 // --------------- Shops by category
 // page /category/musique, ameublement, fait-main, pret-a-porter
@@ -78,6 +79,10 @@ export const shopsLastAddGet = () => ({
 export const shopsLastAddSave = (shopsLastAdd) => ({
   type: SHOPS_LAST_ADD_SAVE,
   shopsLastAdd,
+});
+
+export const shopsLastAddReset = () => ({
+  type: SHOPS_LAST_ADD_RESET,
 });
 
 // --------------- Shops by category
