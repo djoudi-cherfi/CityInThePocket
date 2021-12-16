@@ -1,0 +1,53 @@
+@use 'src/styles/vars';
+
+.login {
+  grid-area: form;
+
+  .form-control-input {
+    margin-bottom: 1rem;
+
+    label {
+      font-weight: vars.$font-bold;
+      display: block;
+      margin: 0.3rem;
+    }
+    
+    input[type="email"],
+    input[type="password"] {
+      display: block;
+      width: 100%;
+      height: 2rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      color: vars.$color-black;
+      background-color: vars.$color-white;
+      background-image: none;
+      border: 0.1rem solid vars.$color-gray-light;
+      border-radius: 1rem;
+    }
+  
+    input:focus {
+      border: 0.3rem solid vars.$color-purple;
+    }
+  }
+
+  .form-container-submit-btn {
+    width: 100%;
+    height: 2rem;
+    font-size: vars.$font-medium;
+    color: vars.$color-white;
+    border-radius: 1rem;
+    border: none;
+    background-color: vars.$color-purple;
+  }
+
+  .error {
+    color: vars.$color-purple;
+  }
+
+  .login-forgot-password {
+    margin: 1rem 0 0;
+    display: block;
+    text-align: center;
+  }
+}

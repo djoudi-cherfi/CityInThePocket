@@ -1,0 +1,35 @@
+@use 'src/styles/vars';
+
+.validationemail {
+  grid-area: main;
+  padding: vars.$padding-header-footer-medium 0;
+
+  display: grid;
+  grid-template-areas:
+    'message';
+  grid-template-columns: minmax(100px, 80%);
+  gap: vars.$gutter-medium;
+  justify-content: center;
+
+  .validationemail-message {
+    grid-area: message;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+
+    .validationemail-message-title {
+      margin: 0 0 1rem;
+      font-size: vars.$font-h3;
+      font-weight: vars.$font-bold;
+    }
+    .validationemail-message-button{
+      width: 150px;
+      height: 2.5rem;
+      font-size: vars.$font-medium;
+      color: vars.$color-white;
+      border-radius: 2rem;
+      border: none;
+      background-color: vars.$color-purple;
+    }
+  }
+}

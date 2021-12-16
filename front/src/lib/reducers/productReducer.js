@@ -1,6 +1,7 @@
 import {
   // --------------- Product last
   PRODUCT_LAST_ADD_SAVE,
+  PRODUCT_LAST_ADD_RESET,
   // --------------- Products by shop
   PRODUCTS_BY_SHOP_SAVE,
   // --------------- Product
@@ -56,7 +57,7 @@ const initialState = {
   description: '',
 };
 
-function productReducer(state = initialState, action) {
+function productReducer(state = initialState, action = {}) {
   switch (action.type) {
     // --------------- Product last
     case PRODUCT_LAST_ADD_SAVE:
@@ -64,6 +65,13 @@ function productReducer(state = initialState, action) {
         ...state,
         productsLastAdd: action.productsLastAdd,
         productsLastAddLoaded: true,
+      };
+
+    case PRODUCT_LAST_ADD_RESET:
+      return {
+        ...state,
+        productsLastAdd: [],
+        productsLastAddLoaded: false,
       };
 
     // --------------- Products by shop

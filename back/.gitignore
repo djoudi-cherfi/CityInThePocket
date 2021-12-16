@@ -8,6 +8,29 @@ node_modules
 # Environment variables
 .env
 
+# Sqitch
+sqitch.conf
+
+# Rest-Client
+api.http
+api_heroku.http
+
+# TU
+test.js
+
+# Build directories
+dist/
+
+# Ignore Logs
+logs
+*.log
+
+# Ignore IDE specific files
+.vscode/
+
+# docs
+docs/
+=======
 # Ignore IDE specific files
 .vscode/
 

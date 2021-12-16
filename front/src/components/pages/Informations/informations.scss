@@ -1,0 +1,90 @@
+@use 'src/styles/vars';
+
+.informations {
+  height: 100vh;
+  display: grid;
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px 1fr 150px;
+  // gap: vars.$gutter-medium;
+
+  
+  .informations-wrap {
+    background-color: vars.$color-gray-ultra-light;
+    grid-area: main;
+
+    // Global textual content
+    .informations-content {
+      padding: vars.$padding-header-footer-medium 0;
+      display: grid;
+      grid-template-columns: minmax(100px, 80%);
+      justify-content: center;
+      font-size: vars.$font-small;
+      text-align: left;
+      line-height: 1.5em;
+      word-spacing: 0.2rem;
+      color: vars.$color-black;
+  
+      p {
+        margin: 0 0 1rem;
+      }
+  
+      h1 {
+        margin: 0 0 1rem;
+        font-size: vars.$font-giant;
+        font-weight: vars.$font-bold;
+        text-align: center;
+        line-height: 1.2em;
+      }
+  
+      h2 {
+        margin: 2rem 0 0.5rem;
+        font-size: vars.$font-tall;
+        font-weight: vars.$font-bold;
+      }
+  
+      h3 {
+        margin: 2rem 0 0.5rem;
+        font-size: vars.$font-medium;
+        font-weight: vars.$font-bold;
+      }
+  
+      .informations-societe{
+        margin: 2rem 0 0.5rem;
+        text-align: center;
+      }
+  
+      .informations-preambule{
+      }
+  
+      .informations-informations-terms-and-conditions {
+        div:nth-last-of-type(1) ul,
+        div:nth-last-of-type(3) ul {
+          padding: 0.5rem 0;
+          list-style: disc;
+        }
+      }
+  
+      .informations-informations-legal-notice {
+        div:nth-last-of-type(17) ul,
+        div:nth-last-of-type(9) ul,
+        div:nth-last-of-type(8) ul {
+          padding: 0.5rem 0;
+          list-style: disc;
+        }
+      }
+    }
+  }
+  
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .informations {
+    grid-template-rows: 150px 1fr 150px;
+  }
+}

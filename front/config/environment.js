@@ -11,8 +11,8 @@ const NODE_ENV = {
 };
 
 const API_URL = {
-  development: JSON.stringify(process.env.URL_LOCALHOST),
-  production: JSON.stringify(process.env.URL_LOCALHOST),
+  development: JSON.stringify(process.env.URL_BACK),
+  production: JSON.stringify(process.env.URL_BACK),
   heroku: JSON.stringify(process.env.URL_HEROKU),
 };
 

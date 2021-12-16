@@ -1,63 +1,23 @@
 import {
-  CITY_NAME,
+  CITIES_SAVE,
+  CITY_NAME_SAVE,
+  CITY_NAME_RESET,
   TOGGLE_NAVCATEGORIES_OPEN,
   TOGGLE_NAVCATEGORIES_OPEN_RESET,
   TOGGLE_IDENTITY_OPEN,
   TOGGLE_IDENTITY_OPEN_RESET,
   CURRENT_SLIDE_COUNT,
-  TOGGLE_SLIDE_OPEN,
+  TOGGLE_SLIDE_PRODUCT_OPEN,
+  TOGGLE_SLIDE_PRODUCT_CLOSED,
   HEADER_HEIGHT_SAVE,
   INFOS_DATA_SAVE,
   INFOS_REFS_SAVE,
   INFOS_NAME_SAVE,
   TOGGLE_SIDEBAR_TG_OPEN,
-  FORM_FIELD,
-  FORM_SELECT_OPTION_UPDATE,
-  FORM_SELECT_OPTION_ADD,
-  FORM_RADIO_OPTION_UPDATE,
-  FORM_RADIO_OPTION_ADD,
-  FORM_CHECKBOX_OPTION_UPDATE,
-  FORM_CHECKBOX_OPTION_ADD,
-  FORM_CHECKBOX_OPTION_REMOVE,
 } from 'src/lib/actions/mainActions';
 
 const initialState = {
   // ici le state initial
-  // Form
-  firstName: '',
-  lastName: '',
-  address: '',
-  postalCode: '',
-  city: '',
-  phoneNumber: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  conditionsPrivacyPolicy: true,
-  loginEmail: '',
-  loginPassword: '',
-  description: '',
-  selectOptions: [
-    { key: 'select_Option_0', value: 'Options', selected: true },
-    { key: 'select_Option_1', value: 'option 1', selected: false },
-    { key: 'select_Option_2', value: 'option 2', selected: false },
-    { key: 'select_Option_3', value: 'option 3', selected: false },
-  ],
-  selectOptionsSubmit: [],
-  radioOptions: [
-    { key: 'radio_Option_1', value: 'Option 1', checked: false },
-    { key: 'radio_Option_2', value: 'Option 2', checked: false },
-    { key: 'radio_Option_3', value: 'Option 3', checked: false },
-  ],
-  radioOptionsSubmit: [],
-  checkboxOptions: [
-    { key: 'checkbox_Option_1', value: 'Option 1', checked: false },
-    { key: 'checkbox_Option_2', value: 'Option 2', checked: false },
-    { key: 'checkbox_Option_3', value: 'Option 3', checked: false },
-  ],
-  checkboxOptionsSubmit: [],
-  date: null,
-
   // Header
   headerHeight: 0,
 
@@ -67,23 +27,15 @@ const initialState = {
   legalNoticeData: [],
   legalNoticeDataLoaded: false,
   infosRefs: [],
-  infosName: 'termsAndConditions',
   toggleSidebarTgOpen: false,
 
-  // City name
-  cityName: 'paris',
-
   // Cities
-  cities: [
-    {
-      id: 1,
-      name: 'Paris',
-    },
-    {
-      id: 2,
-      name: 'Lyon',
-    },
-  ],
+  cities: [],
+  citiesLoaded: false,
+
+  // City name
+  cityName: {},
+  cityNameLoaded: false,
 
   // futurcCities
   futurcCities: [
@@ -111,10 +63,10 @@ const initialState = {
   toggleNavCategoryOpen: false,
   toggleIdentityOpen: false,
   currentSlide: 0,
-  toggleSlideOpen: false,
+  toggleSlideProductOpen: false,
 };
 
-function rootReducer(state = initialState, action) {
+function rootReducer(state = initialState, action = {}) {
   switch (action.type) {
     case HEADER_HEIGHT_SAVE:
       return {
@@ -138,12 +90,6 @@ function rootReducer(state = initialState, action) {
         infosRefs: action.infosRefs,
       };
 
-    case INFOS_NAME_SAVE:
-      return {
-        ...state,
-        infosName: action.infosName,
-      };
-
     case TOGGLE_SIDEBAR_TG_OPEN:
       return {
         ...state,
@@ -154,10 +100,25 @@ function rootReducer(state = initialState, action) {
       };
 
     // City name
-    case CITY_NAME:
+    case CITIES_SAVE:
+      return {
+        ...state,
+        cities: action.cities,
+        citiesLoaded: true,
+      };
+
+    case CITY_NAME_SAVE:
       return {
         ...state,
         cityName: action.cityName,
+        cityNameLoaded: true,
+      };
+
+    case CITY_NAME_RESET:
+      return {
+        ...state,
+        cityName: {},
+        cityNameLoaded: false,
       };
 
     case TOGGLE_NAVCATEGORIES_OPEN:
@@ -192,87 +153,24 @@ function rootReducer(state = initialState, action) {
         toggleIdentityOpen: false,
       };
 
+    // Slider button
     case CURRENT_SLIDE_COUNT:
       return {
         ...state,
         currentSlide: action.currentSlide,
       };
 
-    case TOGGLE_SLIDE_OPEN:
+    case TOGGLE_SLIDE_PRODUCT_OPEN:
       return {
         ...state,
-        toggleSlideOpen: !state.toggleSlideOpen,
+        toggleSlideProductOpen: true,
         currentSlide: action.currentSlide,
       };
 
-    // --------------- Form
-    case FORM_FIELD:
+    case TOGGLE_SLIDE_PRODUCT_CLOSED:
       return {
         ...state,
-        [action.name]: action.value,
-      };
-
-    case FORM_SELECT_OPTION_UPDATE:
-      return {
-        ...state,
-        [action.name]: state[action.name].map((option) => (
-          action.value.id === option.key ? {
-            ...option,
-            selected: action.value.selected,
-          } : {
-            ...option,
-            selected: false,
-          }
-        )),
-      };
-
-    case FORM_SELECT_OPTION_ADD:
-      return {
-        ...state,
-        [action.name]: [action.value],
-      };
-
-    case FORM_RADIO_OPTION_UPDATE:
-      return {
-        ...state,
-        [action.name]: state[action.name].map((option) => (
-          action.value.id === option.key ? {
-            ...option,
-            checked: action.value.checked,
-          } : {
-            ...option,
-            checked: false,
-          }
-        )),
-      };
-
-    case FORM_RADIO_OPTION_ADD:
-      return {
-        ...state,
-        [action.name]: [action.value],
-      };
-
-    case FORM_CHECKBOX_OPTION_UPDATE:
-      return {
-        ...state,
-        [action.name]: state[action.name].map((option) => (
-          action.value.id === option.key ? {
-            ...option,
-            checked: action.value.checked,
-          } : option
-        )),
-      };
-
-    case FORM_CHECKBOX_OPTION_ADD:
-      return {
-        ...state,
-        [action.name]: [...state[action.name], action.value],
-      };
-
-    case FORM_CHECKBOX_OPTION_REMOVE:
-      return {
-        ...state,
-        [action.name]: state[action.name].filter((option) => option.id !== action.value.id),
+        toggleSlideProductOpen: false,
       };
 
     default:

@@ -4,6 +4,7 @@ import {
   CATEGORY_NAME_ID_URL_SAVE,
   // --------------- Shop last
   SHOPS_LAST_ADD_SAVE,
+  SHOPS_LAST_ADD_RESET,
   // --------------- Account shop user
   SHOP_USER_ID_SAVE,
   // --------------- Shops by category
@@ -34,7 +35,7 @@ const initialState = {
   shopsByCategoryLoaded: false,
 
   // --------------- Shops
-  shopIdUrl: '1',
+  shopIdUrl: '',
   shop: {},
   shopLoaded: false,
 
@@ -55,7 +56,7 @@ const initialState = {
   marketplace_id: '',
 };
 
-function shopReducer(state = initialState, action) {
+function shopReducer(state = initialState, action = {}) {
   switch (action.type) {
     // --------------- Category
     case CATEGORY_NAMES_SAVE:
@@ -77,6 +78,13 @@ function shopReducer(state = initialState, action) {
         ...state,
         shopsLastAdd: action.shopsLastAdd,
         shopsLastAddLoaded: true,
+      };
+
+    case SHOPS_LAST_ADD_RESET:
+      return {
+        ...state,
+        shopsLastAdd: [],
+        shopsLastAddLoaded: false,
       };
 
     // --------------- Shops by category

@@ -1,0 +1,191 @@
+@port = :5000
+@localhost = http://localhost
+
+@refresh_token = refresh-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNjM5MzQyMjA2LCJleHAiOjIyNDQxNDIyMDYsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsInN1YiI6IjEifQ.IZDpk5qo23iWYoYxGLL9-1oUh4IIhc1fMaW-H2Db-cQ; connect.sid=s%3ASSPWMHNsVB3AtwpWDk34pI7w_3abkYna.23BplR57tiZTBWhifqNOvDH6KuWxWDVTwreufmM7FUY
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNjM5MzQyODQ0LCJleHAiOjE4MTIxNDI4NDQsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsInN1YiI6IjEifQ.ttucPvOo3nRUrGOltHF5N9nzsSSGpSp6JGz4dzYCWos
+
+
+
+##############################################
+#########   Test Route Market Place
+##############################################
+
+### Renvoi un market place par son id
+GET {{localhost}}{{port}}/v1/marketplace/1
+
+### Retourne tous les marketplaces
+GET {{localhost}}{{port}}/v1/marketplaces
+
+### Renvoi tous les shops d’un marketplace
+GET {{localhost}}{{port}}/v1/marketplace/1/shops
+
+###
+DELETE {{localhost}}{{port}}/v1/marketplace/1
+
+
+
+##############################################
+######### Test Route User
+##############################################
+
+### Renvoi tous les users 
+GET {{localhost}}{{port}}/v1/users
+Cookie: {{refresh_token}}
+Authorization: {{access_token}}
+
+### Renvoi un utilisateur par son id 
+GET {{localhost}}{{port}}/v1/user/1
+
+### Créer un user
+POST {{localhost}}{{port}}/v1/user/ 
+Content-Type: application/json
+
+{
+  "firstName": "Peter",
+  "lastName": "Quill",
+  "address": "5 rue la Boetie",
+  "city":"Paris",
+  "postal_code":"75008",
+  "phone_number":"0123456789",
+  "email": "test.cityinthepocket@gmail.com",
+  "password": "Min8@Max10",
+  "confirmPassword": "Min8@Max10",
+  "policy_agree":true
+}
+
+###
+GET http://www.localhost:5000/v1/email-validation/49/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQ5LCJlbWFpbCI6ImF1ZHJpYzEyM0Bob3RtYWlsLmZyIiwiaWF0IjoxNjMxNzE3NjM1LCJleHAiOjE2MzE3MTkxMzV9.PXor6_Vmxf0H50tXiUm9t4OF8KYYPWquy4zvcr9jjC0
+
+### Login User
+POST {{localhost}}{{port}}/v1/login 
+Content-Type: application/json
+
+{
+  "email": "test.cityinthepocket@gmail.com",
+  "password": "Min8@Max10"
+    
+}
+
+### Re-génère le token
+GET {{localhost}}{{port}}/v1/refreshToken
+Cookie: {{refresh_token}}
+
+
+### Supprime un utilisateur par son id 
+DELETE {{localhost}}{{port}}/v1/user/145
+
+
+
+##############################################
+######### Test Route Product
+##############################################
+
+### Renvoi un product par son id 
+GET {{localhost}}{{port}}/v1/product/3
+
+###  Renvoi les 5 derniers products
+GET {{localhost}}{{port}}/v1/marketplace/1/product/last
+
+
+### Ajoute un produit
+POST {{localhost}}{{port}}/v1/product/
+Content-Type: application/json
+Cookie: {{refresh_token}}
+Authorization: {{access_token}}
+
+{
+  "name": "test 15",
+  "description": "super truc bleu blablablablablabla blabla",
+  "price": 240,
+  "shop_id": 48
+}
+
+### Supprime un produit
+DELETE {{localhost}}{{port}}/v1/product/3
+
+
+
+##############################################
+######### Test Route Shop
+##############################################
+
+### Renvoi les shops par categorie (2 = categoryId)
+GET {{localhost}}{{port}}/v1/marketplace/1/category/1/shops
+
+###Renvoi un shop par son id 
+GET {{localhost}}{{port}}/v1/shop/22
+
+###Renvoi les products d'un shop
+GET {{localhost}}{{port}}/v1/shop/22/products
+
+### Renvoi un shop par le userId
+GET {{localhost}}{{port}}/v1/shop/user/3
+### Supprime un shop
+DELETE {{localhost}}{{port}}/v1/shop/2
+
+### Créer un shop
+POST   {{localhost}}{{port}}/v1/shop/
+Content-Type: application/json
+Cookie: {{refresh_token}}
+Authorization: Bearer {{access_token}}
+
+{
+  "company_name": "Le Shopy",
+  "siret":"89070935500014", 
+  "description":"Supeeeeeeeeer boutique jdcbyezbcyebcyezbcuzec",
+  "phone_number":"0467899568",
+  "email":"boutique@aol.com",
+  "user_id": 1,
+  "marketplace_id": 2,
+  "category_id": 1
+}
+
+
+### Renvoi les 5 derniers shops
+GET {{localhost}}{{port}}/v1/marketplace/1/shop/last
+
+
+
+##############################################
+######### Test Route Category
+##############################################
+
+###Renvoi toutes les category
+GET {{localhost}}{{port}}/v1/marketplace/1/category
+
+###Renvoi une categorie par son id
+GET {{localhost}}{{port}}/v1/marketplace/1/category/1
+
+###Supprime une categorie
+DELETE {{localhost}}{{port}}/v1/category/1
+
+
+
+##############################################
+######### Test Mail
+##############################################
+
+###Test Mail
+POST  {{localhost}}{{port}}/v1/email
+
+### demande de reinitialiser le password
+POST {{localhost}}{{port}}/v1/forget-password
+Content-Type: application/json
+
+{
+  "email": ""
+}
+
+####
+GET {{localhost}}{{port}}/v1/forget-password/:id/:token
+
+
+### Envoi formulaire avec new password
+POST http://www.localhost:5000/v1/reset-password/146/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0NiwiZW1haWwiOiJhdWRyaWMuZmVsaXhAaG90bWFpbC5jb20iLCJpYXQiOjE2MzcwNjg1NTQsImV4cCI6MTYzNzA3MDA1NH0.XHi1Z8CD7f0ErltPvhy1WqcdE1ccfU_qtMrlSL66kUk
+Content-Type: application/json
+
+{
+  "password": "TestDuMDP2",
+  "passwordConfirm": "TestDuMDP2"
+}
+

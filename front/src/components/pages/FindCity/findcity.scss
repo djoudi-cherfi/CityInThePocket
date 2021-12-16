@@ -1,0 +1,117 @@
+@use 'src/styles/vars';
+
+.findcity {
+  height: 100vh;
+  display: grid;
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px 1fr 150px;
+  // gap: vars.$gutter-medium;
+
+  
+  .findcity-container {
+    grid-area: main;
+    padding: vars.$padding-header-footer-medium 0;
+    display: grid;
+    grid-template-areas:
+      'content';
+      
+    grid-template-columns: minmax(100px, 85%);
+    grid-template-rows: auto;
+    gap: clamp(1.5rem, 1.3571rem + 0.7143vw, 2rem);
+    justify-content: center;
+    background-color: vars.$color-primary;
+  
+    .findcity-container-content {
+      grid-area: content;
+
+      text-align: center;
+  
+      .findcity-logo {
+        max-width: 450px;
+        vertical-align: middle;
+      }
+  
+      .findcity-title {
+        margin: 1rem 0;
+        font-size: vars.$font-h1;
+        font-weight: vars.$font-bold;
+      }
+  
+      .cities {
+        margin-bottom: 2rem;
+  
+        .cities-name {
+          padding-left: 1.5rem;
+          font-size: vars.$font-h2;
+          font-weight: vars.$font-bold;
+          color: vars.$color-purple;
+  
+          &:first-child {
+            padding-left: 0rem;
+          }
+
+          &:hover {
+            color: vars.$color-white;
+          }
+        }
+      }
+  
+      .findcity-subtitle {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        font-size: vars.$font-h4;
+        font-weight: vars.$font-bold;
+        color: vars.$color-gray-dark;
+      }
+
+      .findcity-futur-cities {
+        font-size: vars.$font-p;
+        color: vars.$color-gray-dark;
+
+        .findcity-futur-cities-name {
+          padding: 0 0 0.3rem;
+
+          &:last-child {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint tablet
+@media screen and (min-width: vars.$breakpoint-tablet-min) {
+  .findcity {
+    
+    .findcity-container {
+
+      .findcity-container-content {
+  
+        .findcity-futur-cities {
+
+          .findcity-futur-cities-name {
+            padding: 0 1rem 0 0;
+            display: inline;
+
+            &:last-child {
+              padding: 0 0 0 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .findcity {
+    grid-template-rows: 150px 1fr 150px;
+  }
+}

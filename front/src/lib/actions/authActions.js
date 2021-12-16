@@ -14,7 +14,6 @@ export const TOGGLE_REGISTER = 'TOGGLE_REGISTER';
 
 // --------------- Register
 // page /identity/register
-export const USER_IDENTITY_FIELD = 'USER_IDENTITY_FIELD';
 export const USER_IDENTITY_CREATE = 'USER_IDENTITY_CREATE';
 export const REGISTRED = 'REGISTRED';
 
@@ -25,38 +24,28 @@ export const LOGIN_USER_SAVE = 'LOGIN_USER_SAVE';
 export const USER_IDENTITY_GET = 'USER_IDENTITY_GET';
 export const USER_IDENTITY_SAVE = 'USER_IDENTITY_SAVE';
 
+// --------------- Refresh token
+// all page
+export const REFRESH_TOKEN_GET = 'REFRESH_TOKEN_GET';
+export const REFRESH_TOKEN_SAVE = 'REFRESH_TOKEN_SAVE';
+
+// --------------- Email validation
+// page //identity/email-validation/:id/:slug
+export const VALIDATION_EMAIL_SENT = 'VALIDATION_EMAIL_SENT';
+export const VALIDATION_EMAIL_STATUS = 'VALIDATION_EMAIL_STATUS';
+export const VALIDATION_EMAIL_STATUS_RESET = 'VALIDATION_EMAIL_STATUS_RESET';
+
 // --------------- Forgot password
 // page /identity/forgot-password
-export const FORGOT_PASSWORD_EMAIL_INPUT_FIELD = 'FORGOT_PASSWORD_EMAIL_INPUT_FIELD';
-export const FORGOT_PASSWORD_EMAIL_INPUT_CREATE = 'FORGOT_PASSWORD_EMAIL_INPUT_CREATE';
 export const FORGOT_PASSWORD_SENT = 'FORGOT_PASSWORD_SENT';
+export const FORGOT_PASSWORD_SENT_STATUS = 'FORGOT_PASSWORD_SENT_STATUS';
+export const FORGOT_PASSWORD_SENT_STATUS_RESET = 'FORGOT_PASSWORD_SENT_STATUS_RESET';
 
 // --------------- Reset password
 // page /identity/reset-password/:id/:slug
-export const RESET_PASSWORD_PARAMS = 'RESET_PASSWORD_PARAMS';
-export const RESET_PASSWORD_INPUT_FIELD = 'RESET_PASSWORD_INPUT_FIELD';
-export const RESET_PASSWORD_INPUT_CREATE = 'RESET_PASSWORD_INPUT_CREATE';
 export const RESET_PASSWORD_SENT = 'RESET_PASSWORD_SENT';
-
-// --------------- Register validation
-// page /identity/register
-export const REGISTER_VALIDATION_INPUT = 'REGISTER_VALIDATION_INPUT';
-// prettier-ignore
-export const REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT = 'REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT';
-
-// --------------- Login validation
-// page /identity/login
-export const LOGIN_VALIDATION_INPUT = 'LOGIN_VALIDATION_INPUT';
-
-// --------------- Forgot password validation
-// page /identity/forgot-password
-export const FORGOT_PASSWORD_VALIDATION_INPUT = 'FORGOT_PASSWORD_VALIDATION_INPUT';
-
-// --------------- Reset password validation
-// page /identity/reset-password/:id/:slug
-export const RESET_PASSWORD_VALIDATION_INPUT = 'RESET_PASSWORD_VALIDATION_INPUT';
-// prettier-ignore
-export const RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT = 'RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT';
+export const RESET_PASSWORD_SENT_STATUS = 'RESET_PASSWORD_SENT_STATUS';
+export const RESET_PASSWORD_SENT_STATUS_RESET = 'RESET_PASSWORD_SENT_STATUS_RESET';
 
 // --------------- Logout
 // page /identity/logout
@@ -95,12 +84,6 @@ export const toggleRegister = () => ({
 
 // --------------- Register
 // page /identity/register
-export const userIdentityField = (value, name) => ({
-  type: USER_IDENTITY_FIELD,
-  value,
-  name,
-});
-
 export const userIdentityCreat = () => ({
   type: USER_IDENTITY_CREATE,
 });
@@ -117,106 +100,86 @@ export const logIn = () => ({
 
 export const loginUserSave = (
   userId,
+  firstname,
   logged,
   verified,
-  xsrfToken,
-  accessTokenExpiresIn,
-  refreshTokenExpiresIn,
+  hasShop,
+  accessToken,
 ) => ({
   type: LOGIN_USER_SAVE,
   userId,
+  firstname,
   logged,
   verified,
-  xsrfToken,
-  accessTokenExpiresIn,
-  refreshTokenExpiresIn,
+  hasShop,
+  accessToken,
 });
 
-export const userIdentityGet = () => ({
+export const userIdentityGet = (userId) => ({
   type: USER_IDENTITY_GET,
+  userId,
 });
 
 export const userIdentitySave = (userIdentity) => ({
   type: USER_IDENTITY_SAVE,
-  userIdentity: userIdentity,
+  userIdentity,
 });
 
-// --------------- Forgot Password
-// page /identity/forgot-password
-export const forgotPasswordField = (value, name) => ({
-  type: FORGOT_PASSWORD_EMAIL_INPUT_FIELD,
-  value,
-  name,
+// --------------- Refresh token
+// all page
+export const refreshTokenGet = () => ({
+  type: REFRESH_TOKEN_GET,
 });
 
-export const forgotPasswordCreate = () => ({
-  type: FORGOT_PASSWORD_EMAIL_INPUT_CREATE,
+export const refreshTokenSave = (accessToken) => ({
+  type: REFRESH_TOKEN_SAVE,
+  accessToken,
 });
 
-export const forgotPasswordSent = () => ({
-  type: FORGOT_PASSWORD_SENT,
-});
-
-// --------------- Reset Password
-// page /identity/reset-password/:id/:slug
-export const resetPasswordParams = (id, slug) => ({
-  type: RESET_PASSWORD_PARAMS,
+// --------------- Email validation
+// page //identity/email-validation/:id/:slug
+export const validationEmailSent = (id, slug) => ({
+  type: VALIDATION_EMAIL_SENT,
   id,
   slug,
 });
 
-export const resetPasswordInputField = (value, name) => ({
-  type: RESET_PASSWORD_INPUT_FIELD,
-  value,
-  name,
+export const validationEmailStatus = () => ({
+  type: VALIDATION_EMAIL_STATUS,
 });
 
-export const resetPasswordInputCreate = () => ({
-  type: RESET_PASSWORD_INPUT_CREATE,
+export const validationEmailStatusReset = () => ({
+  type: VALIDATION_EMAIL_STATUS_RESET,
 });
 
-export const resetPasswordSent = () => ({
-  type: RESET_PASSWORD_SENT,
+// --------------- Forgot Password
+// page /identity/forgot-password
+export const forgotPasswordSent = () => ({
+  type: FORGOT_PASSWORD_SENT,
 });
 
-// --------------- Register validation
-// page /identity/login
-export const registerValidationInput = (registerValidation) => ({
-  type: REGISTER_VALIDATION_INPUT,
-  registerValidation,
+export const forgotPasswordSentStatus = () => ({
+  type: FORGOT_PASSWORD_SENT_STATUS,
 });
 
-export const registerValidationConfirmPasswordInput = (registerValidationConfirmPassword) => ({
-  type: REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT,
-  registerValidationConfirmPassword,
+export const forgotPasswordSentStatusReset = () => ({
+  type: FORGOT_PASSWORD_SENT_STATUS_RESET,
 });
 
-// --------------- Login validation
-// page /identity/login
-export const loginValidationInput = (loginValidation) => ({
-  type: LOGIN_VALIDATION_INPUT,
-  loginValidation,
-});
-
-// --------------- Forgot password validation
-// page /identity/login
-export const forgotPasswordValidationInput = (forgotPasswordValidation) => ({
-  type: FORGOT_PASSWORD_VALIDATION_INPUT,
-  forgotPasswordValidation,
-});
-
-// --------------- Reset password validation
+// --------------- Reset Password
 // page /identity/reset-password/:id/:slug
-export const resetPasswordValidationInput = (resetPasswordValidation) => ({
-  type: RESET_PASSWORD_VALIDATION_INPUT,
-  resetPasswordValidation,
+export const resetPasswordSent = (id, slug) => ({
+  type: RESET_PASSWORD_SENT,
+  id,
+  slug,
 });
 
-export const resetPasswordValidationConfirmPasswordInput = (
-  resetPasswordValidationConfirmPassword,
-) => ({
-  type: RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT,
-  resetPasswordValidationConfirmPassword,
+export const resetPasswordSentStatus = () => ({
+  type: RESET_PASSWORD_SENT_STATUS,
+});
+
+export const resetPasswordSentStatusReset = () => ({
+  type: RESET_PASSWORD_SENT_STATUS_RESET,
 });
 
 // --------------- Logout

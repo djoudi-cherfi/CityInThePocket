@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import axios from 'axios';
 
 const firstnameRegExp = /^(?=.*[a-zA-Z])[a-zA-Z ']{1,}$/;
 const lastnameRegExp = /^(?=.*[a-zA-Z])[a-zA-Z ']{1,}$/;
@@ -8,7 +9,8 @@ const phonenumberRegExp = /^(0)[1-9]([0-9]){8}$/;
 const emailRegExp = /^([A-Za-z0-9_\-.])+@([A-Za-z_\-.])+\.([A-Za-z]{2,3})$/;
 const passwordRegExp = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,30}$/;
 
-export const validationSchema = Yup.object({
+// == properties for schema
+const properties = {
   // Register
   firstName: Yup
     .string()
@@ -19,7 +21,7 @@ export const validationSchema = Yup.object({
   lastName: Yup
     .string()
     .matches(lastnameRegExp,
-      'Le nom doit contenir des lettres')
+      'Le nom doit contenir des lettres.')
     .required('Veuillez renseigner votre nom.'),
 
   address: Yup
@@ -49,6 +51,22 @@ export const validationSchema = Yup.object({
   email: Yup
     .string()
     .email()
+    .test('checkSingleEmail', 'Cette email est déjà utilisé', async (email) => {
+      let validEmail = true;
+      try {
+        if (!email) {
+          return validEmail;
+        }
+        const { data: { isUnique } } = await axios.post(
+          `${API_URL}/user/validemail`, { email: email },
+        );
+        validEmail = isUnique;
+      }
+      catch (error) {
+        console.error(error);
+      }
+      return validEmail;
+    })
     .matches(emailRegExp,
       'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
     .required('Veuillez entrer votre email'),
@@ -70,11 +88,28 @@ export const validationSchema = Yup.object({
     .boolean()
     .oneOf([true], "Vous devez accepter la politique de confidentialité et les conditions d'utilisation"),
 
+  // Login
   loginEmail: Yup
     .string()
     .email()
     .matches(emailRegExp,
       'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .test('checkSingleEmail', 'Cette email n\'est pas utilisé', async (email) => {
+      let validEmail = true;
+      try {
+        if (!email) {
+          return validEmail;
+        }
+        const { data: { isUnique } } = await axios.post(
+          `${API_URL}/user/validemail`, { email: email },
+        );
+        validEmail = !isUnique;
+      }
+      catch (error) {
+        console.error(error);
+      }
+      return validEmail;
+    })
     .required('Veuillez entrer votre email'),
 
   loginPassword: Yup
@@ -82,6 +117,59 @@ export const validationSchema = Yup.object({
     .matches(passwordRegExp,
       'Le mot de passe doit contenir au moins 8 caractères et 10 caractères maximum, un nombre et une majuscule')
     .required('Veuillez entrer votre mot de passe'),
+
+  // Update password
+  updatePassword: Yup
+    .string()
+    .matches(passwordRegExp,
+      'Le mot de passe doit contenir au moins 8 caractères et 10 caractères maximum, un nombre et une majuscule')
+    .required('Veuillez entrer votre mot de passe'),
+
+  confirmUpdatePassword: Yup
+    .string()
+    .required('Veuillez confirmer votre mot de passe')
+    .oneOf([Yup
+      .ref('updatePassword'), null], 'Les mots de passe ne correspondent pas')
+    .required('Veuillez confirmer votre mot de passe'),
+
+  // Update email
+  updateEmail: Yup
+    .string()
+    .email()
+    .matches(emailRegExp,
+      'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .required('Veuillez entrer votre email'),
+
+  confirmUpdateEmail: Yup
+    .string()
+    .email()
+    .matches(emailRegExp,
+      'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .oneOf([Yup
+      .ref('updateEmail'), null], "L'email ne correspondent pas")
+    .required('Veuillez confirmer votre email'),
+
+  // Forgot password
+  forgotPassword: Yup
+    .string()
+    .email()
+    .matches(emailRegExp,
+      'Ne sont autorisés que les lettres (de A à Z), les chiffres (de 0 à 9), les tirets (- et _) et les points (.)')
+    .required('Veuillez entrer votre email'),
+
+  // Reset password
+  resetPassword: Yup
+    .string()
+    .matches(passwordRegExp,
+      'Le mot de passe doit contenir au moins 8 caractères et 10 caractères maximum, un nombre et une majuscule')
+    .required('Veuillez entrer votre mot de passe'),
+
+  confirmResetPassword: Yup
+    .string()
+    .required('Veuillez confirmer votre mot de passe')
+    .oneOf([Yup
+      .ref('resetPassword'), null], 'Les mots de passe ne correspondent pas')
+    .required('Veuillez confirmer votre mot de passe'),
 
   // Template
   description: Yup
@@ -96,7 +184,7 @@ export const validationSchema = Yup.object({
     .array()
     .min(1, 'Veuillez choisir une option'),
 
-  checkboxOptions: Yup
+  checkboxMultiOptions: Yup
     .array()
     .min(1, 'Veuillez choisir au moins une option'),
 
@@ -104,6 +192,15 @@ export const validationSchema = Yup.object({
     .date()
     .required('Veuillez selectionner une date')
     .nullable(),
-});
+};
 
-export default validationSchema;
+// Function filters properties and returns a custom schema
+export const filterValidation = (...schemas) => {
+  const foudProperties = schemas.reduce((result, key) => (
+    { ...result, [key]: properties[key] }), {});
+
+  // Return custom schema
+  return Yup.object(foudProperties);
+};
+
+export default { filterValidation };

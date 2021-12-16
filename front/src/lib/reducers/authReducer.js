@@ -3,28 +3,21 @@ import {
   TOGGLE_LOGIN,
   TOGGLE_REGISTER,
   // --------------- Register
-  USER_IDENTITY_FIELD,
   REGISTRED,
   // --------------- Login
   LOGIN_USER_SAVE,
   USER_IDENTITY_SAVE,
+  // --------------- Refresh token
+  REFRESH_TOKEN_SAVE,
+  // --------------- Email validation
+  VALIDATION_EMAIL_STATUS,
+  VALIDATION_EMAIL_STATUS_RESET,
   // --------------- Forgot password
-  FORGOT_PASSWORD_EMAIL_INPUT_FIELD,
-  FORGOT_PASSWORD_SENT,
+  FORGOT_PASSWORD_SENT_STATUS,
+  FORGOT_PASSWORD_SENT_STATUS_RESET,
   // --------------- Reset password
-  RESET_PASSWORD_PARAMS,
-  RESET_PASSWORD_INPUT_FIELD,
-  RESET_PASSWORD_SENT,
-  // --------------- Register validation
-  REGISTER_VALIDATION_INPUT,
-  REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT,
-  // --------------- Login validation
-  LOGIN_VALIDATION_INPUT,
-  // --------------- Forgot password validation
-  FORGOT_PASSWORD_VALIDATION_INPUT,
-  // --------------- Reset password validation
-  RESET_PASSWORD_VALIDATION_INPUT,
-  RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT,
+  RESET_PASSWORD_SENT_STATUS,
+  RESET_PASSWORD_SENT_STATUS_RESET,
   // --------------- Logout
   LOGOUT_USER_SAVE,
 } from 'src/lib/actions/authActions';
@@ -34,56 +27,35 @@ const initialState = {
   toggleLoginRegister: false,
 
   // --------------- Register
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  address: '',
-  city: '',
-  postalCode: '',
-  phoneNumber: '',
-  conditionsPrivacyPolicy: true,
-
-  registerValidation: [],
-  registerValidationConfirmPassword: false,
   registred: false,
 
   // --------------- Login
-  loginEmail: '',
-  loginPassword: '',
   userId: null,
+  firstname: '',
   verified: false,
-  xsrfToken: null,
-  accessTokenExpiresIn: null,
-  refreshTokenExpiresIn: null,
+  hasShop: false,
+  accessToken: null,
 
-  loginValidation: [],
   logged: false,
 
   userIdentity: {},
   userIdentityload: false,
 
+  // --------------- Email validation
+  validationEmailStatus: false,
+  emailStatus: false,
+
   // --------------- Forgot password
-  forgotPassword: '',
-  forgotPasswordValidation: [],
-  forgotPasswordSent: false,
+  forgotPasswordSentStatus: false,
 
   // --------------- Reset password
-  resetPassworUserId: '',
-  resetPassworToken: '',
-  resetPassword: '',
-  resetPasswordConfirm: '',
-
-  resetPasswordValidation: [],
-  resetPasswordValidationConfirmPassword: false,
-  resetPasswordSent: false,
+  resetPasswordSentStatus: false,
 
   // --------------- Logout
   respLogout: null,
 };
 
-function authReducer(state = initialState, action) {
+function authReducer(state = initialState, action = {}) {
   switch (action.type) {
     // --------------- Toggle login register
     case TOGGLE_LOGIN:
@@ -101,12 +73,6 @@ function authReducer(state = initialState, action) {
       };
 
     // --------------- Register
-    case USER_IDENTITY_FIELD:
-      return {
-        ...state,
-        [action.name]: action.value,
-      };
-
     case REGISTRED:
       return {
         ...state,
@@ -118,11 +84,18 @@ function authReducer(state = initialState, action) {
       return {
         ...state,
         userId: action.userId,
+        firstname: action.firstname,
         logged: action.logged,
         verified: action.verified,
-        xsrfToken: action.xsrfToken,
-        accessTokenExpiresIn: action.accessTokenExpiresIn,
-        refreshTokenExpiresIn: action.refreshTokenExpiresIn,
+        hasShop: action.hasShop,
+        accessToken: action.accessToken,
+      };
+
+    // --------------- Refresh token
+    case REFRESH_TOKEN_SAVE:
+      return {
+        ...state,
+        accessToken: action.accessToken,
       };
 
     case USER_IDENTITY_SAVE:
@@ -132,85 +105,43 @@ function authReducer(state = initialState, action) {
         userIdentityload: true,
       };
 
-    // --------------- Forgot password
-    case FORGOT_PASSWORD_EMAIL_INPUT_FIELD:
+    // --------------- Email validation
+    case VALIDATION_EMAIL_STATUS:
       return {
         ...state,
-        [action.name]: action.value,
+        validationEmailStatus: true,
       };
 
-    case FORGOT_PASSWORD_SENT:
+    case VALIDATION_EMAIL_STATUS_RESET:
       return {
         ...state,
-        forgotPasswordSent: true,
-        forgotPassword: '',
-        forgotPasswordValidation: [],
+        validationEmailStatus: false,
+      };
+
+    // --------------- Forgot password status
+    case FORGOT_PASSWORD_SENT_STATUS:
+      return {
+        ...state,
+        forgotPasswordSentStatus: true,
+      };
+
+    case FORGOT_PASSWORD_SENT_STATUS_RESET:
+      return {
+        ...state,
+        forgotPasswordSentStatus: false,
       };
 
     // --------------- Reset password
-    case RESET_PASSWORD_PARAMS:
+    case RESET_PASSWORD_SENT_STATUS:
       return {
         ...state,
-        resetPassworUserId: action.id,
-        resetPassworToken: action.slug,
+        resetPasswordSentStatus: true,
       };
 
-    case RESET_PASSWORD_INPUT_FIELD:
+    case RESET_PASSWORD_SENT_STATUS_RESET:
       return {
         ...state,
-        [action.name]: action.value,
-      };
-
-    case RESET_PASSWORD_SENT:
-      return {
-        ...state,
-        resetPasswordSent: true,
-        resetPassworUserId: '',
-        resetPassworToken: '',
-        resetPassword: '',
-        resetPasswordConfirm: '',
-        resetPasswordValidation: [],
-        resetPasswordValidationConfirmPassword: false,
-      };
-
-    // --------------- Validation register
-    case REGISTER_VALIDATION_INPUT:
-      return {
-        ...state,
-        registerValidation: action.registerValidation,
-      };
-
-    case REGISTER_VALIDATION_CONFIRM_PASSWORD_INPUT:
-      return {
-        ...state,
-        registerValidationConfirmPassword: action.registerValidationConfirmPassword,
-      };
-
-    // --------------- Validation login
-    case LOGIN_VALIDATION_INPUT:
-      return {
-        ...state,
-        loginValidation: action.loginValidation,
-      };
-
-    // --------------- Forgot password validation
-    case FORGOT_PASSWORD_VALIDATION_INPUT:
-      return {
-        ...state,
-        forgotPasswordValidation: action.forgotPasswordValidation,
-      };
-
-    // --------------- Reset password validation
-    case RESET_PASSWORD_VALIDATION_INPUT:
-      return {
-        ...state,
-        resetPasswordValidation: action.resetPasswordValidation,
-      };
-
-    case RESET_PASSWORD_VALIDATION_CONFIRM_PASSWORD_INPUT:
-      return {
-        ...state,
-        resetPasswordValidationConfirmPassword: action.resetPasswordValidationConfirmPassword,
+        resetPasswordSentStatus: false,
       };
 
     // --------------- Logout
@@ -220,11 +151,11 @@ function authReducer(state = initialState, action) {
         respLogout: action.respLogout,
         // --------------- Login
         userId: null,
+        firstname: '',
         logged: false,
         verified: false,
-        xsrfToken: null,
-        accessTokenExpiresIn: null,
-        refreshTokenExpiresIn: null,
+        hasShop: false,
+        accessToken: null,
         // rest des champs
         loginEmail: '',
         loginPassword: '',

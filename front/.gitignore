@@ -20,7 +20,6 @@ test.js
 
 # Build directories
 dist/
-front/package.json
 
 # Ignore Logs
 logs

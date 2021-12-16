@@ -1,12 +1,11 @@
 const { merge } = require('webpack-merge');
 
-const environment = require('./environment');
-
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const environment = require('./environment');
 
 const paths = require('./paths');
 
@@ -67,7 +66,6 @@ const common = {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
-        // Use 'generator' to output unique name (based on webpack pattern e.g. [name], [ext], etc.)
         generator: {
           filename: 'font/[name][ext][query]',
         },
@@ -77,7 +75,6 @@ const common = {
       {
         test: /\.(ico|gif|png|jpe?g|webp|svg)$/i,
         type: 'asset',
-        // Use 'generator' to output unique name (based on webpack pattern e.g. [name], [ext], etc.)
         generator: {
           filename: 'images/[hash][ext][query]',
         },

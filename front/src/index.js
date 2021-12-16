@@ -12,7 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from 'src/lib/store';
 
 // == Loader animation
-import Loader from 'src/components/Loader/LoaderCircle';
+import Loader from 'src/components/templates/Loader/LoaderCircle';
 
 // == Import
 // Composants

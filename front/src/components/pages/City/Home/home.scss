@@ -1,0 +1,128 @@
+@use 'src/styles/vars';
+
+.home {
+  grid-area: main;
+  padding: vars.$padding-header-footer-medium 0;
+
+  .home-list {
+
+    display: grid;
+    grid-template-areas:
+      'list-title-product'
+      'list-product'
+      'list-title-shop'
+      'list-shop';
+    grid-template-columns: minmax(100px, 80%);
+    grid-template-rows: auto auto auto 1fr;
+    gap: vars.$gutter-medium;
+    justify-content: center;
+    align-items: start;
+
+    .list-title-product {
+      grid-area: list-title-product;
+      max-width: 200px;
+      font-size: vars.$font-tall;
+      font-weight: vars.$font-bold;
+      color: vars.$color-primary;
+
+      padding-bottom: 1rem;
+      border-bottom: 0.2rem solid vars.$color-primary;
+    }
+
+    .list-product {
+      grid-area: list-product;
+
+      display: grid;
+      gap: vars.$gutter-medium vars.$gutter-medium;
+      grid-template-columns: repeat(auto-fit, 100%);
+      justify-content: center;
+    }
+
+    .list-title-shop {
+      grid-area: list-title-shop;
+      max-width: 200px;
+      font-size: vars.$font-tall;
+      font-weight: vars.$font-bold;
+      color: vars.$color-primary;
+      margin-top: vars.$gutter-medium;
+      padding-bottom: 1rem;
+      border-bottom: 0.2rem solid vars.$color-primary;
+    }
+
+    .list-shop {
+      grid-area: list-shop;
+
+      display: grid;
+      gap: vars.$gutter-medium vars.$gutter-medium;
+      grid-template-columns: repeat(auto-fit, 100%);
+      justify-content: center;
+    }
+  }
+}
+
+// Breakpoint mobile plus
+@media screen and (min-width: vars.$breakpoint-mobile-plus-min) {
+  .home {
+
+    .home-list {
+      grid-template-columns: minmax(100px, 450px);
+    }
+  }
+}
+
+// Breakpoint tablet
+@media screen and (min-width: vars.$breakpoint-tablet-min) {
+  .home {
+
+    .home-list {
+      grid-template-columns: minmax(100px, 80%);
+
+      .list-product {
+        grid-template-columns: repeat(auto-fit, 280px);
+      }
+
+      .list-shop {
+        grid-template-columns: repeat(auto-fit, 280px);
+      }
+    }
+  }
+}
+
+// Breakpoint laptop
+@media screen and (min-width: vars.$breakpoint-laptop-min) {
+  .home {
+
+    .home-list {
+
+      .list-product {
+        grid-template-columns: repeat(auto-fit, 250px);
+      }
+
+      .list-shop {
+        grid-template-columns: repeat(auto-fit, 250px);
+      }
+    }
+  }
+}
+
+// Breakpoint desktop
+@media screen and (min-width: vars.$breakpoint-desktop-min) {
+  .home {
+    display: flex;
+
+    .home-list {
+      margin: auto;
+      grid-template-columns: minmax(100px, 1200px);
+    }
+  }
+}
+
+// Breakpoint ultra
+@media screen and (min-width: vars.$breakpoint-ultra-min) {
+  .home {
+
+    .home-list {
+      grid-template-columns: minmax(100px, 1500px);
+    }
+  }
+}

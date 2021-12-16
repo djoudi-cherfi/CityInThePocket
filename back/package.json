@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "localhost": "NODE_ENV=localhost nodemon",
+    "heroku": "NODE_ENV=heroku nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -17,16 +19,32 @@
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-jwt": "^6.0.0",
     "express-session": "^1.17.1",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
+    "node-fetch": "^2.6.6",
     "nodemailer": "^6.6.3",
     "pg": "^8.6.0",
     "redis": "^3.1.2"
   },
-  "devDependencies": {},
+
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/morgan": "^1.9.3",
+    "@types/node-fetch": "^3.0.3",
+    "@types/nodemailer": "^6.4.4",
+    "@types/pg": "^8.6.1",
+    "@types/redis": "^2.8.32",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  },
+
   "description": ""
 }

@@ -9,6 +9,7 @@ export const SERVER_ERROR_STATUS_SAVE = 'SERVER_ERROR_STATUS_SAVE';
 // --------------- Product last
 export const PRODUCT_LAST_ADD_GET = 'PRODUCT_LAST_ADD_GET';
 export const PRODUCT_LAST_ADD_SAVE = 'PRODUCT_LAST_ADD_SAVE';
+export const PRODUCT_LAST_ADD_RESET = 'PRODUCT_LAST_ADD_RESET';
 
 // --------------- Products by shop
 // page /slug/sellerprofil/id
@@ -42,13 +43,17 @@ export const serverErrorseStatusSave = (serverErrorseStatus) => ({
 
 // --------------- Product last
 // page /home
-export const productgetlast = () => ({
+export const productLastAddGet = () => ({
   type: PRODUCT_LAST_ADD_GET,
 });
 
-export const productsavelast = (productsLastValue) => ({
+export const productLastAddSave = (productsLastValue) => ({
   type: PRODUCT_LAST_ADD_SAVE,
   productsLastAdd: productsLastValue,
+});
+
+export const productLastAddReset = () => ({
+  type: PRODUCT_LAST_ADD_RESET,
 });
 
 // --------------- Products by shop

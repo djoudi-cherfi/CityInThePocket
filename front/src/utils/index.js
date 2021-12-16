@@ -7,7 +7,7 @@ import slugify from 'slugify';
  * @returns the string for the categoryName
  */
 
-export const slugifyCategoryName = (categoryName) => {
+export const slugifyName = (categoryName) => {
   const slug = slugify(categoryName, {
     // On remplace les majuscules par des minuscules
     lower: true,
@@ -20,7 +20,17 @@ export const slugifyCategoryName = (categoryName) => {
 export const getCategoryBySlug = (categories, slug) => {
   // find
   const found = categories.find(
-    (category) => slugifyCategoryName(category.label) === slug,
+    (category) => slugifyName(category.label) === slug,
+  );
+
+  return found;
+};
+
+// trouver la ville qui a le slug indiqué
+export const getCityBySlug = (cities, slug) => {
+  // find
+  const found = cities.find(
+    (city) => slugifyName(city.city) === slug,
   );
 
   return found;
