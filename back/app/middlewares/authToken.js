@@ -1,6 +1,8 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const tokenService = require('../services/configToken');
+import jwt from 'jsonwebtoken';
+import tokenService from '../services/configToken';
+import User from '../models/user';
+
+const { verify } = jwt;
 
 const authMW = {
   auth: async (req, res, next) => {
@@ -24,7 +26,7 @@ const authMW = {
 
     // On vérifie et décode le JWT à l'aide du secret
     // et de l'algorithme utilisé pour le générer
-    jwt.verify(
+    verify(
       accessToken,
       process.env.ACCESS_TOKEN_SECRET,
       { algorithm: algorithm },
@@ -49,4 +51,4 @@ const authMW = {
   },
 };
 
-module.exports = authMW;
+export default authMW;

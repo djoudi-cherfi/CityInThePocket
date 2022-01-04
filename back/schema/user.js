@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const schema = Joi.object({
+const userSchema = Joi.object({
   firstName: Joi.string().pattern(/^(?=.*[a-zA-Z])[a-zA-Z ']{1,}$/).required(),
   lastName: Joi.string().pattern(/^(?=.*[a-zA-Z])[a-zA-Z ']{1,}$/).required(),
   email: Joi.string().email().required(),
@@ -14,4 +14,4 @@ const schema = Joi.object({
   policy_agree: Joi.boolean().valid(true).required(),
 });
 
-module.exports = schema;
+export default userSchema;

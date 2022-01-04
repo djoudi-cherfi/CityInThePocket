@@ -108,7 +108,7 @@ const authMiddleware = (store) => (next) => (action) => {
     // --------------- Email validation
     case VALIDATION_EMAIL_SENT: {
       if (action.id && action.slug) {
-        instanceApi.get(`/email-validation/${action.id}/${action.slug}`)
+        instanceApi.get(`/user/validation/${action.id}/${action.slug}`)
           .then((response) => {
             // console.log('la réponse du serveur VALIDATION_EMAIL_SENT :', response);
             if (response.status === 200) {

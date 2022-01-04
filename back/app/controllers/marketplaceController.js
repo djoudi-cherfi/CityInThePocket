@@ -1,4 +1,4 @@
-const Marketplace = require('../models/marketplace');
+import Marketplace from '../models/marketplace';
 
 const marketplaceController = {
 
@@ -36,24 +36,21 @@ const marketplaceController = {
     }
   },
 
-  getAllShop: async (req, res, next) => {
-    try {
-      const marketId = req.params.id;
+  addOne: async (req, res) => {
+    const marketplaceForm = req.body;
 
-      const shops = await Marketplace.findAllShopFromOneMarketPlace(marketId);
-
-      if (shops) {
-        res.json(shops);
-      }
-      else {
-        // Sinon on passe a la page 404 car non trouvé
-
-        next();
-      }
+    if (!req.body.city
+      || !req.body.slug
+      || !req.body.postal_code
+    ) {
+      res.status(400).json({ error: 'Il manque une info' });
     }
-    catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
+    else {
+      const newMarketplace = await new Marketplace(marketplaceForm);
+
+      const marketplace = await newMarketplace.save();
+
+      res.json(marketplace);
     }
   },
 
@@ -78,4 +75,4 @@ const marketplaceController = {
   },
 };
 
-module.exports = marketplaceController;
+export default marketplaceController;

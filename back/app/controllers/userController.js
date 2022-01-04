@@ -1,11 +1,24 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const tokenService = require('../services/configToken');
-const transporter = require('../services/email');
-const emailTemplate = require('../templates/emailTemplate');
+import { compareSync, hashSync } from 'bcrypt';
 
-const { audience, algorithm, issuer } = tokenService.config;
+import jwt from 'jsonwebtoken';
+
+import User from '../models/user';
+
+import tokenService from '../services/configToken';
+
+import transporter from '../services/email';
+
+import emailTemplate from '../templates/emailTemplate';
+
+const { sign, verify } = jwt;
+
+const { sendMail } = transporter;
+
+const { validationEmailData, forgetPasswordForm } = emailTemplate;
+
+const { config, generateToken, refreshTokenExpires } = tokenService;
+
+const { audience, algorithm, issuer } = config;
 
 const userController = {
 
@@ -74,7 +87,7 @@ const userController = {
 
       const id = user.toString();
 
-      const token = jwt.sign(
+      const token = sign(
         { userId: id },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -82,10 +95,10 @@ const userController = {
         },
       );
 
-      const link = `${process.env.URL_FRONT}/identity/email-validation/${id}/${token}`;
+      const link = `${process.env.URL_FRONT}/identity/user/validation/${id}/${token}`;
 
-      transporter.sendMail(
-        emailTemplate.validationEmailData(
+      sendMail(
+        validationEmailData(
           newUser,
           link,
         ),
@@ -129,7 +142,7 @@ const userController = {
         res.json({ error: 'Invalid User Id' });
       }
 
-      jwt.verify(
+      verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         { algorithm: algorithm },
@@ -168,7 +181,7 @@ const userController = {
       const user = await User.findOneEmail(userForm.email);
 
       if (user) {
-        const validatorPassword = bcrypt.compareSync(
+        const validatorPassword = compareSync(
           userForm.password,
           user.password,
         );
@@ -176,7 +189,7 @@ const userController = {
         if (validatorPassword) {
           const id = user.id.toString();
 
-          const token = await tokenService.generateToken(id);
+          const token = await generateToken(id);
 
           // On crée le cookie contenant le refresh token
           res.cookie(
@@ -185,7 +198,7 @@ const userController = {
             {
               httpOnly: true,
               secure: true,
-              maxAge: tokenService.refreshTokenExpires,
+              maxAge: refreshTokenExpires,
               path: '/',
               // sameSite: 'strict',
             },
@@ -224,7 +237,7 @@ const userController = {
 
       // On vérifie et décode le JWT à l'aide du secret
       // et de l'algorithme utilisé pour le générer
-      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, {
+      verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, {
         algorithm: algorithm,
       }, async (error, user) => {
         if (error) {
@@ -238,7 +251,7 @@ const userController = {
           return res.status(401).json({ message: `L'utilisateur id : ${userFound} n'existe pas` });
         }
 
-        const token = await tokenService.generateToken(user.userId);
+        const token = await generateToken(user.userId);
 
         // On crée le cookie contenant le refresh token
         res.cookie(
@@ -247,7 +260,7 @@ const userController = {
           {
             httpOnly: true,
             secure: true,
-            maxAge: tokenService.refreshTokenExpires,
+            maxAge: refreshTokenExpires,
             path: '/',
             // sameSite: 'strict',
           },
@@ -268,26 +281,7 @@ const userController = {
     return null;
   },
 
-  deleteOneById: async (req, res, next) => {
-    try {
-      const { id } = req.params;
-
-      const result = await User.findOne(id);
-      if (result) {
-        result.delete(id);
-        res.json(result);
-      }
-      else {
-        next();
-      }
-    }
-    catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
   logout: (req, res) => {
-    res.clearCookie('access_token');
     res.clearCookie('refresh_token');
     res.json({ info: 'Vous avez été déconnecté' });
   },
@@ -301,7 +295,7 @@ const userController = {
       if (user) {
         const id = user.id.toString();
 
-        const token = jwt.sign(
+        const token = sign(
           { userId: id },
           process.env.ACCESS_TOKEN_SECRET,
           {
@@ -311,8 +305,8 @@ const userController = {
 
         const link = `${process.env.URL_FRONT}/identity/reset-password/${id}/${token}`;
 
-        transporter.sendMail(
-          emailTemplate.forgetPasswordForm(
+        sendMail(
+          forgetPasswordForm(
             user,
             link,
           ),
@@ -347,13 +341,13 @@ const userController = {
         return;
       }
 
-      jwt.verify(
+      verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         { algorithm: algorithm },
         async (error, response) => {
           if (error) {
-            console.log(error.message);
+            // console.log(error.message);
             return res.status(401).json({ error: error.message });
           }
 
@@ -381,7 +375,7 @@ const userController = {
         res.json({ error: 'Invalid User Id' });
       }
 
-      jwt.verify(
+      verify(
         token,
         process.env.ACCESS_TOKEN_SECRET,
         { algorithm: algorithm },
@@ -392,7 +386,7 @@ const userController = {
           }
 
           if (password === confirmPassword) {
-            user.password = bcrypt.hashSync(
+            user.password = hashSync(
               password,
               10,
             );
@@ -415,6 +409,24 @@ const userController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  deleteOneById: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const result = await User.findOne(id);
+      if (result) {
+        result.delete(id);
+        res.json(result);
+      }
+      else {
+        next();
+      }
+    }
+    catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
-module.exports = userController;
+export default userController;

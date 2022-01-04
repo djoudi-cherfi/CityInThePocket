@@ -1,4 +1,4 @@
-const db = require('../database');
+import db from '../database';
 
 /**
  * A entity representing a product of the shop
@@ -59,12 +59,20 @@ class Product {
     return null;
   }
 
-  static async findLastest(marketplaceId) {
+  static async findLastProductsAddToMarketplace(nbProduct, marketplaceId) {
     const { rows } = await db.query(
-      'SELECT product.*, shop.marketplace_id FROM product JOIN shop ON product.shop_id = shop.id and shop.marketplace_id = $1 ORDER BY product.id DESC LIMIT 5;',
-      [marketplaceId],
+      'SELECT product.*, shop.marketplace_id FROM product JOIN shop ON product.shop_id = shop.id and shop.marketplace_id = $2 ORDER BY product.id DESC LIMIT $1;',
+      [nbProduct, marketplaceId],
     );
 
+    return rows.map((row) => new Product(row));
+  }
+
+  static async findAllProductFromShop(id) {
+    const { rows } = await db.query(
+      'SELECT * FROM product WHERE shop_id = $1;',
+      [id],
+    );
     return rows.map((row) => new Product(row));
   }
 
@@ -126,4 +134,4 @@ class Product {
   }
 }
 
-module.exports = Product;
+export default Product;

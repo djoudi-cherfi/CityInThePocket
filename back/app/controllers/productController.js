@@ -1,4 +1,4 @@
-const Product = require('../models/product');
+import Product from '../models/product';
 
 const productController = {
 
@@ -24,11 +24,11 @@ const productController = {
     }
   },
 
-  getLastestProduct: async (req, res, next) => {
-    const { marketplaceId } = req.params;
+  getLastProductsAddToMarketplace: async (req, res, next) => {
+    const { nbProduct, marketplaceId } = req.params;
 
     try {
-      const products = await Product.findLastest(marketplaceId);
+      const products = await Product.findLastProductsAddToMarketplace(nbProduct, marketplaceId);
 
       if (products) {
         res.json(products);
@@ -39,6 +39,29 @@ const productController = {
     }
     catch (error) {
       res.status(500).json({ error: error.message });
+    }
+  },
+
+  getAllProductFromShop: async (req, res, next) => {
+    try {
+      const shopId = req.params.id;
+
+      const products = await Product.findAllProductFromShop(shopId);
+
+      if (products) {
+        res.json(products);
+      }
+      else {
+        // Sinon on passe a la page 404 car non trouvé
+
+        next();
+      }
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: error.message,
+      });
     }
   },
 
@@ -81,4 +104,4 @@ const productController = {
   },
 };
 
-module.exports = productController;
+export default productController;

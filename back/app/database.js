@@ -1,5 +1,7 @@
 // Pooling
-const { Pool } = require('pg');
+import pg from 'pg';
+
+const { Pool } = pg;
 
 const DATABASE = {
   localhost: process.env.DATABASE_LOCALHOST,
@@ -14,25 +16,27 @@ const checkEnvironment = () => {
   if (process.env.NODE_ENV === process.env.HEROKU) {
     return process.env.HEROKU;
   }
+  return undefined;
 };
 
 // check ssl mode
-const ssl = () => {
+const sslEnvironment = () => {
   if (process.env.NODE_ENV === process.env.LOCALHOST) {
     return false;
   }
   if (process.env.NODE_ENV === process.env.HEROKU) {
     return { rejectUnauthorized: false };
   }
+  return undefined;
 };
 
 // Pool est un équivalent de Client pour la connexion a la DB.
 const database = new Pool({
   connectionString: DATABASE[checkEnvironment()],
 
-  ssl: ssl(),
+  ssl: sslEnvironment(),
 });
 
 console.log('Database is running on', checkEnvironment());
 
-module.exports = database;
+export default database;

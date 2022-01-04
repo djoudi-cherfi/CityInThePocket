@@ -1,4 +1,4 @@
-const db = require('../database');
+import db from '../database';
 
 class Token {
   constructor(data = {}) {
@@ -77,4 +77,4 @@ class Token {
   }
 }
 
-module.exports = Token;
+export default Token;

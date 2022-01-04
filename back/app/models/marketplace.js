@@ -1,11 +1,12 @@
-const db = require('../database');
-const Shop = require('./shop');
+import db from '../database';
+import Shop from './shop';
 
 /**
  * A entity representing a marketplace
  * @typedef Marketplace
  * @property {number} id
  * @property {string} city
+ * @property {string} slug
  * @property {number} postal_code
  * @property {Date} create_date
  */
@@ -64,24 +65,17 @@ class Marketplace {
    * @returns {Array}
    */
 
-  static async findAllShopFromOneMarketPlace(id) {
-    const { rows } = await db.query(
-      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id JOIN shop_has_img ON shop.id = shop_has_img.shop_id  WHERE shop.marketplace_id = $1;',
-      [id],
-    );
-    return rows.map((row) => new Shop(row));
-  }
-
   async save() {
     if (this.id) {
       // UPDATE
       try {
         const { rows } = await db.query(
-          'UPDATE "marketplace" SET city = $1, postal_code = $2 WHERE id = $3;',
+          'UPDATE "marketplace" SET city = $2, slug = $3, postal_code = $4 WHERE id = $1;',
           [
-            this.city,
-            this.postal_code,
             this.id,
+            this.city,
+            this.slug,
+            this.postal_code,
           ],
         );
         return rows;
@@ -96,9 +90,10 @@ class Marketplace {
     else {
       try {
         const { rows } = await db.query(
-          'INSERT INTO "marketplace" (city, postal_code) VALUES ($1, $2) RETURNING id;',
+          'INSERT INTO "marketplace" (city, slug, postal_code) VALUES ($1, $2, $3) RETURNING id;',
           [
             this.city,
+            this.slug,
             this.postal_code,
           ],
         );
@@ -125,4 +120,4 @@ class Marketplace {
   }
 }
 
-module.exports = Marketplace;
+export default Marketplace;

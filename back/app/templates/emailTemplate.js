@@ -79,4 +79,4 @@ const emailTemplate = {
   },
 };
 
-module.exports = emailTemplate;
+export default emailTemplate;

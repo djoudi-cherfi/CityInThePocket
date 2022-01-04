@@ -1,71 +1,74 @@
-const { Router } = require('express');
-const { auth } = require('./middlewares/authToken');
+import { Router } from 'express';
 
-const apiRouter = Router();
+import authMW from './middlewares/authToken';
 
-const emailSchema = require('../schema/email');
-const resetPasswordSchema = require('../schema/resetPassword');
-const userSchema = require('../schema/user');
-const shopSchema = require('../schema/shop');
-const productSchema = require('../schema/product');
+import emailSchema from '../schema/email';
+import resetPasswordSchema from '../schema/resetPassword';
+import userSchema from '../schema/user';
+import shopSchema from '../schema/shop';
+import productSchema from '../schema/product';
+import validateBody from '../services/validator';
 
-const { validateBody } = require('../services/validator');
+import userController from './controllers/userController';
+import shopController from './controllers/shopController';
+import productController from './controllers/productController';
+import marketplaceController from './controllers/marketplaceController';
+import categoryController from './controllers/categoryController';
 
 // const { cache, flush } = require('../services/cache');
 
-const userController = require('./controllers/userController');
-const shopController = require('./controllers/shopController');
-const productController = require('./controllers/productController');
-const marketplaceController = require('./controllers/marketplaceController');
-const categoryController = require('./controllers/categoryController');
+const { auth } = authMW;
+
+const apiRouter = Router();
 
 // Route MarketPlace
+apiRouter.post('/marketplace', marketplaceController.addOne); // Créer ou modifie un marketplace
+apiRouter.get('/marketplaces', marketplaceController.getAll); // Renvoi tous les marketplaces
 apiRouter.get('/marketplace/:id', marketplaceController.getOneById); // Renvoi un marketplace par son id
-apiRouter.get('/marketplaces', marketplaceController.getAll); // Retourne tous les marketplaces
-apiRouter.get('/marketplace/:id/shops', marketplaceController.getAllShop); // Renvoi tous les shops d'un marketplace
-// apiRouter.post('marketplace', auth, marketplaceController.addOne); // Créer ou modifie un marketplace
-apiRouter.delete('/marketplace/:id', auth, marketplaceController.deleteOneById); // supprime un marketplace
+apiRouter.delete('/marketplace/:id', auth, marketplaceController.deleteOneById); // Supprime un marketplace par son id
 
 // Route login
-apiRouter.post('/login', userController.doLogin); // Authentification et création du accessToken et refreshToken
-apiRouter.get('/logout', userController.logout);
-apiRouter.get('/refreshToken', userController.refreshToken); // Re-génère le token à partir du refreshToken
+apiRouter.post('/login', userController.doLogin); // Connexion, génération de l'access token et du refresh token
+apiRouter.get('/logout', userController.logout); // Déconnexion, suppression du refreshToken
+apiRouter.get('/refreshToken', userController.refreshToken); // Re-génération de l'access token à partir du refresh token
 
 // Route forgot, reset password,
-apiRouter.post('/forget-password', userController.forgetPassword);
+apiRouter.post('/forget-password', userController.forgetPassword); // Demande de réinitialisation du mot de passe
+apiRouter.post('/reset-password/:id/:token', validateBody(resetPasswordSchema), userController.newPassword); // Réinitialisation du mot de passe
 apiRouter.get('/reset-password/:id/:token', userController.checkForNewPassword);
-apiRouter.post('/reset-password/:id/:token', validateBody(resetPasswordSchema), userController.newPassword);
-apiRouter.get('/email-validation/:id/:token', userController.validateAccount);
 
 // Route User
-apiRouter.get('/user/:id', auth, userController.getOneById); // Renvoi un utilisateur par son id
-apiRouter.get('/users', auth, userController.getAll); // Renvoi tout les users
-apiRouter.post('/user/validemail', validateBody(emailSchema), userController.validEmail);
 apiRouter.post('/user', validateBody(userSchema), userController.addOne); // Créer ou modifie un utilisateur
-apiRouter.delete('/user/:id', auth, userController.deleteOneById); // Supprimer un utilisateur par son id
+apiRouter.post('/user/email', validateBody(emailSchema), userController.validEmail); // Vérification si l'utilisateur existe en BDD
+apiRouter.get('/user/validation/:id/:token', userController.validateAccount); // Validation du compte utilisateur
+apiRouter.get('/users', auth, userController.getAll); // Renvoi tous les users
+apiRouter.get('/user/:id', auth, userController.getOneById); // Renvoi un utilisateur par son id
+apiRouter.delete('/user/:id', auth, userController.deleteOneById); // Supprime un utilisateur par son id
 
 // Route Product
-apiRouter.get('/marketplace/:marketplaceId/product/last', productController.getLastestProduct); // Renvoi le derier produit ajouter par son id
-apiRouter.get('/product/:id', productController.getOneById); // Renvoi un produit par son id
 apiRouter.post('/product', auth, validateBody(productSchema), productController.addOne); // Créer ou modifie un produit
-apiRouter.delete('/product/:id', productController.deleteOneById); // Supprimer un produit par son id
+apiRouter.get('/products/last/:nbProduct/marketplace/:marketplaceId', productController.getLastProductsAddToMarketplace); // Renvoi les 5 derniers produits ajouter au marketplace
+apiRouter.get('/products/shop/:id/', productController.getAllProductFromShop); // Renvoi tous les produits d'un shop
+apiRouter.get('/product/:id', productController.getOneById); // Renvoi un produit par son id
+apiRouter.delete('/product/:id', productController.deleteOneById); // Supprime un produit par son id
 
 // Route Shop
-apiRouter.get('/marketplace/:marketplaceId/shop/last', shopController.getLastestShop); // Renvoi un produit par son id
-apiRouter.get('/shop/:id', shopController.getOneById); // Renvoi un shop par son id
-apiRouter.get('/shop/:id/products', shopController.getAllProduct); // Renvoi tout les produits d'un shop
 apiRouter.post('/shop', auth, validateBody(shopSchema), shopController.addOne); // Créer ou modifie un shop
-apiRouter.delete('/shop/:id', shopController.deleteOneById); // Supprimer un shop par son id
-apiRouter.get('/shop/user/:id', auth, shopController.getOneByUser); // Renvoi un shop par son id utilisateur
+apiRouter.get('/shops/last/:nbShop/marketplace/:marketplaceId', shopController.getLastShopsAddToMarketplace); // Renvoi les 5 derniers shops ajouter au marketplace
+apiRouter.get('/shops/marketplace/:id', shopController.getAllShopFromMarketPlace); // Renvoi tous les shops d'un marketplace
+apiRouter.get('/shops/category/:categoryId/marketplace/:marketplaceId', shopController.getShopsOfCategoryOfMarketplace); // Renvoi tous les shops d'une categorie d'un marketplace
+apiRouter.get('/shop/:id', shopController.getOneById); // Renvoi un shop par son id
+apiRouter.get('/shop/user/:userId', auth, shopController.getOneByUser); // Renvoi un shop par son utilisateur id
+apiRouter.delete('/shop/:id', shopController.deleteOneById); // Supprime un shop par son id
 
 // Route Category
-apiRouter.get('/marketplace/:marketplaceId/category/:id', categoryController.getOneById);// Renvoi une categorie
-apiRouter.get('/marketplace/:marketplaceId/category', categoryController.getAll);// Renvoi plusieurs categorie
-apiRouter.get('/marketplace/:marketplaceId/category/:categoryId/shops', shopController.getShopFromCategory); // Renvoi les shops d'une categorie
-apiRouter.delete('/category/:id', categoryController.deleteOneById); // Supprimer une categorie par son id
+apiRouter.post('category', categoryController.addOne); // Créer ou modifie une categorie
+apiRouter.get('/category', categoryController.getAll);// Renvoi toutes les categories
+apiRouter.get('/category/:id', categoryController.getOneById);// Renvoi une categorie par son id
+apiRouter.delete('/category/:id', categoryController.deleteOneById); // Supprime une categorie par son id
 
 apiRouter.use((request, response) => {
   response.status(404).json({ error: 'Ressource non trouvée' });
 });
 
-module.exports = apiRouter;
+export default apiRouter;

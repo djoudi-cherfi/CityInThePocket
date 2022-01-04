@@ -1,4 +1,4 @@
-const Category = require('../models/category');
+import Category from '../models/category';
 
 const categoryController = {
 
@@ -35,6 +35,22 @@ const categoryController = {
     }
   },
 
+  addOne: async (req, res) => {
+    const categoryForm = req.body;
+
+    if (!req.body.label
+    ) {
+      res.status(400).json({ error: 'Il manque une info' });
+    }
+    else {
+      const newCategory = await new Category(categoryForm);
+
+      const category = await newCategory.save();
+
+      res.json(category);
+    }
+  },
+
   deleteOneById: async (request, response, next) => {
     try {
       const { id } = request.params.id;
@@ -55,4 +71,4 @@ const categoryController = {
   },
 };
 
-module.exports = categoryController;
+export default categoryController;

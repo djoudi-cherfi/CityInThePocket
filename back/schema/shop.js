@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const schema_shop = Joi.object({
+const shopSchema = Joi.object({
   company_name: Joi.string().required(),
   siret: Joi.string().length(14).required(),
   description: Joi.string().min(30).max(666).required(),
@@ -15,4 +15,4 @@ const schema_shop = Joi.object({
 
 });
 
-module.exports = schema_shop;
+export default shopSchema;

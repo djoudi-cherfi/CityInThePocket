@@ -1,5 +1,7 @@
-const bcrypt = require('bcrypt');
-const db = require('../database');
+import { hashSync } from 'bcrypt';
+import database from '../database';
+
+const { query } = database;
 
 /**
  * A entity representing a user of the marketplace
@@ -39,7 +41,7 @@ class User {
    * @static
    */
   static async findAll() {
-    const { rows } = await db.query(
+    const { rows } = await query(
       'SELECT * FROM "user";',
     );
 
@@ -55,7 +57,7 @@ class User {
    */
 
   static async findOne(id) {
-    const { rows } = await db.query(
+    const { rows } = await query(
       'SELECT * FROM "user" WHERE id = $1;',
       [id],
     );
@@ -67,7 +69,7 @@ class User {
   }
 
   static async findOneEmail(email) {
-    const { rows } = await db.query(
+    const { rows } = await query(
       'SELECT * FROM "user" WHERE email = $1;',
       [email],
     );
@@ -83,7 +85,7 @@ class User {
     if (this.id) {
       // UPDATE
       try {
-        const { rows } = await db.query(
+        const { rows } = await query(
           'UPDATE "user" SET firstName = $1, lastName= $2, email = $3, avatar = $4, phone_number = $5, address = $6, city = $7, postal_code = $8, create_date = $9, password = $10, verified = $11, has_shop = $12, policy_agree = $13 WHERE id = $14 RETURNING id;',
           [
             this.firstname,
@@ -116,12 +118,12 @@ class User {
     }
     else {
       try {
-        const encryptPassword = bcrypt.hashSync(
+        const encryptPassword = hashSync(
           this.password,
           10,
         );
 
-        const { rows } = await db.query(
+        const { rows } = await query(
           'INSERT INTO "user" (firstName, lastName, address, city, postal_code, email, phone_number, policy_agree, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;',
           [
             this.firstName,
@@ -151,7 +153,7 @@ class User {
   // Delete the user
   async delete() {
     if (this.id) {
-      await db.query(
+      await query(
         'DELETE FROM "user" WHERE id = $1',
         [this.id],
       );
@@ -159,4 +161,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

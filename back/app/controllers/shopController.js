@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-const Shop = require('../models/shop');
+import Shop from '../models/shop';
 
 const shopController = {
 
@@ -37,29 +37,6 @@ const shopController = {
       // Si le produit est trouvé on l'affiche
       if (shop) {
         res.json(shop);
-      }
-      else {
-        // Sinon on passe a la page 404 car non trouvé
-
-        next();
-      }
-    }
-    catch (error) {
-      console.error(error);
-      res.status(500).json({
-        error: error.message,
-      });
-    }
-  },
-
-  getAllProduct: async (req, res, next) => {
-    try {
-      const shopId = req.params.id;
-
-      const products = await Shop.findAllProductFromOneShop(shopId);
-
-      if (products) {
-        res.json(products);
       }
       else {
         // Sinon on passe a la page 404 car non trouvé
@@ -186,11 +163,32 @@ const shopController = {
     }
   },
 
-  getLastestShop: async (req, res, next) => {
-    const { marketplaceId } = req.params;
+  getAllShopFromMarketPlace: async (req, res, next) => {
+    try {
+      const marketId = req.params.id;
+
+      const shops = await Shop.findAllShopFromMarketPlace(marketId);
+
+      if (shops) {
+        res.json(shops);
+      }
+      else {
+        // Sinon on passe a la page 404 car non trouvé
+
+        next();
+      }
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getLastShopsAddToMarketplace: async (req, res, next) => {
+    const { nbShop, marketplaceId } = req.params;
 
     try {
-      const shops = await Shop.findLastest(marketplaceId);
+      const shops = await Shop.findLastShopsAddToMarketplace(nbShop, marketplaceId);
 
       if (shops) {
         res.json(shops);
@@ -206,11 +204,11 @@ const shopController = {
     }
   },
 
-  getShopFromCategory: async (req, res, next) => {
+  getShopsOfCategoryOfMarketplace: async (req, res, next) => {
     try {
       const { categoryId, marketplaceId } = req.params;
 
-      const shop = await Shop.findShopFromCategory(categoryId, marketplaceId);
+      const shop = await Shop.findShopsOfCategoryOfMarketplace(categoryId, marketplaceId);
 
       if (shop) {
         res.json(shop);
@@ -253,4 +251,4 @@ const shopController = {
   },
 };
 
-module.exports = shopController;
+export default shopController;

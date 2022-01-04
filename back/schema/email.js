@@ -1,7 +1,7 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const schema = Joi.object({
+const emailSchema = Joi.object({
   email: Joi.string().email().required(),
 });
 
-module.exports = schema;
+export default emailSchema;

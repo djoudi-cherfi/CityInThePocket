@@ -1,5 +1,4 @@
-const db = require('../database');
-const Product = require('./product');
+import db from '../database';
 
 /**
  * A entity representing a shop of the marketplace
@@ -89,24 +88,24 @@ class Shop {
     return null;
   }
 
-  static async findAllProductFromOneShop(id) {
+  static async findAllShopFromMarketPlace(marketplaceId) {
     const { rows } = await db.query(
-      'SELECT * FROM product WHERE shop_id = $1;',
-      [id],
-    );
-    return rows.map((row) => new Product(row));
-  }
-
-  static async findLastest(marketplaceId) {
-    const { rows } = await db.query(
-      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id WHERE shop.marketplace_id = $1 ORDER BY shop.id DESC LIMIT 5;',
+      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id JOIN shop_has_img ON shop.id = shop_has_img.shop_id  WHERE shop.marketplace_id = $1;',
       [marketplaceId],
     );
-
-    return rows.map((row) => new Product(row));
+    return rows.map((row) => new Shop(row));
   }
 
-  static async findShopFromCategory(categoryId, marketplaceId) {
+  static async findLastShopsAddToMarketplace(nbShop, marketplaceId) {
+    const { rows } = await db.query(
+      'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_img ON shop.id = shop_has_img.shop_id JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id WHERE shop.marketplace_id = $2 ORDER BY shop.id DESC LIMIT $1;',
+      [nbShop, marketplaceId],
+    );
+
+    return rows.map((row) => new Shop(row));
+  }
+
+  static async findShopsOfCategoryOfMarketplace(categoryId, marketplaceId) {
     const { rows } = await db.query(
       'SELECT shop.*, shop_has_img.img, category.label FROM shop JOIN shop_has_category ON shop.id = shop_has_category.shop_id JOIN category ON category.id = shop_has_category.category_id JOIN shop_has_img ON shop.id = shop_has_img.shop_id WHERE category.id = $1 and shop.marketplace_id = $2;',
       [categoryId, marketplaceId],
@@ -213,4 +212,4 @@ class Shop {
   }
 }
 
-module.exports = Shop;
+export default Shop;

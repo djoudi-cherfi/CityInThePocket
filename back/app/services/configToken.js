@@ -1,6 +1,8 @@
-const jwt = require('jsonwebtoken');
-const { encrypt } = require('./crypto');
-const Token = require('../models/token');
+import jwt from 'jsonwebtoken';
+
+import Token from '../models/token';
+
+const { sign } = jwt;
 
 const tokenService = {
   config: {
@@ -25,14 +27,14 @@ const tokenService = {
     });
 
     // On créer le JWT avec le token CSRF dans le payload
-    const access_token = jwt.sign(
+    const access_token = sign(
       { userId: userId },
       process.env.ACCESS_TOKEN_SECRET,
       configAccesRefresh(tokenService.accessTokenExpires),
     );
 
     // On créer le refresh token et on le stocke en BDD
-    const refresh_token = jwt.sign(
+    const refresh_token = sign(
       { userId: userId },
       process.env.REFRESH_TOKEN_SECRET,
       configAccesRefresh(tokenService.refreshTokenExpires),
@@ -55,4 +57,4 @@ const tokenService = {
   },
 };
 
-module.exports = tokenService;
+export default tokenService;

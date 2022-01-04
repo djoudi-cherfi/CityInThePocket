@@ -1,4 +1,4 @@
-const db = require('../database');
+import db from '../database';
 
 /**
  * A entity representing a category of the marketplace
@@ -56,6 +56,47 @@ class Category {
     return null;
   }
 
+  async save() {
+    // si id, UPDATE, sinon, INSERT
+    if (this.id) {
+      // UPDATE
+      try {
+        const { rows } = await db.query(
+          'UPDATE "category" SET label = $2 WHERE id = $1',
+          [
+            this.id,
+            this.label,
+          ],
+        );
+        return rows;
+      }
+      catch (err) {
+        // Lance une erreur sql précise
+        throw new Error(err.detail);
+      }
+
+      // INSERT
+    }
+    else {
+      try {
+        const { rows } = await db.query(
+          'INSERT INTO "category" (label) VALUES ($1) RETURNING id;',
+          [
+            this.label,
+          ],
+        );
+
+        this.id = rows[0].id;
+
+        return this.id;
+      }
+      catch (err) {
+        // Lance une erreur sql précise
+        throw new Error(err.detail);
+      }
+    }
+  }
+
   async delete() {
     if (this.id) {
       await db.query(
@@ -66,4 +107,4 @@ class Category {
   }
 }
 
-module.exports = Category;
+export default Category;
