@@ -1,20 +1,20 @@
-const { merge } = require('webpack-merge');
+import { merge } from 'webpack-merge';
 
-const common = require('./webpack.common');
+import common from './webpack.common';
 
-const workbox = require('./pwa/workbox');
+import workbox from './pwa/workbox';
 
-const manifest = require('./pwa/manifest');
+import manifest from './pwa/manifest';
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import MiniCssExtractPlugin, { loader as _loader } from 'mini-css-extract-plugin';
 
-const TerserJSPlugin = require('terser-webpack-plugin');
+import TerserJSPlugin from 'terser-webpack-plugin';
 
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
-const { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin');
+import { BundleStatsWebpackPlugin } from 'bundle-stats-webpack-plugin';
 
-const sass = require('sass');
+import sass from 'sass';
 
 const prod = {
   mode: 'production',
@@ -32,7 +32,7 @@ const prod = {
         test: /\.(s?css)$/i,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: _loader,
             options: { publicPath: '../' },
           },
           {
@@ -73,4 +73,4 @@ const prod = {
   },
 };
 
-module.exports = merge(common, manifest, workbox, prod);
+export default merge(common, manifest, workbox, prod);

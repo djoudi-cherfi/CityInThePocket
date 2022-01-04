@@ -1,4 +1,4 @@
-const { GenerateSW } = require('workbox-webpack-plugin');
+import { GenerateSW } from 'workbox-webpack-plugin';
 
 const workbox = {
   plugins: [
@@ -13,4 +13,4 @@ const workbox = {
   ],
 };
 
-module.exports = workbox;
+export default workbox;

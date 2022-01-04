@@ -1,7 +1,6 @@
-const webpack = require('webpack');
+import { DefinePlugin } from 'webpack';
 
-const paths = require('./paths');
-require('dotenv').config(paths.env);
+import '../loadEnv';
 
 // Development modes with its environment variables
 const NODE_ENV = {
@@ -32,7 +31,7 @@ const checkEnvironment = () => {
 const environment = {
   plugins: [
     // Environment variable
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       API_URL: API_URL[checkEnvironment()],
       NODE_ENV: NODE_ENV[checkEnvironment()],
       URL_PUBLIC: URL_PUBLIC,
@@ -40,4 +39,4 @@ const environment = {
   ],
 };
 
-module.exports = environment;
+export default environment;

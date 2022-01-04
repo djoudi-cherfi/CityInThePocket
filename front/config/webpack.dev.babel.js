@@ -1,16 +1,15 @@
-const { merge } = require('webpack-merge');
+import { merge } from 'webpack-merge';
 
-const common = require('./webpack.common');
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+import sass from 'sass';
+import common from './webpack.common.babel';
+
+import { build_path } from './paths';
 
 const smp = new SpeedMeasurePlugin();
 
 const port = process.env.PORT || 8080;
-
-const sass = require('sass');
-
-const paths = require('./paths');
 
 const dev = {
   mode: 'development',
@@ -60,7 +59,7 @@ const dev = {
         warnings: false,
       },
     },
-    static: paths.build,
+    static: build_path,
     historyApiFallback: {
       disableDotRule: true,
     },
@@ -72,4 +71,4 @@ const dev = {
   },
 };
 
-module.exports = smp.wrap(merge(common, dev));
+export default smp.wrap(merge(common, dev));

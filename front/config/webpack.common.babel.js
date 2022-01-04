@@ -1,31 +1,33 @@
-const { merge } = require('webpack-merge');
+import { merge } from 'webpack-merge';
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const environment = require('./environment');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import environment from './environment';
 
-const paths = require('./paths');
+import {
+  src_path, build_path, static_path, assets_path,
+} from './paths';
 
 const common = {
   entry: [
     // SCSS
-    `${paths.src}/styles/index.scss`,
+    `${src_path}/styles/index.scss`,
     // JS
-    `${paths.src}/index.js`,
+    `${src_path}/index.js`,
   ],
   output: {
     filename: 'js/[name].[contenthash].js',
-    path: paths.build,
+    path: build_path,
     publicPath: '/',
     assetModuleFilename: 'images/[hash][ext][query]',
   },
   resolve: {
     alias: {
-      src: paths.src,
-      app: paths.src,
+      src: src_path,
+      app: src_path,
     },
     extensions: ['.js', '.jsx'],
   },
@@ -35,15 +37,15 @@ const common = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: paths.static,
+          from: static_path,
           to: '',
         },
       ],
     }),
 
     new HtmlWebpackPlugin({
-      template: `${paths.assets}/index.html`,
-      favicon: `${paths.assets}/favicon.ico`,
+      template: `${assets_path}/index.html`,
+      favicon: `${assets_path}/favicon.ico`,
     }),
   ],
   module: {
@@ -83,4 +85,4 @@ const common = {
   },
 };
 
-module.exports = merge(environment, common);
+export default merge(environment, common);

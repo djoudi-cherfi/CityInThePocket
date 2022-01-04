@@ -14,9 +14,9 @@
     "last 3 iOS versions"
   ],
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
-    "prod": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
-    "heroku": "cross-env NODE_ENV=heroku webpack serve --config config/webpack.dev.js",
+    "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.babel.js",
+    "prod": "cross-env NODE_ENV=production webpack --config config/webpack.prod.babel.js",
+    "heroku": "cross-env NODE_ENV=heroku webpack serve --config config/webpack.dev.babel.js",
     "serv": "serve -s dist -l 8080",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js",

@@ -1,9 +1,7 @@
-const path = require('path');
+import { resolve } from 'path';
 
-module.exports = {
-  env: path.resolve(__dirname, '../.env'), // source files
-  src: path.resolve(__dirname, '../src'), // source files
-  assets: path.resolve(__dirname, '../src/assets'), // assets files
-  build: path.resolve(__dirname, '../dist'), // production build files
-  static: path.resolve(__dirname, '../public'), // static files to copy to build folder
-};
+export const env_path = resolve(__dirname, '../.env');
+export const src_path = resolve(__dirname, '../src');
+export const assets_path = resolve(__dirname, '../src/assets');
+export const build_path = resolve(__dirname, '../dist');
+export const static_path = resolve(__dirname, '../public');

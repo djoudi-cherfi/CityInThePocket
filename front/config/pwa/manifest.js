@@ -1,6 +1,6 @@
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+import WebpackPwaManifest from 'webpack-pwa-manifest';
 
-const paths = require('../paths');
+import { assets } from '../paths';
 
 const manifest = {
   plugins: [
@@ -25,7 +25,7 @@ const manifest = {
       icons: [
         // Renders to 'windows'
         {
-          src: `${paths.assets}/icons/default_512x512.png`,
+          src: `${assets}/icons/default_512x512.png`,
           sizes: ['512x512'],
           type: 'image/png',
           platform: 'windows',
@@ -39,21 +39,21 @@ const manifest = {
         //   destination: '/favicons', // optional, default value is iconDestination in pluginOptions
         // },
         {
-          src: `${paths.assets}/favicons/favicon_small.png`,
+          src: `${assets}/favicons/favicon_small.png`,
           sizes: [16, 32, 48, 64],
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
           destination: '/favicons', // optional, default value is iconDestination in pluginOptions
         },
         {
-          src: `${paths.assets}/favicons/favicon_large.png`,
+          src: `${assets}/favicons/favicon_large.png`,
           sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
           destination: '/favicons', // optional, default value is iconDestination in pluginOptions
         },
         {
-          src: `${paths.assets}/favicons/favicon_default.png`,
+          src: `${assets}/favicons/favicon_default.png`,
           size: '1024x1024', // you can also use the specifications pattern
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
@@ -62,7 +62,7 @@ const manifest = {
 
         // Renders to 'play'
         {
-          src: `${paths.assets}/icons/default.png`,
+          src: `${assets}/icons/default.png`,
           sizes: [120, 152, 167, 180, 1024],
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
@@ -73,7 +73,7 @@ const manifest = {
 
         // Renders to 'android'
         {
-          src: `${paths.assets}/icons/android-icon.png`,
+          src: `${assets}/icons/android-icon.png`,
           sizes: [36, 48, 72, 96, 144, 192, 512],
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
@@ -82,7 +82,7 @@ const manifest = {
 
         // Renders to 'mask-icon'
         {
-          src: `${paths.assets}/icons/maskable.png`,
+          src: `${assets}/icons/maskable.png`,
           size: '1024x1024',
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
@@ -92,7 +92,7 @@ const manifest = {
 
         // Renders to 'apple-touch-icons'
         {
-          src: `${paths.assets}/icons/ios-icon.png`,
+          src: `${assets}/icons/ios-icon.png`,
           sizes: [120, 152, 167, 180, 1024],
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
@@ -102,7 +102,7 @@ const manifest = {
 
         // Renders to 'apple-touch-startup-image'
         {
-          src: `${paths.assets}/icons/ios-startup.png`,
+          src: `${assets}/icons/ios-startup.png`,
           size: 1024,
           type: 'image/png',
           filename: '[name]_[size].[hash][ext]', // optional
@@ -125,4 +125,4 @@ const manifest = {
   ],
 };
 
-module.exports = manifest;
+export default manifest;
